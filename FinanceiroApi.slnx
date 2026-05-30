@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FinanceiroApi.API/FinanceiroApi.API.csproj" />
+    <Project Path="src/FinanceiroApi.Application/FinanceiroApi.Application.csproj" />
+    <Project Path="src/FinanceiroApi.CrossCutting/FinanceiroApi.CrossCutting.csproj" />
+    <Project Path="src/FinanceiroApi.Domain/FinanceiroApi.Domain.csproj" />
+    <Project Path="src/FinanceiroApi.Infrastructure/FinanceiroApi.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/FinanceiroApi.Application.Tests/FinanceiroApi.Application.Tests.csproj" />
+    <Project Path="tests/FinanceiroApi.Domain.Tests/FinanceiroApi.Domain.Tests.csproj" />
+    <Project Path="tests/FinanceiroApi.E2E.Tests/FinanceiroApi.E2E.Tests.csproj" />
+    <Project Path="tests/FinanceiroApi.Integration.Tests/FinanceiroApi.Integration.Tests.csproj" />
+  </Folder>
+</Solution>
