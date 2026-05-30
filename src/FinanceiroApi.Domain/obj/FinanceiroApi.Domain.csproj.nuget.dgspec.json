@@ -1,22 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\users\\alex\\documents\\FinanceiroApi\\src\\FinanceiroApi.Domain\\FinanceiroApi.Domain.csproj": {}
+    "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.Domain\\FinanceiroApi.Domain.csproj": {}
   },
   "projects": {
-    "C:\\users\\alex\\documents\\FinanceiroApi\\src\\FinanceiroApi.Domain\\FinanceiroApi.Domain.csproj": {
+    "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.Domain\\FinanceiroApi.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\users\\alex\\documents\\FinanceiroApi\\src\\FinanceiroApi.Domain\\FinanceiroApi.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.Domain\\FinanceiroApi.Domain.csproj",
         "projectName": "FinanceiroApi.Domain",
-        "projectPath": "C:\\users\\alex\\documents\\FinanceiroApi\\src\\FinanceiroApi.Domain\\FinanceiroApi.Domain.csproj",
+        "projectPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.Domain\\FinanceiroApi.Domain.csproj",
         "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
-        "outputPath": "C:\\users\\alex\\documents\\FinanceiroApi\\src\\FinanceiroApi.Domain\\obj\\",
+        "outputPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.Domain\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
+          "C:\\Users\\Alex\\Documents\\FinanceiroApi\\NuGet.Config",
           "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"

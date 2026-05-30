@@ -1,29 +1,79 @@
 {
   "version": 4,
   "targets": {
-    "net10.0": {}
+    "net10.0": {
+      "FinanceiroApi.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "FinanceiroApi.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/FinanceiroApi.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FinanceiroApi.Application.dll": {}
+        }
+      },
+      "FinanceiroApi.CrossCutting/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/FinanceiroApi.CrossCutting.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FinanceiroApi.CrossCutting.dll": {}
+        }
+      },
+      "FinanceiroApi.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/FinanceiroApi.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FinanceiroApi.Domain.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "FinanceiroApi.Application/1.0.0": {
+      "type": "project",
+      "path": "../FinanceiroApi.Application/FinanceiroApi.Application.csproj",
+      "msbuildProject": "../FinanceiroApi.Application/FinanceiroApi.Application.csproj"
+    },
+    "FinanceiroApi.CrossCutting/1.0.0": {
+      "type": "project",
+      "path": "../FinanceiroApi.CrossCutting/FinanceiroApi.CrossCutting.csproj",
+      "msbuildProject": "../FinanceiroApi.CrossCutting/FinanceiroApi.CrossCutting.csproj"
+    },
+    "FinanceiroApi.Domain/1.0.0": {
+      "type": "project",
+      "path": "../FinanceiroApi.Domain/FinanceiroApi.Domain.csproj",
+      "msbuildProject": "../FinanceiroApi.Domain/FinanceiroApi.Domain.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net10.0": []
+    "net10.0": [
+      "FinanceiroApi.Application >= 1.0.0",
+      "FinanceiroApi.CrossCutting >= 1.0.0"
+    ]
   },
   "packageFolders": {
-    "C:\\Users\\Alex\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Alex\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\users\\alex\\documents\\FinanceiroApi\\src\\FinanceiroApi.Infrastructure\\FinanceiroApi.Infrastructure.csproj",
+      "projectUniqueName": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.Infrastructure\\FinanceiroApi.Infrastructure.csproj",
       "projectName": "FinanceiroApi.Infrastructure",
-      "projectPath": "C:\\users\\alex\\documents\\FinanceiroApi\\src\\FinanceiroApi.Infrastructure\\FinanceiroApi.Infrastructure.csproj",
+      "projectPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.Infrastructure\\FinanceiroApi.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
-      "outputPath": "C:\\users\\alex\\documents\\FinanceiroApi\\src\\FinanceiroApi.Infrastructure\\obj\\",
+      "outputPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
+        "C:\\Users\\Alex\\Documents\\FinanceiroApi\\NuGet.Config",
         "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -39,7 +89,14 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.Application\\FinanceiroApi.Application.csproj": {
+              "projectPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.Application\\FinanceiroApi.Application.csproj"
+            },
+            "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.CrossCutting\\FinanceiroApi.CrossCutting.csproj": {
+              "projectPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.CrossCutting\\FinanceiroApi.CrossCutting.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IYJQ5X5fghY=",
+  "dgSpecHash": "jKRfZN0AcFE=",
   "success": true,
-  "projectFilePath": "C:\\users\\alex\\documents\\FinanceiroApi\\tests\\FinanceiroApi.Application.Tests\\FinanceiroApi.Application.Tests.csproj",
+  "projectFilePath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\tests\\FinanceiroApi.Application.Tests\\FinanceiroApi.Application.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Alex\\.nuget\\packages\\coverlet.collector\\6.0.4\\coverlet.collector.6.0.4.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.codecoverage\\17.14.1\\microsoft.codecoverage.17.14.1.nupkg.sha512",

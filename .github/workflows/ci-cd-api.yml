@@ -1,4 +1,4 @@
-name: FinanceiroApi CI/CD
+name: FinanceiroApi — API CI/CD
 
 on:
   push:
@@ -8,17 +8,14 @@ on:
 
 env:
   DOTNET_VERSION: "10.0.x"
-  NODE_VERSION: "22.x"
-  API_PROJECT: "src/FinanceiroApi.API/FinanceiroApi.API.csproj"
-  SOLUTION: "FinanceiroApi.sln"
-  FRONTEND_DIR: "frontend"
+  SOLUTION: "FinanceiroApi.slnx"
 
 jobs:
   # ─────────────────────────────────────────
-  # 1. BUILD & TEST — API .NET Core 10
+  # 1. BUILD & TEST
   # ─────────────────────────────────────────
   api-ci:
-    name: API — Build & Test
+    name: Build & Test
     runs-on: ubuntu-latest
 
     services:
@@ -69,7 +66,7 @@ jobs:
       - name: Build (Release)
         run: dotnet build ${{ env.SOLUTION }} --no-restore -c Release
 
-      - name: Run unit tests
+      - name: Run unit tests — Domain
         run: |
           dotnet test tests/FinanceiroApi.Domain.Tests/FinanceiroApi.Domain.Tests.csproj \
             --no-build -c Release \
@@ -77,6 +74,8 @@ jobs:
             --collect:"XPlat Code Coverage" \
             --results-directory ./TestResults
 
+      - name: Run unit tests — Application
+        run: |
           dotnet test tests/FinanceiroApi.Application.Tests/FinanceiroApi.Application.Tests.csproj \
             --no-build -c Release \
             --logger "trx;LogFileName=application-results.trx" \
@@ -115,58 +114,12 @@ jobs:
           path: CoverageReport/
 
   # ─────────────────────────────────────────
-  # 2. BUILD & TEST — Frontend Vite + React
-  # ─────────────────────────────────────────
-  frontend-ci:
-    name: Frontend — Build & Test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
-          cache-dependency-path: ${{ env.FRONTEND_DIR }}/package-lock.json
-
-      - name: Install dependencies
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: npm ci
-
-      - name: Type check (tsc)
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: npm run type-check
-
-      - name: Lint (ESLint)
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: npm run lint
-
-      - name: Run tests (Vitest)
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: npm run test:ci
-
-      - name: Build production
-        working-directory: ${{ env.FRONTEND_DIR }}
-        env:
-          VITE_API_URL: ${{ secrets.VITE_API_URL || 'https://api.financeiroapi.com' }}
-        run: npm run build
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-dist
-          path: ${{ env.FRONTEND_DIR }}/dist/
-
-  # ─────────────────────────────────────────
-  # 3. CODE QUALITY — análise estática
+  # 2. CODE QUALITY
   # ─────────────────────────────────────────
   code-quality:
     name: Code Quality
     runs-on: ubuntu-latest
-    needs: [api-ci, frontend-ci]
+    needs: [api-ci]
 
     steps:
       - name: Checkout
@@ -186,12 +139,12 @@ jobs:
         run: dotnet format ${{ env.SOLUTION }} --verify-no-changes --severity warn
 
   # ─────────────────────────────────────────
-  # 4. DOCKER BUILD — apenas na main
+  # 3. DOCKER BUILD & PUSH — apenas na main
   # ─────────────────────────────────────────
   docker-build:
     name: Docker — Build & Push
     runs-on: ubuntu-latest
-    needs: [api-ci, frontend-ci, code-quality]
+    needs: [api-ci, code-quality]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
@@ -205,20 +158,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (API)
-        id: meta-api
+      - name: Extract metadata
+        id: meta
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}/financeiroapi
-          tags: |
-            type=sha,prefix=,suffix=,format=short
-            type=raw,value=latest
-
-      - name: Extract metadata (Frontend)
-        id: meta-frontend
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/${{ github.repository }}/financeiroapi-frontend
           tags: |
             type=sha,prefix=,suffix=,format=short
             type=raw,value=latest
@@ -229,24 +173,13 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.meta-api.outputs.tags }}
-          labels: ${{ steps.meta-api.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Build & push Frontend image
-        uses: docker/build-push-action@v5
-        with:
-          context: ${{ env.FRONTEND_DIR }}
-          file: ${{ env.FRONTEND_DIR }}/Dockerfile
-          push: true
-          tags: ${{ steps.meta-frontend.outputs.tags }}
-          labels: ${{ steps.meta-frontend.outputs.labels }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
   # ─────────────────────────────────────────
-  # 5. DEPLOY — apenas na main
+  # 4. DEPLOY — apenas na main
   # ─────────────────────────────────────────
   deploy:
     name: Deploy — Production
@@ -255,7 +188,7 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment:
       name: production
-      url: https://financeiroapi.com
+      url: ${{ secrets.DEPLOY_URL }}
 
     steps:
       - name: Checkout
@@ -269,28 +202,28 @@ jobs:
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
             cd /opt/financeiroapi
-            docker compose pull
-            docker compose up -d --remove-orphans
+            docker compose pull api
+            docker compose up -d api --remove-orphans
             docker system prune -f
 
-      - name: Notify deploy success
+      - name: Notify success
         if: success()
         uses: appleboy/telegram-action@v0.1.1
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            ✅ FinanceiroApi deployed successfully!
+            ✅ FinanceiroApi — API deployed!
             Commit: ${{ github.sha }}
             By: ${{ github.actor }}
 
-      - name: Notify deploy failure
+      - name: Notify failure
         if: failure()
         uses: appleboy/telegram-action@v0.1.1
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            ❌ FinanceiroApi deploy FAILED!
+            ❌ FinanceiroApi — API deploy FAILED!
             Commit: ${{ github.sha }}
             By: ${{ github.actor }}

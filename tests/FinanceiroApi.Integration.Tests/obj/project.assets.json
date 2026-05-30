@@ -8,6 +8,28 @@
           "build/netstandard2.0/coverlet.collector.targets": {}
         }
       },
+      "Microsoft.AspNetCore.OpenApi/10.0.8": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.OpenApi": "2.0.0"
+        },
+        "compile": {
+          "lib/net10.0/Microsoft.AspNetCore.OpenApi.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.OpenApi.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ],
+        "build": {
+          "build/_._": {}
+        }
+      },
       "Microsoft.CodeCoverage/17.14.1": {
         "type": "package",
         "compile": {
@@ -36,6 +58,19 @@
         "build": {
           "build/net8.0/Microsoft.NET.Test.Sdk.props": {},
           "build/net8.0/Microsoft.NET.Test.Sdk.targets": {}
+        }
+      },
+      "Microsoft.OpenApi/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Microsoft.OpenApi.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.OpenApi.dll": {
+            "related": ".pdb;.xml"
+          }
         }
       },
       "Microsoft.TestPlatform.ObjectModel/17.14.1": {
@@ -393,6 +428,71 @@
         "build": {
           "build/net8.0/xunit.runner.visualstudio.props": {}
         }
+      },
+      "FinanceiroApi.API/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "FinanceiroApi.CrossCutting": "1.0.0",
+          "FinanceiroApi.Infrastructure": "1.0.0",
+          "Microsoft.AspNetCore.OpenApi": "10.0.8"
+        },
+        "compile": {
+          "bin/placeholder/FinanceiroApi.API.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FinanceiroApi.API.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
+      "FinanceiroApi.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "FinanceiroApi.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/FinanceiroApi.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FinanceiroApi.Application.dll": {}
+        }
+      },
+      "FinanceiroApi.CrossCutting/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/FinanceiroApi.CrossCutting.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FinanceiroApi.CrossCutting.dll": {}
+        }
+      },
+      "FinanceiroApi.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/FinanceiroApi.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FinanceiroApi.Domain.dll": {}
+        }
+      },
+      "FinanceiroApi.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "FinanceiroApi.Application": "1.0.0",
+          "FinanceiroApi.CrossCutting": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/FinanceiroApi.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FinanceiroApi.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -465,6 +565,24 @@
         "coverlet-icon.png",
         "coverlet.collector.6.0.4.nupkg.sha512",
         "coverlet.collector.nuspec"
+      ]
+    },
+    "Microsoft.AspNetCore.OpenApi/10.0.8": {
+      "sha512": "cw24xHE2QaWwyEG9GQwFbjboyabub6Vd80DIItUGENzcQOa/BEnTrXsg2GADqWTmY/3ycqk9ToLGjgvF/VRlGA==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.openapi/10.0.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "analyzers/dotnet/cs/Microsoft.AspNetCore.OpenApi.SourceGenerators.dll",
+        "build/Microsoft.AspNetCore.OpenApi.targets",
+        "lib/net10.0/Microsoft.AspNetCore.OpenApi.dll",
+        "lib/net10.0/Microsoft.AspNetCore.OpenApi.xml",
+        "microsoft.aspnetcore.openapi.10.0.8.nupkg.sha512",
+        "microsoft.aspnetcore.openapi.nuspec"
       ]
     },
     "Microsoft.CodeCoverage/17.14.1": {
@@ -563,6 +681,24 @@
         "lib/net8.0/_._",
         "microsoft.net.test.sdk.17.14.1.nupkg.sha512",
         "microsoft.net.test.sdk.nuspec"
+      ]
+    },
+    "Microsoft.OpenApi/2.0.0": {
+      "sha512": "GGYLfzV/G/ct80OZ45JxnWP7NvMX1BCugn/lX7TH5o0lcVaviavsLMTxmFV2AybXWjbi3h6FF1vgZiTK6PXndw==",
+      "type": "package",
+      "path": "microsoft.openapi/2.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net8.0/Microsoft.OpenApi.dll",
+        "lib/net8.0/Microsoft.OpenApi.pdb",
+        "lib/net8.0/Microsoft.OpenApi.xml",
+        "lib/netstandard2.0/Microsoft.OpenApi.dll",
+        "lib/netstandard2.0/Microsoft.OpenApi.pdb",
+        "lib/netstandard2.0/Microsoft.OpenApi.xml",
+        "microsoft.openapi.2.0.0.nupkg.sha512",
+        "microsoft.openapi.nuspec"
       ]
     },
     "Microsoft.TestPlatform.ObjectModel/17.14.1": {
@@ -903,10 +1039,36 @@
         "xunit.runner.visualstudio.3.1.4.nupkg.sha512",
         "xunit.runner.visualstudio.nuspec"
       ]
+    },
+    "FinanceiroApi.API/1.0.0": {
+      "type": "project",
+      "path": "../../src/FinanceiroApi.API/FinanceiroApi.API.csproj",
+      "msbuildProject": "../../src/FinanceiroApi.API/FinanceiroApi.API.csproj"
+    },
+    "FinanceiroApi.Application/1.0.0": {
+      "type": "project",
+      "path": "../../src/FinanceiroApi.Application/FinanceiroApi.Application.csproj",
+      "msbuildProject": "../../src/FinanceiroApi.Application/FinanceiroApi.Application.csproj"
+    },
+    "FinanceiroApi.CrossCutting/1.0.0": {
+      "type": "project",
+      "path": "../../src/FinanceiroApi.CrossCutting/FinanceiroApi.CrossCutting.csproj",
+      "msbuildProject": "../../src/FinanceiroApi.CrossCutting/FinanceiroApi.CrossCutting.csproj"
+    },
+    "FinanceiroApi.Domain/1.0.0": {
+      "type": "project",
+      "path": "../../src/FinanceiroApi.Domain/FinanceiroApi.Domain.csproj",
+      "msbuildProject": "../../src/FinanceiroApi.Domain/FinanceiroApi.Domain.csproj"
+    },
+    "FinanceiroApi.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../../src/FinanceiroApi.Infrastructure/FinanceiroApi.Infrastructure.csproj",
+      "msbuildProject": "../../src/FinanceiroApi.Infrastructure/FinanceiroApi.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "FinanceiroApi.API >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 17.14.1",
       "coverlet.collector >= 6.0.4",
       "xunit >= 2.9.3",
@@ -914,22 +1076,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Alex\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Alex\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\users\\alex\\documents\\FinanceiroApi\\tests\\FinanceiroApi.Integration.Tests\\FinanceiroApi.Integration.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\tests\\FinanceiroApi.Integration.Tests\\FinanceiroApi.Integration.Tests.csproj",
       "projectName": "FinanceiroApi.Integration.Tests",
-      "projectPath": "C:\\users\\alex\\documents\\FinanceiroApi\\tests\\FinanceiroApi.Integration.Tests\\FinanceiroApi.Integration.Tests.csproj",
+      "projectPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\tests\\FinanceiroApi.Integration.Tests\\FinanceiroApi.Integration.Tests.csproj",
       "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
-      "outputPath": "C:\\users\\alex\\documents\\FinanceiroApi\\tests\\FinanceiroApi.Integration.Tests\\obj\\",
+      "outputPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\tests\\FinanceiroApi.Integration.Tests\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
+        "C:\\Users\\Alex\\Documents\\FinanceiroApi\\NuGet.Config",
         "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -945,7 +1104,11 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.API\\FinanceiroApi.API.csproj": {
+              "projectPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.API\\FinanceiroApi.API.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

@@ -1,22 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\users\\alex\\documents\\FinanceiroApi\\src\\FinanceiroApi.CrossCutting\\FinanceiroApi.CrossCutting.csproj": {}
+    "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.CrossCutting\\FinanceiroApi.CrossCutting.csproj": {}
   },
   "projects": {
-    "C:\\users\\alex\\documents\\FinanceiroApi\\src\\FinanceiroApi.CrossCutting\\FinanceiroApi.CrossCutting.csproj": {
+    "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.CrossCutting\\FinanceiroApi.CrossCutting.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\users\\alex\\documents\\FinanceiroApi\\src\\FinanceiroApi.CrossCutting\\FinanceiroApi.CrossCutting.csproj",
+        "projectUniqueName": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.CrossCutting\\FinanceiroApi.CrossCutting.csproj",
         "projectName": "FinanceiroApi.CrossCutting",
-        "projectPath": "C:\\users\\alex\\documents\\FinanceiroApi\\src\\FinanceiroApi.CrossCutting\\FinanceiroApi.CrossCutting.csproj",
+        "projectPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.CrossCutting\\FinanceiroApi.CrossCutting.csproj",
         "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
-        "outputPath": "C:\\users\\alex\\documents\\FinanceiroApi\\src\\FinanceiroApi.CrossCutting\\obj\\",
+        "outputPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.CrossCutting\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
+          "C:\\Users\\Alex\\Documents\\FinanceiroApi\\NuGet.Config",
           "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"

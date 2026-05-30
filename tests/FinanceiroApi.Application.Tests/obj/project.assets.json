@@ -393,6 +393,29 @@
         "build": {
           "build/net8.0/xunit.runner.visualstudio.props": {}
         }
+      },
+      "FinanceiroApi.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "FinanceiroApi.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/FinanceiroApi.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FinanceiroApi.Application.dll": {}
+        }
+      },
+      "FinanceiroApi.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/FinanceiroApi.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FinanceiroApi.Domain.dll": {}
+        }
       }
     }
   },
@@ -903,10 +926,21 @@
         "xunit.runner.visualstudio.3.1.4.nupkg.sha512",
         "xunit.runner.visualstudio.nuspec"
       ]
+    },
+    "FinanceiroApi.Application/1.0.0": {
+      "type": "project",
+      "path": "../../src/FinanceiroApi.Application/FinanceiroApi.Application.csproj",
+      "msbuildProject": "../../src/FinanceiroApi.Application/FinanceiroApi.Application.csproj"
+    },
+    "FinanceiroApi.Domain/1.0.0": {
+      "type": "project",
+      "path": "../../src/FinanceiroApi.Domain/FinanceiroApi.Domain.csproj",
+      "msbuildProject": "../../src/FinanceiroApi.Domain/FinanceiroApi.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "FinanceiroApi.Application >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 17.14.1",
       "coverlet.collector >= 6.0.4",
       "xunit >= 2.9.3",
@@ -914,22 +948,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Alex\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Alex\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\users\\alex\\documents\\FinanceiroApi\\tests\\FinanceiroApi.Application.Tests\\FinanceiroApi.Application.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\tests\\FinanceiroApi.Application.Tests\\FinanceiroApi.Application.Tests.csproj",
       "projectName": "FinanceiroApi.Application.Tests",
-      "projectPath": "C:\\users\\alex\\documents\\FinanceiroApi\\tests\\FinanceiroApi.Application.Tests\\FinanceiroApi.Application.Tests.csproj",
+      "projectPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\tests\\FinanceiroApi.Application.Tests\\FinanceiroApi.Application.Tests.csproj",
       "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
-      "outputPath": "C:\\users\\alex\\documents\\FinanceiroApi\\tests\\FinanceiroApi.Application.Tests\\obj\\",
+      "outputPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\tests\\FinanceiroApi.Application.Tests\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
+        "C:\\Users\\Alex\\Documents\\FinanceiroApi\\NuGet.Config",
         "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -945,7 +976,11 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.Application\\FinanceiroApi.Application.csproj": {
+              "projectPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.Application\\FinanceiroApi.Application.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

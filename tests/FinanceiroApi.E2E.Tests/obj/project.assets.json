@@ -914,22 +914,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Alex\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Alex\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\users\\alex\\documents\\FinanceiroApi\\tests\\FinanceiroApi.E2E.Tests\\FinanceiroApi.E2E.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\tests\\FinanceiroApi.E2E.Tests\\FinanceiroApi.E2E.Tests.csproj",
       "projectName": "FinanceiroApi.E2E.Tests",
-      "projectPath": "C:\\users\\alex\\documents\\FinanceiroApi\\tests\\FinanceiroApi.E2E.Tests\\FinanceiroApi.E2E.Tests.csproj",
+      "projectPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\tests\\FinanceiroApi.E2E.Tests\\FinanceiroApi.E2E.Tests.csproj",
       "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
-      "outputPath": "C:\\users\\alex\\documents\\FinanceiroApi\\tests\\FinanceiroApi.E2E.Tests\\obj\\",
+      "outputPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\tests\\FinanceiroApi.E2E.Tests\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
+        "C:\\Users\\Alex\\Documents\\FinanceiroApi\\NuGet.Config",
         "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
