@@ -1,3 +1,5 @@
+using FinanceiroApi.Domain.Enums;
+
 namespace FinanceiroApi.Application.DTOs.Response;
 
 public record EmployeeResponse(
@@ -7,7 +9,7 @@ public record EmployeeResponse(
     string FullName,
     string Email,
     string Cpf,
-    string? Position,
+    Position? Position,
     Guid DepartmentId,
     string DepartmentName,
     decimal Salary,
@@ -22,7 +24,7 @@ public record EmployeeResponse(
 public record EmployeeSummaryResponse(
     Guid Id,
     string FullName,
-    string? Position,
+    Position? Position,
     Guid DepartmentId,
     string DepartmentName,
     decimal Salary,
@@ -50,7 +52,7 @@ public record PayrollResponse(
     DateTime? PaidAt,
     DateTime CreatedAt);
 
-public record PayrollDetailResponse(
+public record PayrollItemResponse(
     Guid Id,
     Guid EmployeeId,
     string EmployeeName,
@@ -59,6 +61,21 @@ public record PayrollDetailResponse(
     decimal IrpfDiscount,
     decimal OtherDiscounts,
     decimal NetSalary);
+
+public record PayrollDetailResponse(
+    Guid Id,
+    int Month,
+    int Year,
+    string Period,
+    string Status,
+    decimal TotalGross,
+    decimal TotalDiscounts,
+    decimal TotalNet,
+    string? Notes,
+    DateTime? ProcessedAt,
+    DateTime? PaidAt,
+    DateTime CreatedAt,
+    IReadOnlyList<PayrollItemResponse> Items);
 
 public record TransactionResponse(
     Guid Id,

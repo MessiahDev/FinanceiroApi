@@ -2,6 +2,7 @@ using FinanceiroApi.Application.Commands.Transactions.CreateTransaction;
 using FinanceiroApi.Application.DTOs.Request;
 using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.CrossCutting.Notifications;
+using Microsoft.AspNetCore.RateLimiting;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ namespace FinanceiroApi.API.Controllers.v1;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Authorize]
+[EnableRateLimiting("general")]
 [Produces("application/json")]
 public class TransactionsController : ControllerBase
 {

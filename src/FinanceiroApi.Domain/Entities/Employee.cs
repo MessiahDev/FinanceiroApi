@@ -19,7 +19,7 @@ public class Employee : AggregateRoot
     public DateOnly HireDate { get; private set; }
     public DateOnly? TerminationDate { get; private set; }
     public Guid DepartmentId { get; private set; }
-    public string? Position { get; private set; }
+    public Position? Position { get; private set; }
 
     public Department? Department { get; private set; }
 
@@ -33,7 +33,7 @@ public class Employee : AggregateRoot
         decimal baseSalary,
         ContractType contractType,
         Guid departmentId,
-        string? position = null,
+        Position? position = null,
         DateOnly? hireDate = null)
     {
         if (string.IsNullOrWhiteSpace(firstName)) throw new DomainException("First name is required.");
@@ -49,7 +49,7 @@ public class Employee : AggregateRoot
             ContractType = contractType,
             Status = EmployeeStatus.Active,
             DepartmentId = departmentId,
-            Position = position?.Trim(),
+            Position = position,
             HireDate = hireDate ?? DateOnly.FromDateTime(DateTime.UtcNow)
         };
 
@@ -57,7 +57,7 @@ public class Employee : AggregateRoot
         return employee;
     }
 
-    public void UpdatePersonalInfo(string firstName, string lastName, string email, string? position)
+    public void UpdatePersonalInfo(string firstName, string lastName, string email, Position? position)
     {
         if (string.IsNullOrWhiteSpace(firstName)) throw new DomainException("First name is required.");
         if (string.IsNullOrWhiteSpace(lastName)) throw new DomainException("Last name is required.");
@@ -65,7 +65,7 @@ public class Employee : AggregateRoot
         FirstName = firstName.Trim();
         LastName = lastName.Trim();
         Email = new Email(email);
-        Position = position?.Trim();
+        Position = position;
         SetUpdatedAt();
     }
 

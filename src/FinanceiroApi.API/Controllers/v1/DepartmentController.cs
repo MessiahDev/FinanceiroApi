@@ -6,6 +6,7 @@ using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.Application.Queries.Departments.GetAllDepartments;
 using FinanceiroApi.Application.Queries.Departments.GetDepartmentById;
 using FinanceiroApi.CrossCutting.Notifications;
+using Microsoft.AspNetCore.RateLimiting;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ namespace FinanceiroApi.API.Controllers.v1;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Authorize]
+[EnableRateLimiting("general")]
 [Produces("application/json")]
 public class DepartmentsController : ControllerBase
 {

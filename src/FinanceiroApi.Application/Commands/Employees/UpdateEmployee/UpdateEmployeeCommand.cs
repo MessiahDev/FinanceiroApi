@@ -1,6 +1,7 @@
 using AutoMapper;
 using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.CrossCutting.Notifications;
+using FinanceiroApi.Domain.Enums;
 using FinanceiroApi.Domain.Interfaces;
 using FinanceiroApi.Domain.Interfaces.Repositories;
 using FluentValidation;
@@ -13,7 +14,7 @@ public record UpdateEmployeeCommand(
     string FirstName,
     string LastName,
     string Email,
-    string Position,
+    Position Position,
     Guid DepartmentId) : IRequest<EmployeeResponse>;
 
 public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand, EmployeeResponse>

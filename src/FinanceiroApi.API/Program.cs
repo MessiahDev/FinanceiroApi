@@ -40,7 +40,9 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 app.UseGlobalExceptionHandler();
+app.UseCorrelationId();
 app.UseCors("DefaultCors");
+app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapOpenApi();

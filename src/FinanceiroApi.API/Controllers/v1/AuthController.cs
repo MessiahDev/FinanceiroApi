@@ -1,6 +1,7 @@
 using FinanceiroApi.Application.Commands.Auth;
 using FinanceiroApi.Application.DTOs.Request;
 using FinanceiroApi.CrossCutting.Notifications;
+using Microsoft.AspNetCore.RateLimiting;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,7 @@ public sealed class AuthController : ControllerBase
 
     [HttpPost("login")]
     [AllowAnonymous]
+    [EnableRateLimiting("auth")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new LoginCommand(request.Email, request.Password), cancellationToken);
@@ -34,6 +36,7 @@ public sealed class AuthController : ControllerBase
 
     [HttpPost("register")]
     [AllowAnonymous]
+    [EnableRateLimiting("auth")]
     public async Task<IActionResult> Register([FromBody] RegisterRequest request, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(

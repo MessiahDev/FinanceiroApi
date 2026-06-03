@@ -29,7 +29,7 @@ public class CreateEmployeeCommandHandlerTests
         LastName: "Silva",
         Email: "joao@empresa.com",
         Cpf: "52998224725",
-        Position:"Dev",
+        Position: Position.DesenvolvedorJunior,
         DepartmentId: Guid.NewGuid(),
         BaseSalary: 5000m,
         ContractType: ContractType.CLT);

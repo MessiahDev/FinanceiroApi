@@ -54,3 +54,95 @@ public sealed class TransactionCreatedEvent(Guid transactionId, Money amount, Tr
     public TransactionType Type { get; } = type;
     public TransactionCategory Category { get; } = category;
 }
+
+public sealed class SupplierCreatedEvent(Guid supplierId, string name, string taxId) : DomainEvent
+{
+    public Guid SupplierId { get; } = supplierId;
+    public string Name { get; } = name;
+    public string TaxId { get; } = taxId;
+}
+
+public sealed class SupplierBlockedEvent(Guid supplierId, string name, string reason) : DomainEvent
+{
+    public Guid SupplierId { get; } = supplierId;
+    public string Name { get; } = name;
+    public string Reason { get; } = reason;
+}
+
+public sealed class CustomerCreatedEvent(Guid customerId, string name, string taxId) : DomainEvent
+{
+    public Guid CustomerId { get; } = customerId;
+    public string Name { get; } = name;
+    public string TaxId { get; } = taxId;
+}
+
+public sealed class CustomerBlockedEvent(Guid customerId, string name, string reason) : DomainEvent
+{
+    public Guid CustomerId { get; } = customerId;
+    public string Name { get; } = name;
+    public string Reason { get; } = reason;
+}
+
+public sealed class AccountPayableCreatedEvent(Guid id, Guid supplierId, Money amount, DateOnly dueDate) : DomainEvent
+{
+    public Guid Id { get; } = id;
+    public Guid SupplierId { get; } = supplierId;
+    public Money Amount { get; } = amount;
+    public DateOnly DueDate { get; } = dueDate;
+}
+
+public sealed class AccountPayablePaidEvent(Guid id, Guid supplierId, Money paidAmount, AccountPayableStatus status) : DomainEvent
+{
+    public Guid Id { get; } = id;
+    public Guid SupplierId { get; } = supplierId;
+    public Money PaidAmount { get; } = paidAmount;
+    public AccountPayableStatus Status { get; } = status;
+}
+
+public sealed class AccountReceivableCreatedEvent(Guid id, Guid customerId, Money amount, DateOnly dueDate) : DomainEvent
+{
+    public Guid Id { get; } = id;
+    public Guid CustomerId { get; } = customerId;
+    public Money Amount { get; } = amount;
+    public DateOnly DueDate { get; } = dueDate;
+}
+
+public sealed class AccountReceivableReceivedEvent(Guid id, Guid customerId, Money receivedAmount, AccountReceivableStatus status) : DomainEvent
+{
+    public Guid Id { get; } = id;
+    public Guid CustomerId { get; } = customerId;
+    public Money ReceivedAmount { get; } = receivedAmount;
+    public AccountReceivableStatus Status { get; } = status;
+}
+
+public sealed class BankAccountCreatedEvent(Guid id, string bankName, string accountNumber, Money initialBalance) : DomainEvent
+{
+    public Guid Id { get; } = id;
+    public string BankName { get; } = bankName;
+    public string AccountNumber { get; } = accountNumber;
+    public Money InitialBalance { get; } = initialBalance;
+}
+
+public sealed class BankAccountCreditedEvent(Guid id, Money amount, Money newBalance, string description) : DomainEvent
+{
+    public Guid Id { get; } = id;
+    public Money Amount { get; } = amount;
+    public Money NewBalance { get; } = newBalance;
+    public string Description { get; } = description;
+}
+
+public sealed class BankAccountDebitedEvent(Guid id, Money amount, Money newBalance, string description) : DomainEvent
+{
+    public Guid Id { get; } = id;
+    public Money Amount { get; } = amount;
+    public Money NewBalance { get; } = newBalance;
+    public string Description { get; } = description;
+}
+
+public sealed class BudgetApprovedEvent(Guid budgetId, int year, Money totalPlanned, Guid approvedBy) : DomainEvent
+{
+    public Guid BudgetId { get; } = budgetId;
+    public int Year { get; } = year;
+    public Money TotalPlanned { get; } = totalPlanned;
+    public Guid ApprovedBy { get; } = approvedBy;
+}

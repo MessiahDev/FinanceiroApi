@@ -15,7 +15,7 @@ public class ValidationBehaviorTests
         var called = false;
         var validCommand = new CreateEmployeeCommand(
             "Joao", "Silva", "joao@test.com", "52998224725",
-            "Dev", Guid.NewGuid(), 5000m, ContractType.CLT);
+            Position.DesenvolvedorJunior, Guid.NewGuid(), 5000m, ContractType.CLT);
         await behavior.Handle(validCommand, ct => { called = true; return Task.FromResult<object>(null!); }, default);
         called.Should().BeTrue();
     }
@@ -26,7 +26,7 @@ public class ValidationBehaviorTests
         var behavior = new ValidationBehavior<CreateEmployeeCommand, object>(validators);
         var invalidCommand = new CreateEmployeeCommand(
             string.Empty, string.Empty, "not-an-email", "123",
-            string.Empty, Guid.Empty, -1m, ContractType.CLT);
+            (Position)999, Guid.Empty, -1m, ContractType.CLT);
         var act = async () => await behavior.Handle(
             invalidCommand,
             ct => Task.FromResult<object>(null!),
@@ -42,7 +42,7 @@ public class ValidationBehaviorTests
         var called = false;
         var command = new CreateEmployeeCommand(
             "N", "S", "e@e.com", "52998224725",
-            "D", Guid.NewGuid(), 1000m, ContractType.CLT);
+            Position.DesenvolvedorJunior, Guid.NewGuid(), 1000m, ContractType.CLT);
         await behavior.Handle(command, ct => { called = true; return Task.FromResult<object>(null!); }, default);
         called.Should().BeTrue();
     }

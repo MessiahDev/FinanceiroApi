@@ -20,13 +20,13 @@ public sealed class Money : IEquatable<Money>
 
     public Money Add(Money other)
     {
-        EnsureSameCurrency(other);
+        EnsureSameCurrency(this, other);
         return new Money(Amount + other.Amount, Currency);
     }
 
     public Money Subtract(Money other)
     {
-        EnsureSameCurrency(other);
+        EnsureSameCurrency(this, other);
         return new Money(Amount - other.Amount, Currency);
     }
 
@@ -34,14 +34,14 @@ public sealed class Money : IEquatable<Money>
 
     public bool IsGreaterThan(Money other)
     {
-        EnsureSameCurrency(other);
+        EnsureSameCurrency(this, other);
         return Amount > other.Amount;
     }
 
-    private void EnsureSameCurrency(Money other)
+    private static void EnsureSameCurrency(Money a, Money b)
     {
-        if (Currency != other.Currency)
-            throw new InvalidOperationException($"Cannot operate on different currencies: {Currency} and {other.Currency}.");
+        if (a.Currency != b.Currency)
+            throw new InvalidOperationException($"Cannot operate on different currencies: {a.Currency} and {b.Currency}.");
     }
 
     public bool Equals(Money? other) =>
@@ -56,4 +56,9 @@ public sealed class Money : IEquatable<Money>
     public static Money operator *(Money a, decimal factor) => a.Multiply(factor);
     public static bool operator ==(Money a, Money b) => a.Equals(b);
     public static bool operator !=(Money a, Money b) => !a.Equals(b);
+
+    public static bool operator >(Money a, Money b) { EnsureSameCurrency(a, b); return a.Amount > b.Amount; }
+    public static bool operator <(Money a, Money b) { EnsureSameCurrency(a, b); return a.Amount < b.Amount; }
+    public static bool operator >=(Money a, Money b) { EnsureSameCurrency(a, b); return a.Amount >= b.Amount; }
+    public static bool operator <=(Money a, Money b) { EnsureSameCurrency(a, b); return a.Amount <= b.Amount; }
 }

@@ -1,5 +1,6 @@
 using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.Application.Queries.Reports.GetFinancialSummary;
+using Microsoft.AspNetCore.RateLimiting;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ namespace FinanceiroApi.API.Controllers.v1;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Authorize(Roles = "Admin,Financial")]
+[EnableRateLimiting("general")]
 [Produces("application/json")]
 public class ReportsController : ControllerBase
 {

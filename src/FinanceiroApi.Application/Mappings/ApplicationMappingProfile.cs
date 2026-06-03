@@ -63,13 +63,41 @@ public class ApplicationMappingProfile : Profile
                 s.CreatedAt))
             .ForAllMembers(o => o.Ignore());
 
-        CreateMap<PayrollItem, PayrollDetailResponse>()
-            .ForMember(d => d.GrossSalary,      o => o.MapFrom(s => s.GrossSalary.Amount))
-            .ForMember(d => d.InssDiscount,     o => o.MapFrom(s => s.InssDiscount.Amount))
-            .ForMember(d => d.IrpfDiscount,     o => o.MapFrom(s => s.IrpfDiscount.Amount))
-            .ForMember(d => d.OtherDiscounts,   o => o.MapFrom(s => s.OtherDiscounts.Amount))
-            .ForMember(d => d.NetSalary,        o => o.MapFrom(s => s.NetSalary.Amount))
-            .ForMember(d => d.EmployeeName,     o => o.MapFrom(s => s.Employee != null ? s.Employee.FullName : string.Empty));
+        CreateMap<PayrollItem, PayrollItemResponse>()
+            .ConstructUsing(s => new PayrollItemResponse(
+                s.Id,
+                s.EmployeeId,
+                s.Employee != null ? s.Employee.FullName : string.Empty,
+                s.GrossSalary.Amount,
+                s.InssDiscount.Amount,
+                s.IrpfDiscount.Amount,
+                s.OtherDiscounts.Amount,
+                s.NetSalary.Amount));
+
+        CreateMap<Payroll, PayrollDetailResponse>()
+            .ConstructUsing(s => new PayrollDetailResponse(
+                s.Id,
+                s.Period.Start.Month,
+                s.Period.Start.Year,
+                s.Period.ToString(),
+                s.Status.ToString(),
+                s.TotalGross.Amount,
+                s.TotalDiscounts.Amount,
+                s.TotalNet.Amount,
+                s.Notes,
+                s.ProcessedAt,
+                s.PaidAt,
+                s.CreatedAt,
+                s.Items.Select(i => new PayrollItemResponse(
+                    i.Id,
+                    i.EmployeeId,
+                    i.Employee != null ? i.Employee.FullName : string.Empty,
+                    i.GrossSalary.Amount,
+                    i.InssDiscount.Amount,
+                    i.IrpfDiscount.Amount,
+                    i.OtherDiscounts.Amount,
+                    i.NetSalary.Amount)).ToList().AsReadOnly()))
+            .ForAllMembers(o => o.Ignore());
 
         CreateMap<Transaction, TransactionResponse>()
             .ForMember(d => d.Amount,           o => o.MapFrom(s => s.Amount.Amount))

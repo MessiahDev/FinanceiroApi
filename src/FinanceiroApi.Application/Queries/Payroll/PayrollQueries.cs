@@ -24,7 +24,7 @@ namespace FinanceiroApi.Application.Queries.Payroll.GetPayrollById
             var payroll = await _payrollRepository.GetByIdWithDetailsAsync(request.Id, cancellationToken);
             if (payroll is null) return null;
 
-            return _mapper.Map<PayrollDetailResponse>(payroll.Items.FirstOrDefault());
+            return _mapper.Map<PayrollDetailResponse>(payroll);
         }
     }
 }

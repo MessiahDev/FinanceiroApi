@@ -18,6 +18,7 @@ using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.Application.DTOs.Request;
 using FinanceiroApi.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using FinanceiroApi.Domain.Enums;
 using Microsoft.AspNetCore.Hosting;
 using FinanceiroApi.Integration.Tests.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,7 +55,7 @@ public sealed class EmployeesControllerTests : IAsyncLifetime
         Converters = { new JsonStringEnumConverter() }
     };
 
-    private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder()
+    private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder("postgres:16-alpine")
         .WithImage("postgres:16-alpine")
         .WithDatabase("financeiro_test")
         .WithUsername("test")
@@ -160,7 +161,7 @@ public sealed class EmployeesControllerTests : IAsyncLifetime
             LastName: "Silva",
             Email: $"joao.{Guid.NewGuid():N}@teste.com",
             Cpf: "52998224725",
-            Position: "Desenvolvedor",
+            Position: Position.DesenvolvedorJunior,
             DepartmentId: _departmentId,
             Salary: 5000m,
             ContractType: ContractType.CLT);
@@ -182,7 +183,7 @@ public sealed class EmployeesControllerTests : IAsyncLifetime
             LastName: "Invalido",
             Email: "nao-e-um-email",
             Cpf: "52998224725",
-            Position: "Dev",
+            Position: Position.DesenvolvedorJunior,
             DepartmentId: _departmentId,
             Salary: 3000m,
             ContractType: ContractType.CLT);

@@ -9,6 +9,7 @@ using FinanceiroApi.Application.Queries.Employees.GetEmployeeById;
 using FinanceiroApi.Application.Queries.Employees.GetEmployeesByDepartment;
 using FinanceiroApi.CrossCutting.Notifications;
 using FinanceiroApi.CrossCutting.Pagination;
+using Microsoft.AspNetCore.RateLimiting;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ namespace FinanceiroApi.API.Controllers.v1;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Authorize]
+[EnableRateLimiting("general")]
 [Produces("application/json")]
 public class EmployeesController : ControllerBase
 {
@@ -72,7 +74,7 @@ public class EmployeesController : ControllerBase
             request.LastName,
             request.Email,
             request.Cpf,
-            request.Position ?? string.Empty,
+            request.Position ?? 0,
             request.DepartmentId,
             request.Salary,
             request.ContractType);
@@ -95,7 +97,7 @@ public class EmployeesController : ControllerBase
             request.FirstName,
             request.LastName,
             request.Email,
-            request.Position ?? string.Empty,
+            request.Position ?? 0,
             request.DepartmentId);
 
         var result = await _mediator.Send(command, ct);

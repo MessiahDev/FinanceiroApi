@@ -102,7 +102,15 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.Configure<EmailSettings>(configuration.GetSection(EmailSettings.SectionName));
-        services.AddScoped<IEmailSender, SendGridEmailSender>();
+
+        var emailSettings = configuration
+            .GetSection(EmailSettings.SectionName)
+            .Get<EmailSettings>() ?? new EmailSettings();
+
+        if (!string.IsNullOrWhiteSpace(emailSettings.ApiKey))
+            services.AddScoped<IEmailSender, SendGridEmailSender>();
+        else
+            services.AddScoped<IEmailSender, NullEmailSender>();
 
         services.Configure<StorageSettings>(configuration.GetSection(StorageSettings.SectionName));
 

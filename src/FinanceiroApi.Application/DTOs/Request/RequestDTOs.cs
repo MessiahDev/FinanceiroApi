@@ -7,7 +7,7 @@ public record CreateEmployeeRequest(
     string LastName,
     string Email,
     string Cpf,
-    string? Position,
+    Position? Position,
     Guid DepartmentId,
     decimal Salary,
     ContractType ContractType,
@@ -17,7 +17,7 @@ public record UpdateEmployeeRequest(
     string FirstName,
     string LastName,
     string Email,
-    string? Position,
+    Position? Position,
     Guid DepartmentId);
 
 public record UpdateSalaryRequest(

@@ -15,7 +15,7 @@ public record CreateEmployeeCommand(
     string LastName,
     string Email,
     string Cpf,
-    string Position,
+    Position Position,
     Guid DepartmentId,
     decimal BaseSalary,
     ContractType ContractType) : IRequest<EmployeeResponse>;

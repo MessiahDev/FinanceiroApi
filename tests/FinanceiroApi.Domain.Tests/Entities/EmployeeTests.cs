@@ -17,7 +17,7 @@ public class EmployeeTests
         baseSalary: 5000m,
         contractType: ContractType.CLT,
         departmentId: Guid.NewGuid(),
-        position: "Desenvolvedor");
+        position: Position.DesenvolvedorJunior);
 
     [Fact]
     public void Create_WithValidData_ShouldCreateEmployee()
@@ -197,7 +197,7 @@ public class EmployeeTests
     {
         var employee = CreateValidEmployee();
 
-        employee.UpdatePersonalInfo("Carlos", "Souza", "carlos@empresa.com", "Tech Lead");
+        employee.UpdatePersonalInfo("Carlos", "Souza", "carlos@empresa.com", Position.DesenvolvedorSenior);
 
         employee.FirstName.Should().Be("Carlos");
         employee.LastName.Should().Be("Souza");

@@ -32,7 +32,7 @@ public class PayrollFlowScenarioTests : IAsyncLifetime
         Converters = { new JsonStringEnumConverter() }
     };
 
-    private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder()
+    private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder("postgres:16-alpine")
         .WithImage("postgres:16-alpine")
         .WithDatabase("financeiro_test")
         .WithUsername("test")
@@ -124,7 +124,7 @@ public class PayrollFlowScenarioTests : IAsyncLifetime
             "Teste",
             "carlos@empresa.com",
             "52998224725",
-            "Analista Sr",
+            Position.DesenvolvedorSenior,
             _departmentId,
             8000m,
             ContractType.CLT,
