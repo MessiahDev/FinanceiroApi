@@ -116,3 +116,152 @@ public record MonthlyTrend(
 {
     public decimal NetBalance => Credits - Debits;
 }
+
+public record CustomerResponse(
+    Guid Id,
+    string Name,
+    string TaxId,
+    string PersonType,
+    string Email,
+    string? Phone,
+    string? ContactName,
+    string Status,
+    decimal CreditLimit,
+    string Currency,
+    DateTime CreatedAt,
+    DateTime? UpdatedAt);
+
+public record CustomerSummaryResponse(
+    Guid Id,
+    string Name,
+    string TaxId,
+    string PersonType,
+    string Status,
+    decimal CreditLimit);
+
+public record SupplierResponse(
+    Guid Id,
+    string Name,
+    string TaxId,
+    string PersonType,
+    string Email,
+    string? Phone,
+    string? ContactName,
+    string Status,
+    string? BankName,
+    string? BankAgency,
+    string? BankAccount,
+    string? PixKey,
+    DateTime CreatedAt,
+    DateTime? UpdatedAt);
+
+public record SupplierSummaryResponse(
+    Guid Id,
+    string Name,
+    string TaxId,
+    string PersonType,
+    string Status);
+
+public record AccountPayableResponse(
+    Guid Id,
+    Guid SupplierId,
+    string SupplierName,
+    Guid? CostCenterId,
+    string? CostCenterName,
+    string Description,
+    decimal TotalAmount,
+    decimal PaidAmount,
+    decimal RemainingAmount,
+    string Currency,
+    DateOnly DueDate,
+    DateOnly? PaymentDate,
+    string Status,
+    string? InvoiceNumber,
+    string? Notes,
+    DateTime CreatedAt,
+    DateTime? UpdatedAt);
+
+public record AccountReceivableResponse(
+    Guid Id,
+    Guid CustomerId,
+    string CustomerName,
+    Guid? CostCenterId,
+    string? CostCenterName,
+    string Description,
+    decimal TotalAmount,
+    decimal ReceivedAmount,
+    decimal RemainingAmount,
+    string Currency,
+    DateOnly DueDate,
+    DateOnly? ReceiptDate,
+    string Status,
+    string? InvoiceNumber,
+    string? Notes,
+    DateTime CreatedAt,
+    DateTime? UpdatedAt);
+
+public record BankAccountResponse(
+    Guid Id,
+    string BankName,
+    string BankCode,
+    string Agency,
+    string AccountNumber,
+    string AccountType,
+    string? PixKey,
+    decimal Balance,
+    string Currency,
+    bool IsActive,
+    string? Description,
+    DateTime CreatedAt,
+    DateTime? UpdatedAt);
+
+public record CostCenterResponse(
+    Guid Id,
+    string Code,
+    string Name,
+    string? Description,
+    Guid? ParentId,
+    string? ParentName,
+    decimal AnnualBudget,
+    string Currency,
+    string Status,
+    Guid? ManagerId,
+    string? ManagerName,
+    DateTime CreatedAt,
+    DateTime? UpdatedAt);
+
+public record BudgetResponse(
+    Guid Id,
+    int Year,
+    string Name,
+    string? Description,
+    string Status,
+    decimal TotalPlanned,
+    decimal TotalRealized,
+    decimal Variance,
+    string Currency,
+    DateTime? ApprovedAt,
+    Guid? ApprovedBy,
+    DateTime CreatedAt,
+    DateTime? UpdatedAt,
+    IReadOnlyList<BudgetItemResponse> Items);
+
+public record BudgetSummaryResponse(
+    Guid Id,
+    int Year,
+    string Name,
+    string Status,
+    decimal TotalPlanned,
+    decimal TotalRealized,
+    decimal Variance,
+    DateTime? ApprovedAt);
+
+public record BudgetItemResponse(
+    Guid Id,
+    Guid CostCenterId,
+    string CostCenterName,
+    string Category,
+    decimal PlannedAmount,
+    decimal RealizedAmount,
+    decimal Variance,
+    bool IsOverBudget);

@@ -57,7 +57,10 @@ public class Budget : AggregateRoot
     private readonly List<BudgetItem> _items = [];
     public IReadOnlyCollection<BudgetItem> Items => _items.AsReadOnly();
 
-    protected Budget() { }
+    protected Budget()
+    {
+        _items = [];
+    }
 
     public static Budget Create(int year, string name, string? description = null)
     {

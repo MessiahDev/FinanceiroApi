@@ -4,10 +4,12 @@ using FinanceiroApi.CrossCutting.IoC;
 using FinanceiroApi.CrossCutting.Logging;
 using FinanceiroApi.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.OpenApi;
 using Scalar.AspNetCore;
 using FinanceiroApi.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using FinanceiroApi.API.Middlewares;
+using Microsoft.OpenApi.Models;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,27 +20,19 @@ builder.Services.AddCrossCutting(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddOpenApi(options =>
 {
-    options.AddDocumentTransformer((document, context, cancellationToken) =>
-    {
-        document.Components ??= new Microsoft.OpenApi.OpenApiComponents();
-        document.Components.SecuritySchemes ??= new Dictionary<string, Microsoft.OpenApi.IOpenApiSecurityScheme>();
-        document.Components.SecuritySchemes[JwtBearerDefaults.AuthenticationScheme] =
-            new Microsoft.OpenApi.OpenApiSecurityScheme
-            {
-                Type = Microsoft.OpenApi.SecuritySchemeType.Http,
-                Scheme = "bearer",
-                BearerFormat = "JWT",
-                Description = "Insira o token JWT no campo abaixo."
-            };
-        return Task.CompletedTask;
-    });
+    options.AddDocumentTransformer<JwtSecuritySchemeTransformer>();
 });
+
 var app = builder.Build();
+
+app.UsePathBase("/scala/v1");
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
+
 app.UseGlobalExceptionHandler();
 app.UseCorrelationId();
 app.UseCors("DefaultCors");
@@ -54,3 +48,23 @@ app.MapScalarApiReference(options =>
 app.MapControllers();
 app.MapHealthChecks("/health");
 app.Run();
+
+internal sealed class JwtSecuritySchemeTransformer : IOpenApiDocumentTransformer
+{
+    public Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
+    {
+        document.Components ??= new OpenApiComponents();
+        document.Components.SecuritySchemes ??= new Dictionary<string, OpenApiSecurityScheme>();
+        document.Components.SecuritySchemes[JwtBearerDefaults.AuthenticationScheme] =
+            new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                Description = "Insira o token JWT no campo abaixo."
+            };
+        return Task.CompletedTask;
+    }
+}
+
+public partial class Program { }

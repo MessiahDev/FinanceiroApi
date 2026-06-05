@@ -2,6 +2,7 @@ using System.Net;
 using System.Text.Json;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using FinanceiroApi.Domain.Exceptions;
 
 namespace FinanceiroApi.API.Middlewares;
 
@@ -41,6 +42,11 @@ public class GlobalExceptionMiddleware
         {
             _logger.LogWarning(ex, "Operação inválida");
             await WriteResponse(context, HttpStatusCode.UnprocessableEntity, ex.Message, null);
+        }
+        catch (DomainException ex)
+        {
+            _logger.LogWarning("Erro de domínio: {Message}", ex.Message);
+            await WriteResponse(context, HttpStatusCode.BadRequest, ex.Message, null);
         }
         catch (Exception ex)
         {

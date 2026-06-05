@@ -28,7 +28,10 @@ public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity>
 
     public virtual Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
-        DbSet.Update(entity);
+        var entry = Context.Entry(entity);
+        if (entry.State == EntityState.Detached)
+            DbSet.Update(entity);
+
         return Task.CompletedTask;
     }
 

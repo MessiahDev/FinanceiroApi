@@ -32,6 +32,14 @@ public static class DependencyInjection
             .AddExternalServices(configuration)
             .AddReports();
 
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<ISupplierRepository, SupplierRepository>();
+        services.AddScoped<IAccountPayableRepository, AccountPayableRepository>();
+        services.AddScoped<IAccountReceivableRepository, AccountReceivableRepository>();
+        services.AddScoped<IBankAccountRepository, BankAccountRepository>();
+        services.AddScoped<ICostCenterRepository, CostCenterRepository>();
+        services.AddScoped<IBudgetRepository, BudgetRepository>();
+
         return services;
     }
 
@@ -52,8 +60,7 @@ public static class DependencyInjection
                         maxRetryDelay: TimeSpan.FromSeconds(30),
                         errorCodesToAdd: null);
                     sql.CommandTimeout(60);
-                })
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+                }));
 
         return services;
     }

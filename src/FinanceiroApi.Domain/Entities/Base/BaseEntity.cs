@@ -13,7 +13,6 @@ public abstract class BaseEntity
 
     internal void SetCreatedAt(DateTime date) => CreatedAt = date;
     internal void SetUpdatedAt(DateTime date) => UpdatedAt = date;
-
     protected void SetUpdatedAt() => UpdatedAt = DateTime.UtcNow;
 
     public void SoftDelete()

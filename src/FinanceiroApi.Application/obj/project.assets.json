@@ -1,7 +1,7 @@
 {
   "version": 4,
   "targets": {
-    "net10.0": {
+    "net9.0": {
       "AutoMapper/16.1.1": {
         "type": "package",
         "dependencies": {
@@ -10,12 +10,12 @@
           "Microsoft.IdentityModel.JsonWebTokens": "8.14.0"
         },
         "compile": {
-          "lib/net10.0/AutoMapper.dll": {
+          "lib/net9.0/AutoMapper.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/AutoMapper.dll": {
+          "lib/net9.0/AutoMapper.dll": {
             "related": ".xml"
           }
         }
@@ -23,10 +23,10 @@
       "BCrypt.Net-Next/4.2.0": {
         "type": "package",
         "compile": {
-          "lib/net10.0/BCrypt-Net-Next.dll": {}
+          "lib/netstandard2.1/BCrypt-Net-Next.dll": {}
         },
         "runtime": {
-          "lib/net10.0/BCrypt-Net-Next.dll": {}
+          "lib/netstandard2.1/BCrypt-Net-Next.dll": {}
         }
       },
       "FluentValidation/12.1.1": {
@@ -68,12 +68,12 @@
           "Microsoft.IdentityModel.JsonWebTokens": "8.14.0"
         },
         "compile": {
-          "lib/net10.0/MediatR.dll": {
+          "lib/net9.0/MediatR.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/MediatR.dll": {
+          "lib/net9.0/MediatR.dll": {
             "related": ".xml"
           }
         }
@@ -91,18 +91,18 @@
           }
         }
       },
-      "Microsoft.AspNetCore.Authentication.JwtBearer/10.0.8": {
+      "Microsoft.AspNetCore.Authentication.JwtBearer/9.0.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "8.0.1"
         },
         "compile": {
-          "lib/net10.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {
+          "lib/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {
+          "lib/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {
             "related": ".xml"
           }
         },
@@ -110,75 +110,75 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "Microsoft.EntityFrameworkCore/10.0.8": {
+      "Microsoft.EntityFrameworkCore/9.0.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.8",
-          "Microsoft.EntityFrameworkCore.Analyzers": "10.0.8",
-          "Microsoft.Extensions.Caching.Memory": "10.0.8",
-          "Microsoft.Extensions.Logging": "10.0.8"
+          "Microsoft.EntityFrameworkCore.Abstractions": "9.0.1",
+          "Microsoft.EntityFrameworkCore.Analyzers": "9.0.1",
+          "Microsoft.Extensions.Caching.Memory": "9.0.1",
+          "Microsoft.Extensions.Logging": "9.0.1"
         },
         "compile": {
-          "lib/net10.0/Microsoft.EntityFrameworkCore.dll": {
+          "lib/net8.0/Microsoft.EntityFrameworkCore.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.EntityFrameworkCore.dll": {
+          "lib/net8.0/Microsoft.EntityFrameworkCore.dll": {
             "related": ".xml"
           }
         },
         "build": {
-          "buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props": {}
+          "buildTransitive/net8.0/Microsoft.EntityFrameworkCore.props": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Abstractions/10.0.8": {
+      "Microsoft.EntityFrameworkCore.Abstractions/9.0.1": {
         "type": "package",
         "compile": {
-          "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
+          "lib/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
+          "lib/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
             "related": ".xml"
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Analyzers/10.0.8": {
+      "Microsoft.EntityFrameworkCore.Analyzers/9.0.1": {
         "type": "package"
       },
-      "Microsoft.EntityFrameworkCore.Relational/10.0.8": {
+      "Microsoft.EntityFrameworkCore.Relational/9.0.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "10.0.8",
-          "Microsoft.Extensions.Caching.Memory": "10.0.8",
-          "Microsoft.Extensions.Configuration.Abstractions": "10.0.8",
-          "Microsoft.Extensions.Logging": "10.0.8"
+          "Microsoft.EntityFrameworkCore": "9.0.1",
+          "Microsoft.Extensions.Caching.Memory": "9.0.1",
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.1",
+          "Microsoft.Extensions.Logging": "9.0.1"
         },
         "compile": {
-          "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll": {
+          "lib/net8.0/Microsoft.EntityFrameworkCore.Relational.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll": {
+          "lib/net8.0/Microsoft.EntityFrameworkCore.Relational.dll": {
             "related": ".xml"
           }
         }
       },
-      "Microsoft.Extensions.Caching.Abstractions/10.0.8": {
+      "Microsoft.Extensions.Caching.Abstractions/9.0.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Primitives": "10.0.8"
+          "Microsoft.Extensions.Primitives": "9.0.1"
         },
         "compile": {
-          "lib/net10.0/Microsoft.Extensions.Caching.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.Caching.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.Extensions.Caching.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.Caching.Abstractions.dll": {
             "related": ".xml"
           }
         },
@@ -186,22 +186,22 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-      "Microsoft.Extensions.Caching.Memory/10.0.8": {
+      "Microsoft.Extensions.Caching.Memory/9.0.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Caching.Abstractions": "10.0.8",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.8",
-          "Microsoft.Extensions.Logging.Abstractions": "10.0.8",
-          "Microsoft.Extensions.Options": "10.0.8",
-          "Microsoft.Extensions.Primitives": "10.0.8"
+          "Microsoft.Extensions.Caching.Abstractions": "9.0.1",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.1",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.1",
+          "Microsoft.Extensions.Options": "9.0.1",
+          "Microsoft.Extensions.Primitives": "9.0.1"
         },
         "compile": {
-          "lib/net10.0/Microsoft.Extensions.Caching.Memory.dll": {
+          "lib/net9.0/Microsoft.Extensions.Caching.Memory.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.Extensions.Caching.Memory.dll": {
+          "lib/net9.0/Microsoft.Extensions.Caching.Memory.dll": {
             "related": ".xml"
           }
         },
@@ -209,19 +209,18 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-      "Microsoft.Extensions.Configuration/10.0.0": {
+      "Microsoft.Extensions.Configuration.Abstractions/9.0.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Configuration.Abstractions": "10.0.0",
-          "Microsoft.Extensions.Primitives": "10.0.0"
+          "Microsoft.Extensions.Primitives": "9.0.1"
         },
         "compile": {
-          "lib/net10.0/Microsoft.Extensions.Configuration.dll": {
+          "lib/net9.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.Extensions.Configuration.dll": {
+          "lib/net9.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
             "related": ".xml"
           }
         },
@@ -229,38 +228,18 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-      "Microsoft.Extensions.Configuration.Abstractions/10.0.8": {
+      "Microsoft.Extensions.Configuration.Binder/9.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Primitives": "10.0.8"
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.0"
         },
         "compile": {
-          "lib/net10.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.Configuration.Binder.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net8.0/_._": {}
-        }
-      },
-      "Microsoft.Extensions.Configuration.Binder/10.0.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.Configuration": "10.0.0",
-          "Microsoft.Extensions.Configuration.Abstractions": "10.0.0"
-        },
-        "compile": {
-          "lib/net10.0/Microsoft.Extensions.Configuration.Binder.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net10.0/Microsoft.Extensions.Configuration.Binder.dll": {
+          "lib/net9.0/Microsoft.Extensions.Configuration.Binder.dll": {
             "related": ".xml"
           }
         },
@@ -268,18 +247,18 @@
           "buildTransitive/netstandard2.0/Microsoft.Extensions.Configuration.Binder.targets": {}
         }
       },
-      "Microsoft.Extensions.DependencyInjection/10.0.8": {
+      "Microsoft.Extensions.DependencyInjection/9.0.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.8"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.1"
         },
         "compile": {
-          "lib/net10.0/Microsoft.Extensions.DependencyInjection.dll": {
+          "lib/net9.0/Microsoft.Extensions.DependencyInjection.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.Extensions.DependencyInjection.dll": {
+          "lib/net9.0/Microsoft.Extensions.DependencyInjection.dll": {
             "related": ".xml"
           }
         },
@@ -287,15 +266,15 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-      "Microsoft.Extensions.DependencyInjection.Abstractions/10.0.8": {
+      "Microsoft.Extensions.DependencyInjection.Abstractions/10.0.0": {
         "type": "package",
         "compile": {
-          "lib/net10.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
             "related": ".xml"
           }
         },
@@ -303,15 +282,15 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-      "Microsoft.Extensions.DependencyModel/10.0.0": {
+      "Microsoft.Extensions.DependencyModel/9.0.0": {
         "type": "package",
         "compile": {
-          "lib/net10.0/Microsoft.Extensions.DependencyModel.dll": {
+          "lib/net9.0/Microsoft.Extensions.DependencyModel.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.Extensions.DependencyModel.dll": {
+          "lib/net9.0/Microsoft.Extensions.DependencyModel.dll": {
             "related": ".xml"
           }
         },
@@ -319,38 +298,19 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-      "Microsoft.Extensions.Diagnostics.Abstractions/10.0.8": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.8",
-          "Microsoft.Extensions.Options": "10.0.8"
-        },
-        "compile": {
-          "lib/net10.0/Microsoft.Extensions.Diagnostics.Abstractions.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net10.0/Microsoft.Extensions.Diagnostics.Abstractions.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net8.0/_._": {}
-        }
-      },
-      "Microsoft.Extensions.FileProviders.Abstractions/10.0.8": {
+      "Microsoft.Extensions.Diagnostics.Abstractions/9.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Primitives": "10.0.8"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Options": "9.0.0"
         },
         "compile": {
-          "lib/net10.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.Diagnostics.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.Diagnostics.Abstractions.dll": {
             "related": ".xml"
           }
         },
@@ -358,22 +318,18 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-      "Microsoft.Extensions.Hosting.Abstractions/10.0.8": {
+      "Microsoft.Extensions.FileProviders.Abstractions/9.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Configuration.Abstractions": "10.0.8",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.8",
-          "Microsoft.Extensions.Diagnostics.Abstractions": "10.0.8",
-          "Microsoft.Extensions.FileProviders.Abstractions": "10.0.8",
-          "Microsoft.Extensions.Logging.Abstractions": "10.0.8"
+          "Microsoft.Extensions.Primitives": "9.0.0"
         },
         "compile": {
-          "lib/net10.0/Microsoft.Extensions.Hosting.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.Extensions.Hosting.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {
             "related": ".xml"
           }
         },
@@ -381,20 +337,22 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-      "Microsoft.Extensions.Logging/10.0.8": {
+      "Microsoft.Extensions.Hosting.Abstractions/9.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection": "10.0.8",
-          "Microsoft.Extensions.Logging.Abstractions": "10.0.8",
-          "Microsoft.Extensions.Options": "10.0.8"
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Diagnostics.Abstractions": "9.0.0",
+          "Microsoft.Extensions.FileProviders.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.0"
         },
         "compile": {
-          "lib/net10.0/Microsoft.Extensions.Logging.dll": {
+          "lib/net9.0/Microsoft.Extensions.Hosting.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.Extensions.Logging.dll": {
+          "lib/net9.0/Microsoft.Extensions.Hosting.Abstractions.dll": {
             "related": ".xml"
           }
         },
@@ -402,18 +360,40 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-      "Microsoft.Extensions.Logging.Abstractions/10.0.8": {
+      "Microsoft.Extensions.Logging/9.0.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.8"
+          "Microsoft.Extensions.DependencyInjection": "9.0.1",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.1",
+          "Microsoft.Extensions.Options": "9.0.1"
         },
         "compile": {
-          "lib/net10.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.Logging.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.Logging.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        }
+      },
+      "Microsoft.Extensions.Logging.Abstractions/10.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0",
+          "System.Diagnostics.DiagnosticSource": "10.0.0"
+        },
+        "compile": {
+          "lib/net9.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.Extensions.Logging.Abstractions.dll": {
             "related": ".xml"
           }
         },
@@ -421,19 +401,19 @@
           "buildTransitive/net8.0/Microsoft.Extensions.Logging.Abstractions.targets": {}
         }
       },
-      "Microsoft.Extensions.Options/10.0.8": {
+      "Microsoft.Extensions.Options/10.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.8",
-          "Microsoft.Extensions.Primitives": "10.0.8"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0",
+          "Microsoft.Extensions.Primitives": "10.0.0"
         },
         "compile": {
-          "lib/net10.0/Microsoft.Extensions.Options.dll": {
+          "lib/net9.0/Microsoft.Extensions.Options.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.Extensions.Options.dll": {
+          "lib/net9.0/Microsoft.Extensions.Options.dll": {
             "related": ".xml"
           }
         },
@@ -441,15 +421,15 @@
           "buildTransitive/net8.0/Microsoft.Extensions.Options.targets": {}
         }
       },
-      "Microsoft.Extensions.Primitives/10.0.8": {
+      "Microsoft.Extensions.Primitives/10.0.0": {
         "type": "package",
         "compile": {
-          "lib/net10.0/Microsoft.Extensions.Primitives.dll": {
+          "lib/net9.0/Microsoft.Extensions.Primitives.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Microsoft.Extensions.Primitives.dll": {
+          "lib/net9.0/Microsoft.Extensions.Primitives.dll": {
             "related": ".xml"
           }
         },
@@ -552,7 +532,7 @@
           }
         }
       },
-      "Serilog/4.3.0": {
+      "Serilog/4.2.0": {
         "type": "package",
         "compile": {
           "lib/net9.0/Serilog.dll": {
@@ -563,29 +543,26 @@
           "lib/net9.0/Serilog.dll": {
             "related": ".xml"
           }
-        },
-        "build": {
-          "build/_._": {}
         }
       },
-      "Serilog.AspNetCore/10.0.0": {
+      "Serilog.AspNetCore/9.0.0": {
         "type": "package",
         "dependencies": {
-          "Serilog": "4.3.0",
-          "Serilog.Extensions.Hosting": "10.0.0",
+          "Serilog": "4.2.0",
+          "Serilog.Extensions.Hosting": "9.0.0",
           "Serilog.Formatting.Compact": "3.0.0",
-          "Serilog.Settings.Configuration": "10.0.0",
-          "Serilog.Sinks.Console": "6.1.1",
+          "Serilog.Settings.Configuration": "9.0.0",
+          "Serilog.Sinks.Console": "6.0.0",
           "Serilog.Sinks.Debug": "3.0.0",
-          "Serilog.Sinks.File": "7.0.0"
+          "Serilog.Sinks.File": "6.0.0"
         },
         "compile": {
-          "lib/net10.0/Serilog.AspNetCore.dll": {
+          "lib/net9.0/Serilog.AspNetCore.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Serilog.AspNetCore.dll": {
+          "lib/net9.0/Serilog.AspNetCore.dll": {
             "related": ".xml"
           }
         },
@@ -609,39 +586,39 @@
           }
         }
       },
-      "Serilog.Extensions.Hosting/10.0.0": {
+      "Serilog.Extensions.Hosting/9.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0",
-          "Microsoft.Extensions.Hosting.Abstractions": "10.0.0",
-          "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
-          "Serilog": "4.3.0",
-          "Serilog.Extensions.Logging": "10.0.0"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Hosting.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.0",
+          "Serilog": "4.2.0",
+          "Serilog.Extensions.Logging": "9.0.0"
         },
         "compile": {
-          "lib/net10.0/Serilog.Extensions.Hosting.dll": {
+          "lib/net9.0/Serilog.Extensions.Hosting.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Serilog.Extensions.Hosting.dll": {
+          "lib/net9.0/Serilog.Extensions.Hosting.dll": {
             "related": ".xml"
           }
         }
       },
-      "Serilog.Extensions.Logging/10.0.0": {
+      "Serilog.Extensions.Logging/9.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Logging": "10.0.0",
+          "Microsoft.Extensions.Logging": "9.0.0",
           "Serilog": "4.2.0"
         },
         "compile": {
-          "lib/net10.0/Serilog.Extensions.Logging.dll": {
+          "lib/net9.0/Serilog.Extensions.Logging.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Serilog.Extensions.Logging.dll": {
+          "lib/net9.0/Serilog.Extensions.Logging.dll": {
             "related": ".xml"
           }
         }
@@ -662,25 +639,25 @@
           }
         }
       },
-      "Serilog.Settings.Configuration/10.0.0": {
+      "Serilog.Settings.Configuration/9.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Configuration.Binder": "10.0.0",
-          "Microsoft.Extensions.DependencyModel": "10.0.0",
-          "Serilog": "4.3.0"
+          "Microsoft.Extensions.Configuration.Binder": "9.0.0",
+          "Microsoft.Extensions.DependencyModel": "9.0.0",
+          "Serilog": "4.2.0"
         },
         "compile": {
-          "lib/net10.0/Serilog.Settings.Configuration.dll": {
+          "lib/net9.0/Serilog.Settings.Configuration.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net10.0/Serilog.Settings.Configuration.dll": {
+          "lib/net9.0/Serilog.Settings.Configuration.dll": {
             "related": ".xml"
           }
         }
       },
-      "Serilog.Sinks.Console/6.1.1": {
+      "Serilog.Sinks.Console/6.0.0": {
         "type": "package",
         "dependencies": {
           "Serilog": "4.0.0"
@@ -712,20 +689,36 @@
           }
         }
       },
-      "Serilog.Sinks.File/7.0.0": {
+      "Serilog.Sinks.File/6.0.0": {
         "type": "package",
         "dependencies": {
-          "Serilog": "4.2.0"
+          "Serilog": "4.0.0"
         },
         "compile": {
-          "lib/net9.0/Serilog.Sinks.File.dll": {
+          "lib/net8.0/Serilog.Sinks.File.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net9.0/Serilog.Sinks.File.dll": {
+          "lib/net8.0/Serilog.Sinks.File.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "System.Diagnostics.DiagnosticSource/10.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net9.0/System.Diagnostics.DiagnosticSource.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/System.Diagnostics.DiagnosticSource.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
         }
       },
       "System.IdentityModel.Tokens.Jwt/8.0.1": {
@@ -747,13 +740,13 @@
       },
       "FinanceiroApi.CrossCutting/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v10.0",
+        "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
-          "Microsoft.AspNetCore.Authentication.JwtBearer": "10.0.8",
-          "Microsoft.Extensions.Configuration.Abstractions": "10.0.8",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.8",
-          "Microsoft.Extensions.Hosting.Abstractions": "10.0.8",
-          "Serilog.AspNetCore": "10.0.0",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "9.0.0",
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Hosting.Abstractions": "9.0.0",
+          "Serilog.AspNetCore": "9.0.0",
           "Serilog.Enrichers.Environment": "3.0.1"
         },
         "compile": {
@@ -765,7 +758,7 @@
       },
       "FinanceiroApi.Domain/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v10.0",
+        "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
           "FinanceiroApi.CrossCutting": "1.0.0",
           "MediatR": "14.1.0"
@@ -897,98 +890,97 @@
         "mediatr.contracts.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.Authentication.JwtBearer/10.0.8": {
-      "sha512": "oGnE+X/SN6jdqao9WOkOIfyZ5+a0AtluJWy1Mxndq+kcWG6sx5k6l6tucu8/wJ7o9fHfLgVCzm/c4v/KVgVk6w==",
+    "Microsoft.AspNetCore.Authentication.JwtBearer/9.0.0": {
+      "sha512": "bs+1Pq3vQdS2lTyxNUd9fEhtMsq3eLUpK36k2t56iDMVrk6OrAoFtvrQrTK0Y0OetTcJrUkGU7hBlf+ORzHLqQ==",
       "type": "package",
-      "path": "microsoft.aspnetcore.authentication.jwtbearer/10.0.8",
+      "path": "microsoft.aspnetcore.authentication.jwtbearer/9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "PACKAGE.md",
         "THIRD-PARTY-NOTICES.TXT",
-        "lib/net10.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll",
-        "lib/net10.0/Microsoft.AspNetCore.Authentication.JwtBearer.xml",
-        "microsoft.aspnetcore.authentication.jwtbearer.10.0.8.nupkg.sha512",
+        "lib/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll",
+        "lib/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.xml",
+        "microsoft.aspnetcore.authentication.jwtbearer.9.0.0.nupkg.sha512",
         "microsoft.aspnetcore.authentication.jwtbearer.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore/10.0.8": {
-      "sha512": "EJx+fIBMgBlgD+ublKCn+GTOJkw3UqV7xOjYWBRVdUYyIm8UfvAsmSOPFiIInsWTHyMEYUJ9gCJY1jwX+6UB7w==",
+    "Microsoft.EntityFrameworkCore/9.0.1": {
+      "sha512": "E25w4XugXNykTr5Y/sLDGaQ4lf67n9aXVPvsdGsIZjtuLmbvb9AoYP8D50CDejY8Ro4D9GK2kNHz5lWHqSK+wg==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore/10.0.8",
+      "path": "microsoft.entityframeworkcore/9.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "PACKAGE.md",
-        "buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props",
-        "lib/net10.0/Microsoft.EntityFrameworkCore.dll",
-        "lib/net10.0/Microsoft.EntityFrameworkCore.xml",
-        "microsoft.entityframeworkcore.10.0.8.nupkg.sha512",
+        "buildTransitive/net8.0/Microsoft.EntityFrameworkCore.props",
+        "lib/net8.0/Microsoft.EntityFrameworkCore.dll",
+        "lib/net8.0/Microsoft.EntityFrameworkCore.xml",
+        "microsoft.entityframeworkcore.9.0.1.nupkg.sha512",
         "microsoft.entityframeworkcore.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Abstractions/10.0.8": {
-      "sha512": "jbKDXWPZQhuPHygMnwzNOqxBADVcpRVytcKYZsA++QqhPkpF93Ta8o5mbJQGrARSjlkr9WtOaADV97EDMOZ7DA==",
+    "Microsoft.EntityFrameworkCore.Abstractions/9.0.1": {
+      "sha512": "qy+taGVLUs82zeWfc32hgGL8Z02ZqAneYvqZiiXbxF4g4PBUcPRuxHM9K20USmpeJbn4/fz40GkCbyyCy5ojOA==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.abstractions/10.0.8",
+      "path": "microsoft.entityframeworkcore.abstractions/9.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "PACKAGE.md",
-        "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll",
-        "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.xml",
-        "microsoft.entityframeworkcore.abstractions.10.0.8.nupkg.sha512",
+        "lib/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll",
+        "lib/net8.0/Microsoft.EntityFrameworkCore.Abstractions.xml",
+        "microsoft.entityframeworkcore.abstractions.9.0.1.nupkg.sha512",
         "microsoft.entityframeworkcore.abstractions.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Analyzers/10.0.8": {
-      "sha512": "M3BZ8JH8rB6BE7dO2g9iVbrHLnEz9wMXT6q+tDR6Nq3gyP3KmBj5OTiZGxyF3vesjOQNKanYoPGSNBR4kR2llg==",
+    "Microsoft.EntityFrameworkCore.Analyzers/9.0.1": {
+      "sha512": "c6ZZJZhPKrXFkE2z/81PmuT69HBL6Y68Cl0xJ5SRrDjJyq5Aabkq15yCqPg9RQ3R0aFLVaJok2DA8R3TKpejDQ==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.analyzers/10.0.8",
+      "path": "microsoft.entityframeworkcore.analyzers/9.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll",
         "docs/PACKAGE.md",
-        "microsoft.entityframeworkcore.analyzers.10.0.8.nupkg.sha512",
+        "microsoft.entityframeworkcore.analyzers.9.0.1.nupkg.sha512",
         "microsoft.entityframeworkcore.analyzers.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Relational/10.0.8": {
-      "sha512": "UU3diAD2wwZveye2rnrwaF/wvJ9tm5iL2fuY9TTap6/iGQK1OO29M1BzXZRlRPVH/dByt5w/pISBSFtyR7hTqw==",
+    "Microsoft.EntityFrameworkCore.Relational/9.0.1": {
+      "sha512": "7Iu0h4oevRvH4IwPzmxuIJGYRt55TapoREGlluk75KCO7lenN0+QnzCl6cQDY48uDoxAUpJbpK2xW7o8Ix69dw==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.relational/10.0.8",
+      "path": "microsoft.entityframeworkcore.relational/9.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "PACKAGE.md",
-        "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll",
-        "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.xml",
-        "microsoft.entityframeworkcore.relational.10.0.8.nupkg.sha512",
+        "lib/net8.0/Microsoft.EntityFrameworkCore.Relational.dll",
+        "lib/net8.0/Microsoft.EntityFrameworkCore.Relational.xml",
+        "microsoft.entityframeworkcore.relational.9.0.1.nupkg.sha512",
         "microsoft.entityframeworkcore.relational.nuspec"
       ]
     },
-    "Microsoft.Extensions.Caching.Abstractions/10.0.8": {
-      "sha512": "EoK2TwVR1daxmfXUPnvIYZSk5XQjHe45sGekox4kvMt88KQZQhDVzYW5Na5+oNwTuRpE48hipyGJg12F1Tm70w==",
+    "Microsoft.Extensions.Caching.Abstractions/9.0.1": {
+      "sha512": "Eghsg9SyIvq0c8x6cUpe71BbQoOmsytXxqw2+ZNiTnP8a8SBLKgEor1zZeWhC0588IbS2M0PP4gXGAd9qF862Q==",
       "type": "package",
-      "path": "microsoft.extensions.caching.abstractions/10.0.8",
+      "path": "microsoft.extensions.caching.abstractions/9.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
+        "LICENSE.TXT",
         "PACKAGE.md",
         "THIRD-PARTY-NOTICES.TXT",
         "buildTransitive/net461/Microsoft.Extensions.Caching.Abstractions.targets",
         "buildTransitive/net462/_._",
         "buildTransitive/net8.0/_._",
         "buildTransitive/netcoreapp2.0/Microsoft.Extensions.Caching.Abstractions.targets",
-        "lib/net10.0/Microsoft.Extensions.Caching.Abstractions.dll",
-        "lib/net10.0/Microsoft.Extensions.Caching.Abstractions.xml",
         "lib/net462/Microsoft.Extensions.Caching.Abstractions.dll",
         "lib/net462/Microsoft.Extensions.Caching.Abstractions.xml",
         "lib/net8.0/Microsoft.Extensions.Caching.Abstractions.dll",
@@ -997,27 +989,26 @@
         "lib/net9.0/Microsoft.Extensions.Caching.Abstractions.xml",
         "lib/netstandard2.0/Microsoft.Extensions.Caching.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Caching.Abstractions.xml",
-        "microsoft.extensions.caching.abstractions.10.0.8.nupkg.sha512",
+        "microsoft.extensions.caching.abstractions.9.0.1.nupkg.sha512",
         "microsoft.extensions.caching.abstractions.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.Caching.Memory/10.0.8": {
-      "sha512": "sYMYQjNprfqPTryuLNnr0/AOtnhlfuZ0ZxyOV0d3AXOEL8j9KV0EbelpZYyIatT2hJiaSGO9XGr5YDRsh22OfQ==",
+    "Microsoft.Extensions.Caching.Memory/9.0.1": {
+      "sha512": "JeC+PP0BCKMwwLezPGDaciJSTfcFG4KjsG8rX4XZ6RSvzdxofrFmcnmW2L4+cWUcZSBTQ+Dd7H5Gs9XZz/OlCA==",
       "type": "package",
-      "path": "microsoft.extensions.caching.memory/10.0.8",
+      "path": "microsoft.extensions.caching.memory/9.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
+        "LICENSE.TXT",
         "PACKAGE.md",
         "THIRD-PARTY-NOTICES.TXT",
         "buildTransitive/net461/Microsoft.Extensions.Caching.Memory.targets",
         "buildTransitive/net462/_._",
         "buildTransitive/net8.0/_._",
         "buildTransitive/netcoreapp2.0/Microsoft.Extensions.Caching.Memory.targets",
-        "lib/net10.0/Microsoft.Extensions.Caching.Memory.dll",
-        "lib/net10.0/Microsoft.Extensions.Caching.Memory.xml",
         "lib/net462/Microsoft.Extensions.Caching.Memory.dll",
         "lib/net462/Microsoft.Extensions.Caching.Memory.xml",
         "lib/net8.0/Microsoft.Extensions.Caching.Memory.dll",
@@ -1026,56 +1017,26 @@
         "lib/net9.0/Microsoft.Extensions.Caching.Memory.xml",
         "lib/netstandard2.0/Microsoft.Extensions.Caching.Memory.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Caching.Memory.xml",
-        "microsoft.extensions.caching.memory.10.0.8.nupkg.sha512",
+        "microsoft.extensions.caching.memory.9.0.1.nupkg.sha512",
         "microsoft.extensions.caching.memory.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.Configuration/10.0.0": {
-      "sha512": "H4SWETCh/cC5L1WtWchHR6LntGk3rDTTznZMssr4cL8IbDmMWBxY+MOGDc/ASnqNolLKPIWHWeuC1ddiL/iNPw==",
+    "Microsoft.Extensions.Configuration.Abstractions/9.0.1": {
+      "sha512": "+4hfFIY1UjBCXFTTOd+ojlDPq6mep3h5Vq5SYE3Pjucr7dNXmq4S/6P/LoVnZFz2e/5gWp/om4svUFgznfULcA==",
       "type": "package",
-      "path": "microsoft.extensions.configuration/10.0.0",
+      "path": "microsoft.extensions.configuration.abstractions/9.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
-        "PACKAGE.md",
-        "THIRD-PARTY-NOTICES.TXT",
-        "buildTransitive/net461/Microsoft.Extensions.Configuration.targets",
-        "buildTransitive/net462/_._",
-        "buildTransitive/net8.0/_._",
-        "buildTransitive/netcoreapp2.0/Microsoft.Extensions.Configuration.targets",
-        "lib/net10.0/Microsoft.Extensions.Configuration.dll",
-        "lib/net10.0/Microsoft.Extensions.Configuration.xml",
-        "lib/net462/Microsoft.Extensions.Configuration.dll",
-        "lib/net462/Microsoft.Extensions.Configuration.xml",
-        "lib/net8.0/Microsoft.Extensions.Configuration.dll",
-        "lib/net8.0/Microsoft.Extensions.Configuration.xml",
-        "lib/net9.0/Microsoft.Extensions.Configuration.dll",
-        "lib/net9.0/Microsoft.Extensions.Configuration.xml",
-        "lib/netstandard2.0/Microsoft.Extensions.Configuration.dll",
-        "lib/netstandard2.0/Microsoft.Extensions.Configuration.xml",
-        "microsoft.extensions.configuration.10.0.0.nupkg.sha512",
-        "microsoft.extensions.configuration.nuspec",
-        "useSharedDesignerContext.txt"
-      ]
-    },
-    "Microsoft.Extensions.Configuration.Abstractions/10.0.8": {
-      "sha512": "I63esIFbL3h5pSt7gXpXOlmcwDmYBUoYNEglKfDPFUqtYvSV84f2l28hO2lfVXsV0wdlplgAM7IVz16matapSg==",
-      "type": "package",
-      "path": "microsoft.extensions.configuration.abstractions/10.0.8",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
+        "LICENSE.TXT",
         "PACKAGE.md",
         "THIRD-PARTY-NOTICES.TXT",
         "buildTransitive/net461/Microsoft.Extensions.Configuration.Abstractions.targets",
         "buildTransitive/net462/_._",
         "buildTransitive/net8.0/_._",
         "buildTransitive/netcoreapp2.0/Microsoft.Extensions.Configuration.Abstractions.targets",
-        "lib/net10.0/Microsoft.Extensions.Configuration.Abstractions.dll",
-        "lib/net10.0/Microsoft.Extensions.Configuration.Abstractions.xml",
         "lib/net462/Microsoft.Extensions.Configuration.Abstractions.dll",
         "lib/net462/Microsoft.Extensions.Configuration.Abstractions.xml",
         "lib/net8.0/Microsoft.Extensions.Configuration.Abstractions.dll",
@@ -1084,19 +1045,20 @@
         "lib/net9.0/Microsoft.Extensions.Configuration.Abstractions.xml",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.xml",
-        "microsoft.extensions.configuration.abstractions.10.0.8.nupkg.sha512",
+        "microsoft.extensions.configuration.abstractions.9.0.1.nupkg.sha512",
         "microsoft.extensions.configuration.abstractions.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.Configuration.Binder/10.0.0": {
-      "sha512": "tMF9wNh+hlyYDWB8mrFCQHQmWHlRosol1b/N2Jrefy1bFLnuTlgSYmPyHNmz8xVQgs7DpXytBRWxGhG+mSTp0g==",
+    "Microsoft.Extensions.Configuration.Binder/9.0.0": {
+      "sha512": "RiScL99DcyngY9zJA2ROrri7Br8tn5N4hP4YNvGdTN/bvg1A3dwvDOxHnNZ3Im7x2SJ5i4LkX1uPiR/MfSFBLQ==",
       "type": "package",
-      "path": "microsoft.extensions.configuration.binder/10.0.0",
+      "path": "microsoft.extensions.configuration.binder/9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
+        "LICENSE.TXT",
         "PACKAGE.md",
         "THIRD-PARTY-NOTICES.TXT",
         "analyzers/dotnet/cs/Microsoft.Extensions.Configuration.Binder.SourceGeneration.dll",
@@ -1114,8 +1076,6 @@
         "analyzers/dotnet/cs/zh-Hans/Microsoft.Extensions.Configuration.Binder.SourceGeneration.resources.dll",
         "analyzers/dotnet/cs/zh-Hant/Microsoft.Extensions.Configuration.Binder.SourceGeneration.resources.dll",
         "buildTransitive/netstandard2.0/Microsoft.Extensions.Configuration.Binder.targets",
-        "lib/net10.0/Microsoft.Extensions.Configuration.Binder.dll",
-        "lib/net10.0/Microsoft.Extensions.Configuration.Binder.xml",
         "lib/net462/Microsoft.Extensions.Configuration.Binder.dll",
         "lib/net462/Microsoft.Extensions.Configuration.Binder.xml",
         "lib/net8.0/Microsoft.Extensions.Configuration.Binder.dll",
@@ -1124,27 +1084,26 @@
         "lib/net9.0/Microsoft.Extensions.Configuration.Binder.xml",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.Binder.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.Binder.xml",
-        "microsoft.extensions.configuration.binder.10.0.0.nupkg.sha512",
+        "microsoft.extensions.configuration.binder.9.0.0.nupkg.sha512",
         "microsoft.extensions.configuration.binder.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.DependencyInjection/10.0.8": {
-      "sha512": "daf62xHIrq8pnE709hgaZZN9tSam9TGGepWe1+bE6V3GEuVwJiMs6ib+38lfMCyAJAHiX0vapxBhsuMSV7U+cg==",
+    "Microsoft.Extensions.DependencyInjection/9.0.1": {
+      "sha512": "qZI42ASAe3hr2zMSA6UjM92pO1LeDq5DcwkgSowXXPY8I56M76pEKrnmsKKbxagAf39AJxkH2DY4sb72ixyOrg==",
       "type": "package",
-      "path": "microsoft.extensions.dependencyinjection/10.0.8",
+      "path": "microsoft.extensions.dependencyinjection/9.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
+        "LICENSE.TXT",
         "PACKAGE.md",
         "THIRD-PARTY-NOTICES.TXT",
         "buildTransitive/net461/Microsoft.Extensions.DependencyInjection.targets",
         "buildTransitive/net462/_._",
         "buildTransitive/net8.0/_._",
         "buildTransitive/netcoreapp2.0/Microsoft.Extensions.DependencyInjection.targets",
-        "lib/net10.0/Microsoft.Extensions.DependencyInjection.dll",
-        "lib/net10.0/Microsoft.Extensions.DependencyInjection.xml",
         "lib/net462/Microsoft.Extensions.DependencyInjection.dll",
         "lib/net462/Microsoft.Extensions.DependencyInjection.xml",
         "lib/net8.0/Microsoft.Extensions.DependencyInjection.dll",
@@ -1155,15 +1114,15 @@
         "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.xml",
         "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.dll",
         "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.xml",
-        "microsoft.extensions.dependencyinjection.10.0.8.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.9.0.1.nupkg.sha512",
         "microsoft.extensions.dependencyinjection.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.DependencyInjection.Abstractions/10.0.8": {
-      "sha512": "21nbDV60SRPWGIivsyl6lqBeEJNG1sginhhfWgRrr3Ais7aQ12To25OAHQxgoiJkjqy1aQ6RxpZBGYuTi7Ge6A==",
+    "Microsoft.Extensions.DependencyInjection.Abstractions/10.0.0": {
+      "sha512": "L3AdmZ1WOK4XXT5YFPEwyt0ep6l8lGIPs7F5OOBZc77Zqeo01Of7XXICy47628sdVl0v/owxYJTe86DTgFwKCA==",
       "type": "package",
-      "path": "microsoft.extensions.dependencyinjection.abstractions/10.0.8",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/10.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1186,27 +1145,26 @@
         "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
         "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
         "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
-        "microsoft.extensions.dependencyinjection.abstractions.10.0.8.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.abstractions.10.0.0.nupkg.sha512",
         "microsoft.extensions.dependencyinjection.abstractions.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.DependencyModel/10.0.0": {
-      "sha512": "RFYJR7APio/BiqdQunRq6DB+nDB6nc2qhHr77mlvZ0q0BT8PubMXN7XicmfzCbrDE/dzhBnUKBRXLTcqUiZDGg==",
+    "Microsoft.Extensions.DependencyModel/9.0.0": {
+      "sha512": "saxr2XzwgDU77LaQfYFXmddEDRUKHF4DaGMZkNB3qjdVSZlax3//dGJagJkKrGMIPNZs2jVFXITyCCR6UHJNdA==",
       "type": "package",
-      "path": "microsoft.extensions.dependencymodel/10.0.0",
+      "path": "microsoft.extensions.dependencymodel/9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
+        "LICENSE.TXT",
         "PACKAGE.md",
         "THIRD-PARTY-NOTICES.TXT",
         "buildTransitive/net461/Microsoft.Extensions.DependencyModel.targets",
         "buildTransitive/net462/_._",
         "buildTransitive/net8.0/_._",
         "buildTransitive/netcoreapp2.0/Microsoft.Extensions.DependencyModel.targets",
-        "lib/net10.0/Microsoft.Extensions.DependencyModel.dll",
-        "lib/net10.0/Microsoft.Extensions.DependencyModel.xml",
         "lib/net462/Microsoft.Extensions.DependencyModel.dll",
         "lib/net462/Microsoft.Extensions.DependencyModel.xml",
         "lib/net8.0/Microsoft.Extensions.DependencyModel.dll",
@@ -1215,26 +1173,25 @@
         "lib/net9.0/Microsoft.Extensions.DependencyModel.xml",
         "lib/netstandard2.0/Microsoft.Extensions.DependencyModel.dll",
         "lib/netstandard2.0/Microsoft.Extensions.DependencyModel.xml",
-        "microsoft.extensions.dependencymodel.10.0.0.nupkg.sha512",
+        "microsoft.extensions.dependencymodel.9.0.0.nupkg.sha512",
         "microsoft.extensions.dependencymodel.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.Diagnostics.Abstractions/10.0.8": {
-      "sha512": "+f4C5g78QCGNyxzUfrTYsB7qYx06Zca0e88s3qFlea9/lQhgPImYdNprlgzl1uHhRU3fVHLfmbijayU2sJEZ6w==",
+    "Microsoft.Extensions.Diagnostics.Abstractions/9.0.0": {
+      "sha512": "1K8P7XzuzX8W8pmXcZjcrqS6x5eSSdvhQohmcpgiQNY/HlDAlnrhR9dvlURfFz428A+RTCJpUyB+aKTA6AgVcQ==",
       "type": "package",
-      "path": "microsoft.extensions.diagnostics.abstractions/10.0.8",
+      "path": "microsoft.extensions.diagnostics.abstractions/9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
+        "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "buildTransitive/net461/Microsoft.Extensions.Diagnostics.Abstractions.targets",
         "buildTransitive/net462/_._",
         "buildTransitive/net8.0/_._",
         "buildTransitive/netcoreapp2.0/Microsoft.Extensions.Diagnostics.Abstractions.targets",
-        "lib/net10.0/Microsoft.Extensions.Diagnostics.Abstractions.dll",
-        "lib/net10.0/Microsoft.Extensions.Diagnostics.Abstractions.xml",
         "lib/net462/Microsoft.Extensions.Diagnostics.Abstractions.dll",
         "lib/net462/Microsoft.Extensions.Diagnostics.Abstractions.xml",
         "lib/net8.0/Microsoft.Extensions.Diagnostics.Abstractions.dll",
@@ -1243,27 +1200,26 @@
         "lib/net9.0/Microsoft.Extensions.Diagnostics.Abstractions.xml",
         "lib/netstandard2.0/Microsoft.Extensions.Diagnostics.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Diagnostics.Abstractions.xml",
-        "microsoft.extensions.diagnostics.abstractions.10.0.8.nupkg.sha512",
+        "microsoft.extensions.diagnostics.abstractions.9.0.0.nupkg.sha512",
         "microsoft.extensions.diagnostics.abstractions.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.FileProviders.Abstractions/10.0.8": {
-      "sha512": "U+oquaPxFdY8lYeEIWO/AD7jDIl9sPW6aVWMQRHU/pZ/SWpLcOrAj2fcLe1HwXl4sYw1ONI56K/eELT3xr4RRQ==",
+    "Microsoft.Extensions.FileProviders.Abstractions/9.0.0": {
+      "sha512": "uK439QzYR0q2emLVtYzwyK3x+T5bTY4yWsd/k/ZUS9LR6Sflp8MIdhGXW8kQCd86dQD4tLqvcbLkku8qHY263Q==",
       "type": "package",
-      "path": "microsoft.extensions.fileproviders.abstractions/10.0.8",
+      "path": "microsoft.extensions.fileproviders.abstractions/9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
+        "LICENSE.TXT",
         "PACKAGE.md",
         "THIRD-PARTY-NOTICES.TXT",
         "buildTransitive/net461/Microsoft.Extensions.FileProviders.Abstractions.targets",
         "buildTransitive/net462/_._",
         "buildTransitive/net8.0/_._",
         "buildTransitive/netcoreapp2.0/Microsoft.Extensions.FileProviders.Abstractions.targets",
-        "lib/net10.0/Microsoft.Extensions.FileProviders.Abstractions.dll",
-        "lib/net10.0/Microsoft.Extensions.FileProviders.Abstractions.xml",
         "lib/net462/Microsoft.Extensions.FileProviders.Abstractions.dll",
         "lib/net462/Microsoft.Extensions.FileProviders.Abstractions.xml",
         "lib/net8.0/Microsoft.Extensions.FileProviders.Abstractions.dll",
@@ -1272,27 +1228,26 @@
         "lib/net9.0/Microsoft.Extensions.FileProviders.Abstractions.xml",
         "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.xml",
-        "microsoft.extensions.fileproviders.abstractions.10.0.8.nupkg.sha512",
+        "microsoft.extensions.fileproviders.abstractions.9.0.0.nupkg.sha512",
         "microsoft.extensions.fileproviders.abstractions.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.Hosting.Abstractions/10.0.8": {
-      "sha512": "MoOWFPT88/pDfmWpbU9PydKRX/rJFQkliowE/L9wbQcl94IicUphb5BFgepkWiDkYYxPnuEqjN4buzOGW4vJpQ==",
+    "Microsoft.Extensions.Hosting.Abstractions/9.0.0": {
+      "sha512": "yUKJgu81ExjvqbNWqZKshBbLntZMbMVz/P7Way2SBx7bMqA08Mfdc9O7hWDKAiSp+zPUGT6LKcSCQIPeDK+CCw==",
       "type": "package",
-      "path": "microsoft.extensions.hosting.abstractions/10.0.8",
+      "path": "microsoft.extensions.hosting.abstractions/9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
+        "LICENSE.TXT",
         "PACKAGE.md",
         "THIRD-PARTY-NOTICES.TXT",
         "buildTransitive/net461/Microsoft.Extensions.Hosting.Abstractions.targets",
         "buildTransitive/net462/_._",
         "buildTransitive/net8.0/_._",
         "buildTransitive/netcoreapp2.0/Microsoft.Extensions.Hosting.Abstractions.targets",
-        "lib/net10.0/Microsoft.Extensions.Hosting.Abstractions.dll",
-        "lib/net10.0/Microsoft.Extensions.Hosting.Abstractions.xml",
         "lib/net462/Microsoft.Extensions.Hosting.Abstractions.dll",
         "lib/net462/Microsoft.Extensions.Hosting.Abstractions.xml",
         "lib/net8.0/Microsoft.Extensions.Hosting.Abstractions.dll",
@@ -1303,27 +1258,26 @@
         "lib/netstandard2.0/Microsoft.Extensions.Hosting.Abstractions.xml",
         "lib/netstandard2.1/Microsoft.Extensions.Hosting.Abstractions.dll",
         "lib/netstandard2.1/Microsoft.Extensions.Hosting.Abstractions.xml",
-        "microsoft.extensions.hosting.abstractions.10.0.8.nupkg.sha512",
+        "microsoft.extensions.hosting.abstractions.9.0.0.nupkg.sha512",
         "microsoft.extensions.hosting.abstractions.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.Logging/10.0.8": {
-      "sha512": "K60JhWC2hN/Gi7TP68tBxSzk5ACWOs7lkmPzsfA8Bcf/IXTajujt2ORMf9rSMk1bsng6Lv4Y3fuxp3bm1+15ug==",
+    "Microsoft.Extensions.Logging/9.0.1": {
+      "sha512": "E/k5r7S44DOW+08xQPnNbO8DKAQHhkspDboTThNJ6Z3/QBb4LC6gStNWzVmy3IvW7sUD+iJKf4fj0xEkqE7vnQ==",
       "type": "package",
-      "path": "microsoft.extensions.logging/10.0.8",
+      "path": "microsoft.extensions.logging/9.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
+        "LICENSE.TXT",
         "PACKAGE.md",
         "THIRD-PARTY-NOTICES.TXT",
         "buildTransitive/net461/Microsoft.Extensions.Logging.targets",
         "buildTransitive/net462/_._",
         "buildTransitive/net8.0/_._",
         "buildTransitive/netcoreapp2.0/Microsoft.Extensions.Logging.targets",
-        "lib/net10.0/Microsoft.Extensions.Logging.dll",
-        "lib/net10.0/Microsoft.Extensions.Logging.xml",
         "lib/net462/Microsoft.Extensions.Logging.dll",
         "lib/net462/Microsoft.Extensions.Logging.xml",
         "lib/net8.0/Microsoft.Extensions.Logging.dll",
@@ -1334,15 +1288,15 @@
         "lib/netstandard2.0/Microsoft.Extensions.Logging.xml",
         "lib/netstandard2.1/Microsoft.Extensions.Logging.dll",
         "lib/netstandard2.1/Microsoft.Extensions.Logging.xml",
-        "microsoft.extensions.logging.10.0.8.nupkg.sha512",
+        "microsoft.extensions.logging.9.0.1.nupkg.sha512",
         "microsoft.extensions.logging.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.Logging.Abstractions/10.0.8": {
-      "sha512": "fdVadZmsC8jRP0KvKy8mO8f6GV/HyBvElfcSxEhd+5FM5boAw/01iSaCto5G3G37ApJira4A3pNaVvBv8cUiLQ==",
+    "Microsoft.Extensions.Logging.Abstractions/10.0.0": {
+      "sha512": "FU/IfjDfwaMuKr414SSQNTIti/69bHEMb+QKrskRb26oVqpx3lNFXMjs/RC9ZUuhBhcwDM2BwOgoMw+PZ+beqQ==",
       "type": "package",
-      "path": "microsoft.extensions.logging.abstractions/10.0.8",
+      "path": "microsoft.extensions.logging.abstractions/10.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1406,15 +1360,15 @@
         "lib/net9.0/Microsoft.Extensions.Logging.Abstractions.xml",
         "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.xml",
-        "microsoft.extensions.logging.abstractions.10.0.8.nupkg.sha512",
+        "microsoft.extensions.logging.abstractions.10.0.0.nupkg.sha512",
         "microsoft.extensions.logging.abstractions.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.Options/10.0.8": {
-      "sha512": "VBD+131DpTNCNDfA4kIyKTiCySvJGNhwibdWBSdFRu7GMfXLXcXODkgA+KStKbbhzraLglZWUN4nXyHgW4JIRA==",
+    "Microsoft.Extensions.Options/10.0.0": {
+      "sha512": "8oCAgXOow5XDrY9HaXX1QmH3ORsyZO/ANVHBlhLyCeWTH5Sg4UuqZeOTWJi6484M+LqSx0RqQXDJtdYy2BNiLQ==",
       "type": "package",
-      "path": "microsoft.extensions.options/10.0.8",
+      "path": "microsoft.extensions.options/10.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1452,15 +1406,15 @@
         "lib/netstandard2.0/Microsoft.Extensions.Options.xml",
         "lib/netstandard2.1/Microsoft.Extensions.Options.dll",
         "lib/netstandard2.1/Microsoft.Extensions.Options.xml",
-        "microsoft.extensions.options.10.0.8.nupkg.sha512",
+        "microsoft.extensions.options.10.0.0.nupkg.sha512",
         "microsoft.extensions.options.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.Primitives/10.0.8": {
-      "sha512": "OBPo4nYhMyIbtueoC10CBm6AGAbo/A9IV8QQ/6ryZS7VvmqpGT7hunazeHLxFawRzn3oLOq4jhqhpBX4tfswWQ==",
+    "Microsoft.Extensions.Primitives/10.0.0": {
+      "sha512": "inRnbpCS0nwO/RuoZIAqxQUuyjaknOOnCEZB55KSMMjRhl0RQDttSmLSGsUJN3RQ3ocf5NDLFd2mOQViHqMK5w==",
       "type": "package",
-      "path": "microsoft.extensions.primitives/10.0.8",
+      "path": "microsoft.extensions.primitives/10.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1481,7 +1435,7 @@
         "lib/net9.0/Microsoft.Extensions.Primitives.xml",
         "lib/netstandard2.0/Microsoft.Extensions.Primitives.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Primitives.xml",
-        "microsoft.extensions.primitives.10.0.8.nupkg.sha512",
+        "microsoft.extensions.primitives.10.0.0.nupkg.sha512",
         "microsoft.extensions.primitives.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -1628,15 +1582,14 @@
         "microsoft.identitymodel.tokens.nuspec"
       ]
     },
-    "Serilog/4.3.0": {
-      "sha512": "+cDryFR0GRhsGOnZSKwaDzRRl4MupvJ42FhCE4zhQRVanX0Jpg6WuCBk59OVhVDPmab1bB+nRykAnykYELA9qQ==",
+    "Serilog/4.2.0": {
+      "sha512": "gmoWVOvKgbME8TYR+gwMf7osROiWAURterc6Rt2dQyX7wtjZYpqFiA/pY6ztjGQKKV62GGCyOcmtP1UKMHgSmA==",
       "type": "package",
-      "path": "serilog/4.3.0",
+      "path": "serilog/4.2.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "README.md",
-        "build/Serilog.targets",
         "icon.png",
         "lib/net462/Serilog.dll",
         "lib/net462/Serilog.xml",
@@ -1650,21 +1603,19 @@
         "lib/net9.0/Serilog.xml",
         "lib/netstandard2.0/Serilog.dll",
         "lib/netstandard2.0/Serilog.xml",
-        "serilog.4.3.0.nupkg.sha512",
+        "serilog.4.2.0.nupkg.sha512",
         "serilog.nuspec"
       ]
     },
-    "Serilog.AspNetCore/10.0.0": {
-      "sha512": "a/cNa1mY4On1oJlfGG1wAvxjp5g7OEzk/Jf/nm7NF9cWoE7KlZw1GldrifUBWm9oKibHkR7Lg/l5jy3y7ACR8w==",
+    "Serilog.AspNetCore/9.0.0": {
+      "sha512": "JslDajPlBsn3Pww1554flJFTqROvK9zz9jONNQgn0D8Lx2Trw8L0A8/n6zEQK1DAZWXrJwiVLw8cnTR3YFuYsg==",
       "type": "package",
-      "path": "serilog.aspnetcore/10.0.0",
+      "path": "serilog.aspnetcore/9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "README.md",
         "icon.png",
-        "lib/net10.0/Serilog.AspNetCore.dll",
-        "lib/net10.0/Serilog.AspNetCore.xml",
         "lib/net462/Serilog.AspNetCore.dll",
         "lib/net462/Serilog.AspNetCore.xml",
         "lib/net8.0/Serilog.AspNetCore.dll",
@@ -1675,7 +1626,7 @@
         "lib/netstandard2.0/Serilog.AspNetCore.xml",
         "lib/netstandard2.1/Serilog.AspNetCore.dll",
         "lib/netstandard2.1/Serilog.AspNetCore.xml",
-        "serilog.aspnetcore.10.0.0.nupkg.sha512",
+        "serilog.aspnetcore.9.0.0.nupkg.sha512",
         "serilog.aspnetcore.nuspec"
       ]
     },
@@ -1702,17 +1653,15 @@
         "serilog.enrichers.environment.nuspec"
       ]
     },
-    "Serilog.Extensions.Hosting/10.0.0": {
-      "sha512": "E7juuIc+gzoGxgzFooFgAV8g9BfiSXNKsUok9NmEpyAXg2odkcPsMa/Yo4axkJRlh0se7mkYQ1GXDaBemR+b6w==",
+    "Serilog.Extensions.Hosting/9.0.0": {
+      "sha512": "u2TRxuxbjvTAldQn7uaAwePkWxTHIqlgjelekBtilAGL5sYyF3+65NWctN4UrwwGLsDC7c3Vz3HnOlu+PcoxXg==",
       "type": "package",
-      "path": "serilog.extensions.hosting/10.0.0",
+      "path": "serilog.extensions.hosting/9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "README.md",
         "icon.png",
-        "lib/net10.0/Serilog.Extensions.Hosting.dll",
-        "lib/net10.0/Serilog.Extensions.Hosting.xml",
         "lib/net462/Serilog.Extensions.Hosting.dll",
         "lib/net462/Serilog.Extensions.Hosting.xml",
         "lib/net8.0/Serilog.Extensions.Hosting.dll",
@@ -1723,20 +1672,18 @@
         "lib/netstandard2.0/Serilog.Extensions.Hosting.xml",
         "lib/netstandard2.1/Serilog.Extensions.Hosting.dll",
         "lib/netstandard2.1/Serilog.Extensions.Hosting.xml",
-        "serilog.extensions.hosting.10.0.0.nupkg.sha512",
+        "serilog.extensions.hosting.9.0.0.nupkg.sha512",
         "serilog.extensions.hosting.nuspec"
       ]
     },
-    "Serilog.Extensions.Logging/10.0.0": {
-      "sha512": "vx0kABKl2dWbBhhqAfTOk53/i8aV/5VaT3a6il9gn72Wqs2pM7EK2OB6No6xdqK2IaY6Zf9gdjLuK9BVa2rT+Q==",
+    "Serilog.Extensions.Logging/9.0.0": {
+      "sha512": "NwSSYqPJeKNzl5AuXVHpGbr6PkZJFlNa14CdIebVjK3k/76kYj/mz5kiTRNVSsSaxM8kAIa1kpy/qyT9E4npRQ==",
       "type": "package",
-      "path": "serilog.extensions.logging/10.0.0",
+      "path": "serilog.extensions.logging/9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "README.md",
-        "lib/net10.0/Serilog.Extensions.Logging.dll",
-        "lib/net10.0/Serilog.Extensions.Logging.xml",
         "lib/net462/Serilog.Extensions.Logging.dll",
         "lib/net462/Serilog.Extensions.Logging.xml",
         "lib/net8.0/Serilog.Extensions.Logging.dll",
@@ -1748,7 +1695,7 @@
         "lib/netstandard2.1/Serilog.Extensions.Logging.dll",
         "lib/netstandard2.1/Serilog.Extensions.Logging.xml",
         "serilog-extension-nuget.png",
-        "serilog.extensions.logging.10.0.0.nupkg.sha512",
+        "serilog.extensions.logging.9.0.0.nupkg.sha512",
         "serilog.extensions.logging.nuspec"
       ]
     },
@@ -1775,17 +1722,15 @@
         "serilog.formatting.compact.nuspec"
       ]
     },
-    "Serilog.Settings.Configuration/10.0.0": {
-      "sha512": "LNq+ibS1sbhTqPV1FIE69/9AJJbfaOhnaqkzcjFy95o+4U+STsta9mi97f1smgXsWYKICDeGUf8xUGzd/52/uA==",
+    "Serilog.Settings.Configuration/9.0.0": {
+      "sha512": "4/Et4Cqwa+F88l5SeFeNZ4c4Z6dEAIKbu3MaQb2Zz9F/g27T5a3wvfMcmCOaAiACjfUb4A6wrlTVfyYUZk3RRQ==",
       "type": "package",
-      "path": "serilog.settings.configuration/10.0.0",
+      "path": "serilog.settings.configuration/9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "README.md",
         "icon.png",
-        "lib/net10.0/Serilog.Settings.Configuration.dll",
-        "lib/net10.0/Serilog.Settings.Configuration.xml",
         "lib/net462/Serilog.Settings.Configuration.dll",
         "lib/net462/Serilog.Settings.Configuration.xml",
         "lib/net8.0/Serilog.Settings.Configuration.dll",
@@ -1794,14 +1739,14 @@
         "lib/net9.0/Serilog.Settings.Configuration.xml",
         "lib/netstandard2.0/Serilog.Settings.Configuration.dll",
         "lib/netstandard2.0/Serilog.Settings.Configuration.xml",
-        "serilog.settings.configuration.10.0.0.nupkg.sha512",
+        "serilog.settings.configuration.9.0.0.nupkg.sha512",
         "serilog.settings.configuration.nuspec"
       ]
     },
-    "Serilog.Sinks.Console/6.1.1": {
-      "sha512": "8jbqgjUyZlfCuSTaJk6lOca465OndqOz3KZP6Cryt/IqZYybyBu7GP0fE/AXBzrrQB3EBmQntBFAvMVz1COvAA==",
+    "Serilog.Sinks.Console/6.0.0": {
+      "sha512": "fQGWqVMClCP2yEyTXPIinSr5c+CBGUvBybPxjAGcf7ctDhadFhrQw03Mv8rJ07/wR5PDfFjewf2LimvXCDzpbA==",
       "type": "package",
-      "path": "serilog.sinks.console/6.1.1",
+      "path": "serilog.sinks.console/6.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1817,7 +1762,7 @@
         "lib/net8.0/Serilog.Sinks.Console.xml",
         "lib/netstandard2.0/Serilog.Sinks.Console.dll",
         "lib/netstandard2.0/Serilog.Sinks.Console.xml",
-        "serilog.sinks.console.6.1.1.nupkg.sha512",
+        "serilog.sinks.console.6.0.0.nupkg.sha512",
         "serilog.sinks.console.nuspec"
       ]
     },
@@ -1844,10 +1789,10 @@
         "serilog.sinks.debug.nuspec"
       ]
     },
-    "Serilog.Sinks.File/7.0.0": {
-      "sha512": "fKL7mXv7qaiNBUC71ssvn/dU0k9t0o45+qm2XgKAlSt19xF+ijjxyA3R6HmCgfKEKwfcfkwWjayuQtRueZFkYw==",
+    "Serilog.Sinks.File/6.0.0": {
+      "sha512": "lxjg89Y8gJMmFxVkbZ+qDgjl+T4yC5F7WSLTvA+5q0R04tfKVLRL/EHpYoJ/MEQd2EeCKDuylBIVnAYMotmh2A==",
       "type": "package",
-      "path": "serilog.sinks.file/7.0.0",
+      "path": "serilog.sinks.file/6.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1860,13 +1805,39 @@
         "lib/net6.0/Serilog.Sinks.File.xml",
         "lib/net8.0/Serilog.Sinks.File.dll",
         "lib/net8.0/Serilog.Sinks.File.xml",
-        "lib/net9.0/Serilog.Sinks.File.dll",
-        "lib/net9.0/Serilog.Sinks.File.xml",
         "lib/netstandard2.0/Serilog.Sinks.File.dll",
         "lib/netstandard2.0/Serilog.Sinks.File.xml",
         "serilog-sink-nuget.png",
-        "serilog.sinks.file.7.0.0.nupkg.sha512",
+        "serilog.sinks.file.6.0.0.nupkg.sha512",
         "serilog.sinks.file.nuspec"
+      ]
+    },
+    "System.Diagnostics.DiagnosticSource/10.0.0": {
+      "sha512": "0KdBK+h7G13PuOSC2R/DalAoFMvdYMznvGRuICtkdcUMXgl/gYXsG6z4yUvTxHSMACorWgHCU1Faq0KUHU6yAQ==",
+      "type": "package",
+      "path": "system.diagnostics.diagnosticsource/10.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.Diagnostics.DiagnosticSource.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Diagnostics.DiagnosticSource.targets",
+        "lib/net10.0/System.Diagnostics.DiagnosticSource.dll",
+        "lib/net10.0/System.Diagnostics.DiagnosticSource.xml",
+        "lib/net462/System.Diagnostics.DiagnosticSource.dll",
+        "lib/net462/System.Diagnostics.DiagnosticSource.xml",
+        "lib/net8.0/System.Diagnostics.DiagnosticSource.dll",
+        "lib/net8.0/System.Diagnostics.DiagnosticSource.xml",
+        "lib/net9.0/System.Diagnostics.DiagnosticSource.dll",
+        "lib/net9.0/System.Diagnostics.DiagnosticSource.xml",
+        "lib/netstandard2.0/System.Diagnostics.DiagnosticSource.dll",
+        "lib/netstandard2.0/System.Diagnostics.DiagnosticSource.xml",
+        "system.diagnostics.diagnosticsource.10.0.0.nupkg.sha512",
+        "system.diagnostics.diagnosticsource.nuspec",
+        "useSharedDesignerContext.txt"
       ]
     },
     "System.IdentityModel.Tokens.Jwt/8.0.1": {
@@ -1904,14 +1875,14 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net10.0": [
+    "net9.0": [
       "AutoMapper >= 16.1.1",
       "BCrypt.Net-Next >= 4.2.0",
       "FinanceiroApi.CrossCutting >= 1.0.0",
       "FinanceiroApi.Domain >= 1.0.0",
       "FluentValidation >= 12.1.1",
       "FluentValidation.DependencyInjectionExtensions >= 12.1.1",
-      "Microsoft.EntityFrameworkCore.Relational >= 10.0.8"
+      "Microsoft.EntityFrameworkCore.Relational >= 9.0.1"
     ]
   },
   "packageFolders": {
@@ -1933,16 +1904,16 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net10.0"
+        "net9.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net10.0": {
-          "framework": "net10.0",
-          "targetAlias": "net10.0",
+        "net9.0": {
+          "framework": "net9.0",
+          "targetAlias": "net9.0",
           "projectReferences": {
             "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.CrossCutting\\FinanceiroApi.CrossCutting.csproj": {
               "projectPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.CrossCutting\\FinanceiroApi.CrossCutting.csproj"
@@ -1961,14 +1932,14 @@
       "restoreAuditProperties": {
         "enableAudit": "true",
         "auditLevel": "low",
-        "auditMode": "all"
+        "auditMode": "direct"
       },
       "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
-      "net10.0": {
-        "framework": "net10.0",
-        "targetAlias": "net10.0",
+      "net9.0": {
+        "framework": "net9.0",
+        "targetAlias": "net9.0",
         "dependencies": {
           "AutoMapper": {
             "target": "Package",
@@ -1988,7 +1959,7 @@
           },
           "Microsoft.EntityFrameworkCore.Relational": {
             "target": "Package",
-            "version": "[10.0.8, )"
+            "version": "[9.0.1, )"
           }
         },
         "imports": [
@@ -2007,281 +1978,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
-        "packagesToPrune": {
-          "Microsoft.CSharp": "(,4.7.32767]",
-          "Microsoft.VisualBasic": "(,10.4.32767]",
-          "Microsoft.Win32.Primitives": "(,4.3.32767]",
-          "Microsoft.Win32.Registry": "(,5.0.32767]",
-          "runtime.any.System.Collections": "(,4.3.32767]",
-          "runtime.any.System.Diagnostics.Tools": "(,4.3.32767]",
-          "runtime.any.System.Diagnostics.Tracing": "(,4.3.32767]",
-          "runtime.any.System.Globalization": "(,4.3.32767]",
-          "runtime.any.System.Globalization.Calendars": "(,4.3.32767]",
-          "runtime.any.System.IO": "(,4.3.32767]",
-          "runtime.any.System.Reflection": "(,4.3.32767]",
-          "runtime.any.System.Reflection.Extensions": "(,4.3.32767]",
-          "runtime.any.System.Reflection.Primitives": "(,4.3.32767]",
-          "runtime.any.System.Resources.ResourceManager": "(,4.3.32767]",
-          "runtime.any.System.Runtime": "(,4.3.32767]",
-          "runtime.any.System.Runtime.Handles": "(,4.3.32767]",
-          "runtime.any.System.Runtime.InteropServices": "(,4.3.32767]",
-          "runtime.any.System.Text.Encoding": "(,4.3.32767]",
-          "runtime.any.System.Text.Encoding.Extensions": "(,4.3.32767]",
-          "runtime.any.System.Threading.Tasks": "(,4.3.32767]",
-          "runtime.any.System.Threading.Timer": "(,4.3.32767]",
-          "runtime.aot.System.Collections": "(,4.3.32767]",
-          "runtime.aot.System.Diagnostics.Tools": "(,4.3.32767]",
-          "runtime.aot.System.Diagnostics.Tracing": "(,4.3.32767]",
-          "runtime.aot.System.Globalization": "(,4.3.32767]",
-          "runtime.aot.System.Globalization.Calendars": "(,4.3.32767]",
-          "runtime.aot.System.IO": "(,4.3.32767]",
-          "runtime.aot.System.Reflection": "(,4.3.32767]",
-          "runtime.aot.System.Reflection.Extensions": "(,4.3.32767]",
-          "runtime.aot.System.Reflection.Primitives": "(,4.3.32767]",
-          "runtime.aot.System.Resources.ResourceManager": "(,4.3.32767]",
-          "runtime.aot.System.Runtime": "(,4.3.32767]",
-          "runtime.aot.System.Runtime.Handles": "(,4.3.32767]",
-          "runtime.aot.System.Runtime.InteropServices": "(,4.3.32767]",
-          "runtime.aot.System.Text.Encoding": "(,4.3.32767]",
-          "runtime.aot.System.Text.Encoding.Extensions": "(,4.3.32767]",
-          "runtime.aot.System.Threading.Tasks": "(,4.3.32767]",
-          "runtime.aot.System.Threading.Timer": "(,4.3.32767]",
-          "runtime.debian.8-x64.runtime.native.System": "(,4.3.32767]",
-          "runtime.debian.8-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.debian.8-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
-          "runtime.debian.8-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
-          "runtime.debian.8-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
-          "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
-          "runtime.debian.9-x64.runtime.native.System": "(,4.3.32767]",
-          "runtime.debian.9-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.debian.9-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
-          "runtime.debian.9-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
-          "runtime.fedora.23-x64.runtime.native.System": "(,4.3.32767]",
-          "runtime.fedora.23-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.fedora.23-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
-          "runtime.fedora.23-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
-          "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
-          "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
-          "runtime.fedora.24-x64.runtime.native.System": "(,4.3.32767]",
-          "runtime.fedora.24-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.fedora.24-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
-          "runtime.fedora.24-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
-          "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
-          "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
-          "runtime.fedora.27-x64.runtime.native.System": "(,4.3.32767]",
-          "runtime.fedora.27-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.fedora.27-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
-          "runtime.fedora.27-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
-          "runtime.fedora.28-x64.runtime.native.System": "(,4.3.32767]",
-          "runtime.fedora.28-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.fedora.28-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
-          "runtime.fedora.28-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
-          "runtime.opensuse.13.2-x64.runtime.native.System": "(,4.3.32767]",
-          "runtime.opensuse.13.2-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.opensuse.13.2-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
-          "runtime.opensuse.13.2-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
-          "runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
-          "runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
-          "runtime.opensuse.42.1-x64.runtime.native.System": "(,4.3.32767]",
-          "runtime.opensuse.42.1-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.opensuse.42.1-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
-          "runtime.opensuse.42.1-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
-          "runtime.opensuse.42.1-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
-          "runtime.opensuse.42.1-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
-          "runtime.opensuse.42.3-x64.runtime.native.System": "(,4.3.32767]",
-          "runtime.opensuse.42.3-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.opensuse.42.3-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
-          "runtime.opensuse.42.3-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
-          "runtime.osx.10.10-x64.runtime.native.System": "(,4.3.32767]",
-          "runtime.osx.10.10-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.osx.10.10-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
-          "runtime.osx.10.10-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
-          "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
-          "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.Apple": "(,4.3.32767]",
-          "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
-          "runtime.rhel.7-x64.runtime.native.System": "(,4.3.32767]",
-          "runtime.rhel.7-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.rhel.7-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
-          "runtime.rhel.7-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
-          "runtime.rhel.7-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
-          "runtime.rhel.7-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
-          "runtime.ubuntu.14.04-x64.runtime.native.System": "(,4.3.32767]",
-          "runtime.ubuntu.14.04-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
-          "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
-          "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
-          "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
-          "runtime.ubuntu.16.04-x64.runtime.native.System": "(,4.3.32767]",
-          "runtime.ubuntu.16.04-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.ubuntu.16.04-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
-          "runtime.ubuntu.16.04-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
-          "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
-          "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
-          "runtime.ubuntu.16.10-x64.runtime.native.System": "(,4.3.32767]",
-          "runtime.ubuntu.16.10-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.ubuntu.16.10-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
-          "runtime.ubuntu.16.10-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
-          "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography": "(,4.3.32767]",
-          "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl": "(,4.3.32767]",
-          "runtime.ubuntu.18.04-x64.runtime.native.System": "(,4.3.32767]",
-          "runtime.ubuntu.18.04-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.ubuntu.18.04-x64.runtime.native.System.Net.Http": "(,4.3.32767]",
-          "runtime.ubuntu.18.04-x64.runtime.native.System.Net.Security": "(,4.3.32767]",
-          "runtime.unix.Microsoft.Win32.Primitives": "(,4.3.32767]",
-          "runtime.unix.System.Console": "(,4.3.32767]",
-          "runtime.unix.System.Diagnostics.Debug": "(,4.3.32767]",
-          "runtime.unix.System.IO.FileSystem": "(,4.3.32767]",
-          "runtime.unix.System.Net.Primitives": "(,4.3.32767]",
-          "runtime.unix.System.Net.Sockets": "(,4.3.32767]",
-          "runtime.unix.System.Private.Uri": "(,4.3.32767]",
-          "runtime.unix.System.Runtime.Extensions": "(,4.3.32767]",
-          "runtime.win.Microsoft.Win32.Primitives": "(,4.3.32767]",
-          "runtime.win.System.Console": "(,4.3.32767]",
-          "runtime.win.System.Diagnostics.Debug": "(,4.3.32767]",
-          "runtime.win.System.IO.FileSystem": "(,4.3.32767]",
-          "runtime.win.System.Net.Primitives": "(,4.3.32767]",
-          "runtime.win.System.Net.Sockets": "(,4.3.32767]",
-          "runtime.win.System.Runtime.Extensions": "(,4.3.32767]",
-          "runtime.win10-arm-aot.runtime.native.System.IO.Compression": "(,4.0.32767]",
-          "runtime.win10-arm64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.win10-x64-aot.runtime.native.System.IO.Compression": "(,4.0.32767]",
-          "runtime.win10-x86-aot.runtime.native.System.IO.Compression": "(,4.0.32767]",
-          "runtime.win7-x64.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.win7-x86.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "runtime.win7.System.Private.Uri": "(,4.3.32767]",
-          "runtime.win8-arm.runtime.native.System.IO.Compression": "(,4.3.32767]",
-          "System.AppContext": "(,4.3.32767]",
-          "System.Buffers": "(,5.0.32767]",
-          "System.Collections": "(,4.3.32767]",
-          "System.Collections.Concurrent": "(,4.3.32767]",
-          "System.Collections.Immutable": "(,10.0.32767]",
-          "System.Collections.NonGeneric": "(,4.3.32767]",
-          "System.Collections.Specialized": "(,4.3.32767]",
-          "System.ComponentModel": "(,4.3.32767]",
-          "System.ComponentModel.Annotations": "(,4.3.32767]",
-          "System.ComponentModel.EventBasedAsync": "(,4.3.32767]",
-          "System.ComponentModel.Primitives": "(,4.3.32767]",
-          "System.ComponentModel.TypeConverter": "(,4.3.32767]",
-          "System.Console": "(,4.3.32767]",
-          "System.Data.Common": "(,4.3.32767]",
-          "System.Data.DataSetExtensions": "(,4.4.32767]",
-          "System.Diagnostics.Contracts": "(,4.3.32767]",
-          "System.Diagnostics.Debug": "(,4.3.32767]",
-          "System.Diagnostics.DiagnosticSource": "(,10.0.32767]",
-          "System.Diagnostics.FileVersionInfo": "(,4.3.32767]",
-          "System.Diagnostics.Process": "(,4.3.32767]",
-          "System.Diagnostics.StackTrace": "(,4.3.32767]",
-          "System.Diagnostics.TextWriterTraceListener": "(,4.3.32767]",
-          "System.Diagnostics.Tools": "(,4.3.32767]",
-          "System.Diagnostics.TraceSource": "(,4.3.32767]",
-          "System.Diagnostics.Tracing": "(,4.3.32767]",
-          "System.Drawing.Primitives": "(,4.3.32767]",
-          "System.Dynamic.Runtime": "(,4.3.32767]",
-          "System.Formats.Asn1": "(,10.0.32767]",
-          "System.Formats.Tar": "(,10.0.32767]",
-          "System.Globalization": "(,4.3.32767]",
-          "System.Globalization.Calendars": "(,4.3.32767]",
-          "System.Globalization.Extensions": "(,4.3.32767]",
-          "System.IO": "(,4.3.32767]",
-          "System.IO.Compression": "(,4.3.32767]",
-          "System.IO.Compression.ZipFile": "(,4.3.32767]",
-          "System.IO.FileSystem": "(,4.3.32767]",
-          "System.IO.FileSystem.AccessControl": "(,4.4.32767]",
-          "System.IO.FileSystem.DriveInfo": "(,4.3.32767]",
-          "System.IO.FileSystem.Primitives": "(,4.3.32767]",
-          "System.IO.FileSystem.Watcher": "(,4.3.32767]",
-          "System.IO.IsolatedStorage": "(,4.3.32767]",
-          "System.IO.MemoryMappedFiles": "(,4.3.32767]",
-          "System.IO.Pipelines": "(,10.0.32767]",
-          "System.IO.Pipes": "(,4.3.32767]",
-          "System.IO.Pipes.AccessControl": "(,5.0.32767]",
-          "System.IO.UnmanagedMemoryStream": "(,4.3.32767]",
-          "System.Linq": "(,4.3.32767]",
-          "System.Linq.AsyncEnumerable": "(,10.0.32767]",
-          "System.Linq.Expressions": "(,4.3.32767]",
-          "System.Linq.Parallel": "(,4.3.32767]",
-          "System.Linq.Queryable": "(,4.3.32767]",
-          "System.Memory": "(,5.0.32767]",
-          "System.Net.Http": "(,4.3.32767]",
-          "System.Net.Http.Json": "(,10.0.32767]",
-          "System.Net.NameResolution": "(,4.3.32767]",
-          "System.Net.NetworkInformation": "(,4.3.32767]",
-          "System.Net.Ping": "(,4.3.32767]",
-          "System.Net.Primitives": "(,4.3.32767]",
-          "System.Net.Requests": "(,4.3.32767]",
-          "System.Net.Security": "(,4.3.32767]",
-          "System.Net.ServerSentEvents": "(,10.0.32767]",
-          "System.Net.Sockets": "(,4.3.32767]",
-          "System.Net.WebHeaderCollection": "(,4.3.32767]",
-          "System.Net.WebSockets": "(,4.3.32767]",
-          "System.Net.WebSockets.Client": "(,4.3.32767]",
-          "System.Numerics.Vectors": "(,5.0.32767]",
-          "System.ObjectModel": "(,4.3.32767]",
-          "System.Private.DataContractSerialization": "(,4.3.32767]",
-          "System.Private.Uri": "(,4.3.32767]",
-          "System.Reflection": "(,4.3.32767]",
-          "System.Reflection.DispatchProxy": "(,6.0.32767]",
-          "System.Reflection.Emit": "(,4.7.32767]",
-          "System.Reflection.Emit.ILGeneration": "(,4.7.32767]",
-          "System.Reflection.Emit.Lightweight": "(,4.7.32767]",
-          "System.Reflection.Extensions": "(,4.3.32767]",
-          "System.Reflection.Metadata": "(,10.0.32767]",
-          "System.Reflection.Primitives": "(,4.3.32767]",
-          "System.Reflection.TypeExtensions": "(,4.3.32767]",
-          "System.Resources.Reader": "(,4.3.32767]",
-          "System.Resources.ResourceManager": "(,4.3.32767]",
-          "System.Resources.Writer": "(,4.3.32767]",
-          "System.Runtime": "(,4.3.32767]",
-          "System.Runtime.CompilerServices.Unsafe": "(,7.0.32767]",
-          "System.Runtime.CompilerServices.VisualC": "(,4.3.32767]",
-          "System.Runtime.Extensions": "(,4.3.32767]",
-          "System.Runtime.Handles": "(,4.3.32767]",
-          "System.Runtime.InteropServices": "(,4.3.32767]",
-          "System.Runtime.InteropServices.RuntimeInformation": "(,4.3.32767]",
-          "System.Runtime.Loader": "(,4.3.32767]",
-          "System.Runtime.Numerics": "(,4.3.32767]",
-          "System.Runtime.Serialization.Formatters": "(,4.3.32767]",
-          "System.Runtime.Serialization.Json": "(,4.3.32767]",
-          "System.Runtime.Serialization.Primitives": "(,4.3.32767]",
-          "System.Runtime.Serialization.Xml": "(,4.3.32767]",
-          "System.Security.AccessControl": "(,6.0.32767]",
-          "System.Security.Claims": "(,4.3.32767]",
-          "System.Security.Cryptography.Algorithms": "(,4.3.32767]",
-          "System.Security.Cryptography.Cng": "(,5.0.32767]",
-          "System.Security.Cryptography.Csp": "(,4.3.32767]",
-          "System.Security.Cryptography.Encoding": "(,4.3.32767]",
-          "System.Security.Cryptography.OpenSsl": "(,5.0.32767]",
-          "System.Security.Cryptography.Primitives": "(,4.3.32767]",
-          "System.Security.Cryptography.X509Certificates": "(,4.3.32767]",
-          "System.Security.Principal": "(,4.3.32767]",
-          "System.Security.Principal.Windows": "(,5.0.32767]",
-          "System.Security.SecureString": "(,4.3.32767]",
-          "System.Text.Encoding": "(,4.3.32767]",
-          "System.Text.Encoding.CodePages": "(,10.0.32767]",
-          "System.Text.Encoding.Extensions": "(,4.3.32767]",
-          "System.Text.Encodings.Web": "(,10.0.32767]",
-          "System.Text.Json": "(,10.0.32767]",
-          "System.Text.RegularExpressions": "(,4.3.32767]",
-          "System.Threading": "(,4.3.32767]",
-          "System.Threading.AccessControl": "(,10.0.32767]",
-          "System.Threading.Channels": "(,10.0.32767]",
-          "System.Threading.Overlapped": "(,4.3.32767]",
-          "System.Threading.Tasks": "(,4.3.32767]",
-          "System.Threading.Tasks.Dataflow": "(,10.0.32767]",
-          "System.Threading.Tasks.Extensions": "(,5.0.32767]",
-          "System.Threading.Tasks.Parallel": "(,4.3.32767]",
-          "System.Threading.Thread": "(,4.3.32767]",
-          "System.Threading.ThreadPool": "(,4.3.32767]",
-          "System.Threading.Timer": "(,4.3.32767]",
-          "System.ValueTuple": "(,4.5.32767]",
-          "System.Xml.ReaderWriter": "(,4.3.32767]",
-          "System.Xml.XDocument": "(,4.3.32767]",
-          "System.Xml.XmlDocument": "(,4.3.32767]",
-          "System.Xml.XmlSerializer": "(,4.3.32767]",
-          "System.Xml.XPath": "(,4.3.32767]",
-          "System.Xml.XPath.XDocument": "(,5.0.32767]"
-        }
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
