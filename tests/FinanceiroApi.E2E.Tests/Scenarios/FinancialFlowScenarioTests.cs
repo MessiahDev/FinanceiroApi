@@ -165,7 +165,6 @@ public class FinancialFlowScenarioTests : IAsyncLifetime
         itemResp.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var itemBody = await itemResp.Content.ReadAsStringAsync();
-        Console.WriteLine($"[DEBUG] AddItem status: {itemResp.StatusCode} | body: {itemBody}");
 
         var itemContent = await itemResp.Content.ReadFromJsonAsync<BudgetResponse>(_json);
         itemContent.Should().NotBeNull();

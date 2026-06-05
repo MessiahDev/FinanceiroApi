@@ -111,11 +111,4 @@ public sealed class AppDbContext : DbContext
         foreach (var domainEvent in events)
             await _mediator.Publish(domainEvent, cancellationToken);
     }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured) return;
-        optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information)
-                      .EnableSensitiveDataLogging();
-    }
 }

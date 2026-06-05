@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace FinanceiroApi.CrossCutting.Helpers;
 
@@ -6,33 +6,32 @@ public static class CpfHelper
 {
     public static bool IsValid(string cpf)
     {
-        cpf = Regex.Replace(cpf, @"[^\d]", "");
+        var digits = Strip(cpf);
+        if (digits.Length != 11 || !digits.All(char.IsDigit)) return false;
+        if (digits.Distinct().Count() == 1) return false;
+        return ValidateDigit(digits, 9) && ValidateDigit(digits, 10);
+    }
 
-        if (cpf.Length != 11 || cpf.Distinct().Count() == 1) return false;
-
-        int[] multipliers1 = [10, 9, 8, 7, 6, 5, 4, 3, 2];
-        int[] multipliers2 = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2];
-
-        var sum = cpf[..9].Select((c, i) => (c - '0') * multipliers1[i]).Sum();
+    private static bool ValidateDigit(string digits, int position)
+    {
+        var sum = 0;
+        for (var i = 0; i < position; i++)
+            sum += int.Parse(digits[i].ToString()) * (position + 1 - i);
         var remainder = sum % 11;
-        var digit1 = remainder < 2 ? 0 : 11 - remainder;
-
-        sum = cpf[..10].Select((c, i) => (c - '0') * multipliers2[i]).Sum();
-        remainder = sum % 11;
-        var digit2 = remainder < 2 ? 0 : 11 - remainder;
-
-        return cpf[9] - '0' == digit1 && cpf[10] - '0' == digit2;
+        var expected = remainder < 2 ? 0 : 11 - remainder;
+        return int.Parse(digits[position].ToString()) == expected;
     }
 
     public static string Format(string cpf)
     {
-        cpf = Regex.Replace(cpf, @"[^\d]", "");
-        return cpf.Length == 11
-            ? $"{cpf[..3]}.{cpf[3..6]}.{cpf[6..9]}-{cpf[9..]}"
-            : cpf;
+        var digits = Strip(cpf);
+        return digits.Length == 11
+            ? $"{digits[..3]}.{digits[3..6]}.{digits[6..9]}-{digits[9..]}"
+            : digits;
     }
 
-    public static string Strip(string cpf) => Regex.Replace(cpf, @"[^\d]", "");
+    public static string Strip(string cpf) =>
+        Regex.Replace(cpf ?? "", @"[^\d]", "");
 }
 
 public static class DateHelper
@@ -53,14 +52,13 @@ public static class MoneyHelper
             <= 2666.68m => grossSalary * 0.09m,
             <= 4000.03m => grossSalary * 0.12m,
             <= 7786.02m => grossSalary * 0.14m,
-            _ => 908.86m // teto INSS
+            _ => 908.86m
         };
     }
 
     public static decimal CalculateIrrf(decimal grossSalary, decimal inss)
     {
         var baseCalculo = grossSalary - inss;
-
         return baseCalculo switch
         {
             <= 2259.20m => 0,
