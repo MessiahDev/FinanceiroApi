@@ -134,6 +134,47 @@ namespace FinanceiroApi.Infrastructure.Migrations
                     b.ToTable("AccountsReceivable", (string)null);
                 });
 
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.AccountingPeriod", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Status")
+                        .HasDatabaseName("IX_AccountingPeriods_Status");
+
+                    b.HasIndex("Year", "Month")
+                        .IsUnique()
+                        .HasDatabaseName("IX_AccountingPeriods_YearMonth");
+
+                    b.ToTable("AccountingPeriods", (string)null);
+                });
+
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.BankAccount", b =>
                 {
                     b.Property<Guid>("Id")
@@ -280,6 +321,67 @@ namespace FinanceiroApi.Infrastructure.Migrations
                     b.HasIndex("CostCenterId");
 
                     b.ToTable("BudgetItems", (string)null);
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.ChartOfAccount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("AcceptsEntries")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("AccountNature")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("AccountType")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<Guid?>("ParentAccountId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountType")
+                        .HasDatabaseName("IX_ChartOfAccounts_AccountType");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("IX_ChartOfAccounts_Code");
+
+                    b.HasIndex("IsActive")
+                        .HasDatabaseName("IX_ChartOfAccounts_IsActive");
+
+                    b.HasIndex("ParentAccountId");
+
+                    b.ToTable("ChartOfAccounts", (string)null);
                 });
 
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.CostCenter", b =>
@@ -464,6 +566,123 @@ namespace FinanceiroApi.Infrastructure.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Employees", (string)null);
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.JournalEntry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AccountingPeriodId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTime>("EntryDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EntryNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<int>("EntryType")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("ReferenceDocument")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid?>("ReferenceDocumentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ReferenceDocumentType")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountingPeriodId")
+                        .HasDatabaseName("IX_JournalEntries_AccountingPeriodId");
+
+                    b.HasIndex("EntryDate")
+                        .HasDatabaseName("IX_JournalEntries_EntryDate");
+
+                    b.HasIndex("EntryNumber")
+                        .IsUnique()
+                        .HasDatabaseName("IX_JournalEntries_EntryNumber");
+
+                    b.HasIndex("Status")
+                        .HasDatabaseName("IX_JournalEntries_Status");
+
+                    b.HasIndex("ReferenceDocumentType", "ReferenceDocumentId")
+                        .HasDatabaseName("IX_JournalEntries_ReferenceDocument");
+
+                    b.ToTable("JournalEntries", (string)null);
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.JournalEntryLine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("ChartOfAccountId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("DebitCredit")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("JournalEntryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("LineOrder")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChartOfAccountId")
+                        .HasDatabaseName("IX_JournalEntryLines_ChartOfAccountId");
+
+                    b.HasIndex("JournalEntryId")
+                        .HasDatabaseName("IX_JournalEntryLines_JournalEntryId");
+
+                    b.ToTable("JournalEntryLines", (string)null);
                 });
 
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.Payroll", b =>
@@ -831,6 +1050,33 @@ namespace FinanceiroApi.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.AccountingPeriod", b =>
+                {
+                    b.OwnsOne("FinanceiroApi.Domain.ValueObjects.DateRange", "Period", b1 =>
+                        {
+                            b1.Property<Guid>("AccountingPeriodId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<DateOnly>("End")
+                                .HasColumnType("date")
+                                .HasColumnName("PeriodEnd");
+
+                            b1.Property<DateOnly>("Start")
+                                .HasColumnType("date")
+                                .HasColumnName("PeriodStart");
+
+                            b1.HasKey("AccountingPeriodId");
+
+                            b1.ToTable("AccountingPeriods");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AccountingPeriodId");
+                        });
+
+                    b.Navigation("Period")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.BankAccount", b =>
                 {
                     b.OwnsOne("FinanceiroApi.Domain.ValueObjects.Money", "Balance", b1 =>
@@ -875,6 +1121,16 @@ namespace FinanceiroApi.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("CostCenter");
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.ChartOfAccount", b =>
+                {
+                    b.HasOne("FinanceiroApi.Domain.Entities.ChartOfAccount", "ParentAccount")
+                        .WithMany("ChildAccounts")
+                        .HasForeignKey("ParentAccountId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ParentAccount");
                 });
 
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.CostCenter", b =>
@@ -1057,8 +1313,59 @@ namespace FinanceiroApi.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.JournalEntry", b =>
+                {
+                    b.HasOne("FinanceiroApi.Domain.Entities.AccountingPeriod", "AccountingPeriod")
+                        .WithMany("JournalEntries")
+                        .HasForeignKey("AccountingPeriodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AccountingPeriod");
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.JournalEntryLine", b =>
+                {
+                    b.HasOne("FinanceiroApi.Domain.Entities.ChartOfAccount", "ChartOfAccount")
+                        .WithMany("JournalEntryLines")
+                        .HasForeignKey("ChartOfAccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FinanceiroApi.Domain.Entities.JournalEntry", "JournalEntry")
+                        .WithMany("Lines")
+                        .HasForeignKey("JournalEntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ChartOfAccount");
+
+                    b.Navigation("JournalEntry");
+                });
+
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.Payroll", b =>
                 {
+                    b.OwnsOne("FinanceiroApi.Domain.ValueObjects.DateRange", "Period", b1 =>
+                        {
+                            b1.Property<Guid>("PayrollId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<DateOnly>("End")
+                                .HasColumnType("date")
+                                .HasColumnName("PeriodEnd");
+
+                            b1.Property<DateOnly>("Start")
+                                .HasColumnType("date")
+                                .HasColumnName("PeriodStart");
+
+                            b1.HasKey("PayrollId");
+
+                            b1.ToTable("Payrolls");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PayrollId");
+                        });
+
                     b.OwnsOne("FinanceiroApi.Domain.ValueObjects.Money", "TotalDiscounts", b1 =>
                         {
                             b1.Property<Guid>("PayrollId")
@@ -1119,27 +1426,6 @@ namespace FinanceiroApi.Infrastructure.Migrations
                                 .HasMaxLength(3)
                                 .HasColumnType("character varying(3)")
                                 .HasColumnName("TotalNetCurrency");
-
-                            b1.HasKey("PayrollId");
-
-                            b1.ToTable("Payrolls");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PayrollId");
-                        });
-
-                    b.OwnsOne("FinanceiroApi.Domain.ValueObjects.DateRange", "Period", b1 =>
-                        {
-                            b1.Property<Guid>("PayrollId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<DateOnly>("End")
-                                .HasColumnType("date")
-                                .HasColumnName("PeriodEnd");
-
-                            b1.Property<DateOnly>("Start")
-                                .HasColumnType("date")
-                                .HasColumnName("PeriodStart");
 
                             b1.HasKey("PayrollId");
 
@@ -1370,9 +1656,21 @@ namespace FinanceiroApi.Infrastructure.Migrations
                     b.Navigation("Employee");
                 });
 
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.AccountingPeriod", b =>
+                {
+                    b.Navigation("JournalEntries");
+                });
+
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.Budget", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.ChartOfAccount", b =>
+                {
+                    b.Navigation("ChildAccounts");
+
+                    b.Navigation("JournalEntryLines");
                 });
 
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.CostCenter", b =>
@@ -1388,6 +1686,11 @@ namespace FinanceiroApi.Infrastructure.Migrations
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.Department", b =>
                 {
                     b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.JournalEntry", b =>
+                {
+                    b.Navigation("Lines");
                 });
 
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.Payroll", b =>

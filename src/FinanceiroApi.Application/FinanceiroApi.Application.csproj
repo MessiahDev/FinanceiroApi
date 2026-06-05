@@ -17,6 +17,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\FinanceiroApi.Domain\FinanceiroApi.Domain.csproj" />
 		<ProjectReference Include="..\FinanceiroApi.CrossCutting\FinanceiroApi.CrossCutting.csproj" />
-	</ItemGroup>
-
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.8.0" />
+  </ItemGroup>
 </Project>
+

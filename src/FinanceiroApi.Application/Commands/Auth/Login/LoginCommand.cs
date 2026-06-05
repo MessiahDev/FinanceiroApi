@@ -1,28 +1,22 @@
 using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.CrossCutting.Notifications;
 using FinanceiroApi.CrossCutting.Security;
-using FinanceiroApi.Domain.Entities;
-using FinanceiroApi.Domain.Enums;
 using FinanceiroApi.Domain.Interfaces.Repositories;
 using MediatR;
 using Microsoft.Extensions.Options;
 
-namespace FinanceiroApi.Application.Commands.Auth;
+namespace FinanceiroApi.Application.Commands.Auth.Login;
 
-public sealed record RegisterCommand(
-    string Name,
-    string Email,
-    string Password,
-    UserRole Role) : IRequest<AuthResponse?>;
+public sealed record LoginCommand(string Email, string Password) : IRequest<AuthResponse?>;
 
-public sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, AuthResponse?>
+public sealed class LoginCommandHandler : IRequestHandler<LoginCommand, AuthResponse?>
 {
     private readonly IUserRepository _userRepository;
     private readonly TokenService _tokenService;
     private readonly INotificationContext _notifications;
     private readonly JwtSettings _jwtSettings;
 
-    public RegisterCommandHandler(
+    public LoginCommandHandler(
         IUserRepository userRepository,
         TokenService tokenService,
         INotificationContext notifications,
@@ -34,19 +28,15 @@ public sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, Au
         _jwtSettings = jwtSettings.Value;
     }
 
-    public async Task<AuthResponse?> Handle(RegisterCommand request, CancellationToken cancellationToken)
+    public async Task<AuthResponse?> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        if (await _userRepository.ExistsByEmailAsync(request.Email, cancellationToken))
+        var user = await _userRepository.GetByEmailAsync(request.Email.ToLowerInvariant(), cancellationToken);
+
+        if (user is null || !user.IsActive || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
         {
-            _notifications.AddNotification("Auth", "E-mail já cadastrado.");
+            _notifications.AddNotification("Auth", "Email ou senha inválidos.");
             return null;
         }
-
-        var hash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-        var user = User.Create(request.Name, request.Email, hash, request.Role);
-
-        await _userRepository.AddAsync(user, cancellationToken);
-        await _userRepository.SaveChangesAsync(cancellationToken);
 
         var token = _tokenService.Generate(user.Id, user.Email, user.Role.ToString());
 

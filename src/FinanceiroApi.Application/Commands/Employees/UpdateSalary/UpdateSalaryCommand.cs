@@ -3,7 +3,6 @@ using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.CrossCutting.Notifications;
 using FinanceiroApi.Domain.Interfaces;
 using FinanceiroApi.Domain.Interfaces.Repositories;
-using FluentValidation;
 using MediatR;
 
 namespace FinanceiroApi.Application.Commands.Employees.UpdateSalary;
@@ -50,15 +49,5 @@ public class UpdateSalaryCommandHandler : IRequestHandler<UpdateSalaryCommand, E
         await _unitOfWork.CommitAsync(cancellationToken);
 
         return _mapper.Map<EmployeeResponse>(employee);
-    }
-}
-
-public class UpdateSalaryCommandValidator : AbstractValidator<UpdateSalaryCommand>
-{
-    public UpdateSalaryCommandValidator()
-    {
-        RuleFor(x => x.EmployeeId).NotEmpty();
-        RuleFor(x => x.NewSalary).GreaterThan(0).LessThanOrEqualTo(1_000_000);
-        RuleFor(x => x.Reason).NotEmpty().MaximumLength(500);
     }
 }

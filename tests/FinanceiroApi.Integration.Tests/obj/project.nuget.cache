@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "xjU1DpHOBIE=",
+  "dgSpecHash": "oSsBqcibogc=",
   "success": true,
   "projectFilePath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\tests\\FinanceiroApi.Integration.Tests\\FinanceiroApi.Integration.Tests.csproj",
   "expectedPackageFiles": [
@@ -26,7 +26,7 @@
     "C:\\Users\\Alex\\.nuget\\packages\\masstransit\\9.1.1\\masstransit.9.1.1.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\masstransit.abstractions\\9.1.1\\masstransit.abstractions.9.1.1.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\masstransit.testframework\\9.1.1\\masstransit.testframework.9.1.1.nupkg.sha512",
-    "C:\\Users\\Alex\\.nuget\\packages\\mediatr\\14.1.0\\mediatr.14.1.0.nupkg.sha512",
+    "C:\\Users\\Alex\\.nuget\\packages\\mediatr\\12.4.1\\mediatr.12.4.1.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\9.0.0\\microsoft.aspnetcore.authentication.jwtbearer.9.0.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.aspnetcore.mvc.testing\\9.0.0\\microsoft.aspnetcore.mvc.testing.9.0.0.nupkg.sha512",
@@ -40,7 +40,7 @@
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.codeanalysis.common\\4.8.0\\microsoft.codeanalysis.common.4.8.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.codeanalysis.csharp\\4.8.0\\microsoft.codeanalysis.csharp.4.8.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.codeanalysis.csharp.workspaces\\4.8.0\\microsoft.codeanalysis.csharp.workspaces.4.8.0.nupkg.sha512",
-    "C:\\Users\\Alex\\.nuget\\packages\\microsoft.codeanalysis.visualbasic\\4.0.1\\microsoft.codeanalysis.visualbasic.4.0.1.nupkg.sha512",
+    "C:\\Users\\Alex\\.nuget\\packages\\microsoft.codeanalysis.visualbasic\\4.8.0\\microsoft.codeanalysis.visualbasic.4.8.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.codeanalysis.workspaces.common\\4.8.0\\microsoft.codeanalysis.workspaces.common.4.8.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.codeanalysis.workspaces.msbuild\\4.8.0\\microsoft.codeanalysis.workspaces.msbuild.4.8.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.codecoverage\\17.14.1\\microsoft.codecoverage.17.14.1.nupkg.sha512",
@@ -154,18 +154,5 @@
     "C:\\Users\\Alex\\.nuget\\packages\\xunit.extensibility.execution\\2.9.3\\xunit.extensibility.execution.2.9.3.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\xunit.runner.visualstudio\\3.1.5\\xunit.runner.visualstudio.3.1.5.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1608",
-      "level": "Warning",
-      "message": "Versão detectada do pacote fora da restrição de dependência: Microsoft.CodeAnalysis.VisualBasic 4.0.1 requer Microsoft.CodeAnalysis.Common (= 4.0.1), mas a versão Microsoft.CodeAnalysis.Common 4.8.0 foi resolvida.",
-      "projectPath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\tests\\FinanceiroApi.Integration.Tests\\FinanceiroApi.Integration.Tests.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\tests\\FinanceiroApi.Integration.Tests\\FinanceiroApi.Integration.Tests.csproj",
-      "libraryId": "Microsoft.CodeAnalysis.Common",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    }
-  ]
+  "logs": []
 }

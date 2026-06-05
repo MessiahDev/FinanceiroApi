@@ -4,7 +4,6 @@ using FinanceiroApi.CrossCutting.Notifications;
 using FinanceiroApi.Domain.Enums;
 using FinanceiroApi.Domain.Interfaces;
 using FinanceiroApi.Domain.Interfaces.Repositories;
-using FluentValidation;
 using MediatR;
 
 namespace FinanceiroApi.Application.Commands.Employees.UpdateEmployee;
@@ -66,18 +65,5 @@ public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeComman
 
         var response = _mapper.Map<EmployeeResponse>(employee);
         return response with { DepartmentName = department.Name };
-    }
-}
-
-public class UpdateEmployeeCommandValidator : AbstractValidator<UpdateEmployeeCommand>
-{
-    public UpdateEmployeeCommandValidator()
-    {
-        RuleFor(x => x.Id).NotEmpty().WithMessage("Id do funcionário é obrigatório.");
-        RuleFor(x => x.FirstName).NotEmpty().MaximumLength(100);
-        RuleFor(x => x.LastName).NotEmpty().MaximumLength(100);
-        RuleFor(x => x.Email).NotEmpty().EmailAddress();
-        RuleFor(x => x.Position).NotEmpty();
-        RuleFor(x => x.DepartmentId).NotEmpty();
     }
 }

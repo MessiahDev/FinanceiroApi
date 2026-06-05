@@ -134,3 +134,52 @@ public enum CostCenterStatus
     Active = 1,
     Inactive = 2
 }
+
+public enum AccountType
+{
+    Asset = 1,
+    Liability = 2,
+    Equity = 3,
+    Revenue = 4,
+    Expense = 5,
+    CostOfGoods = 6
+}
+
+public enum AccountNature
+{
+    Debit = 1,
+    Credit = 2
+}
+
+public enum JournalEntryStatus
+{
+    Draft = 1,
+    Posted = 2,
+    Reversed = 3
+}
+
+public enum JournalEntryType
+{
+    Manual = 1,
+    AccountsPayable = 2,
+    AccountsReceivable = 3,
+    Payroll = 4,
+    BankTransfer = 5,
+    Depreciation = 6,
+    Opening = 7,
+    Closing = 8,
+    Reversal = 9
+}
+
+public enum DebitCredit
+{
+    Debit = 1,
+    Credit = 2
+}
+
+public enum AccountingPeriodStatus
+{
+    Open = 1,
+    Closed = 2,
+    Locked = 3
+}

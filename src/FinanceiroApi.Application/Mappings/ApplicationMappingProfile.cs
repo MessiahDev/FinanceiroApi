@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.Domain.Entities;
 
@@ -161,5 +161,96 @@ public class ApplicationMappingProfile : Profile
                     i.RealizedAmount.Amount, i.Variance.Amount,
                     i.IsOverBudget)).ToList().AsReadOnly()))
             .ForAllMembers(o => o.Ignore());
+
+        CreateMap<ChartOfAccount, ChartOfAccountSummaryResponse>()
+            .ConstructUsing(src => new ChartOfAccountSummaryResponse(
+                src.Id,
+                src.Code,
+                src.Name,
+                src.AccountType,
+                src.AccountNature,
+                src.AcceptsEntries,
+                src.IsActive));
+
+        CreateMap<ChartOfAccount, ChartOfAccountResponse>()
+            .ConstructUsing((src, ctx) => new ChartOfAccountResponse(
+                src.Id,
+                src.Code,
+                src.Name,
+                src.Description,
+                src.AccountType,
+                src.AccountType.ToString(),
+                src.AccountNature,
+                src.AccountNature.ToString(),
+                src.AcceptsEntries,
+                src.IsActive,
+                src.ParentAccountId,
+                src.ParentAccount?.Code,
+                src.ParentAccount?.Name,
+                src.ChildAccounts.Any()
+                    ? ctx.Mapper.Map<IEnumerable<ChartOfAccountResponse>>(src.ChildAccounts)
+                    : null,
+                src.CreatedAt,
+                src.UpdatedAt));
+
+        CreateMap<JournalEntryLine, JournalEntryLineResponse>()
+            .ConstructUsing(src => new JournalEntryLineResponse(
+                src.Id,
+                src.ChartOfAccountId,
+                src.ChartOfAccount != null ? src.ChartOfAccount.Code : string.Empty,
+                src.ChartOfAccount != null ? src.ChartOfAccount.Name : string.Empty,
+                src.DebitCredit,
+                src.DebitCredit.ToString(),
+                src.Amount,
+                src.Description,
+                src.LineOrder));
+
+        CreateMap<JournalEntry, JournalEntrySummaryResponse>()
+            .ConstructUsing(src => new JournalEntrySummaryResponse(
+                src.Id,
+                src.EntryNumber,
+                src.Description,
+                src.EntryDate,
+                src.Status,
+                src.Status.ToString(),
+                src.EntryType,
+                src.TotalDebits()));
+
+        CreateMap<JournalEntry, JournalEntryResponse>()
+            .ConstructUsing((src, ctx) => new JournalEntryResponse(
+                src.Id,
+                src.EntryNumber,
+                src.Description,
+                src.EntryDate,
+                src.Status,
+                src.Status.ToString(),
+                src.EntryType,
+                src.EntryType.ToString(),
+                src.ReferenceDocument,
+                src.ReferenceDocumentType,
+                src.ReferenceDocumentId,
+                src.AccountingPeriodId,
+                src.AccountingPeriod != null ? src.AccountingPeriod.Name : string.Empty,
+                src.TotalDebits(),
+                src.TotalCredits(),
+                src.IsBalanced(),
+                ctx.Mapper.Map<IEnumerable<JournalEntryLineResponse>>(src.Lines),
+                src.CreatedAt,
+                src.UpdatedAt));
+
+        CreateMap<AccountingPeriod, AccountingPeriodResponse>()
+            .ConstructUsing(src => new AccountingPeriodResponse(
+                src.Id,
+                src.Name,
+                src.Year,
+                src.Month,
+                src.Period.Start.ToDateTime(TimeOnly.MinValue),
+                src.Period.End.ToDateTime(TimeOnly.MinValue),
+                src.Status,
+                src.Status.ToString(),
+                src.JournalEntries.Count,
+                src.CreatedAt,
+                src.UpdatedAt));
     }
 }
+

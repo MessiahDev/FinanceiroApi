@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
 using FinanceiroApi.Application.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -68,13 +68,14 @@ public sealed class EventBusPublisher : IEventBusPublisher, IDisposable
         var json = JsonSerializer.Serialize(@event);
         var body = Encoding.UTF8.GetBytes(json);
 
+        if (_channel is null) return Task.CompletedTask;
         var props = _channel.CreateBasicProperties();
         props.Persistent = true;
         props.ContentType = "application/json";
         props.MessageId = Guid.NewGuid().ToString();
         props.Timestamp = new AmqpTimestamp(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 
-        _channel.BasicPublish(
+        _channel?.BasicPublish(
             exchange: exchangeName,
             routingKey: string.Empty,
             basicProperties: props,
@@ -94,3 +95,7 @@ public sealed class EventBusPublisher : IEventBusPublisher, IDisposable
         _lock.Dispose();
     }
 }
+
+
+
+

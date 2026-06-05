@@ -176,3 +176,6 @@ public record BlockSupplierRequest(
 
 public record ApproveBudgetRequest(
     Guid ApprovedBy);
+
+public record CancelTransactionRequest(
+    string Reason);

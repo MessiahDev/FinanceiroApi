@@ -1,5 +1,6 @@
 ﻿using FinanceiroApi.Domain.Entities;
 using FinanceiroApi.Domain.Entities.Base;
+using FinanceiroApi.Infrastructure.Configurations;
 using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -30,12 +31,20 @@ public sealed class AppDbContext : DbContext
     public DbSet<CostCenter> CostCenters => Set<CostCenter>();
     public DbSet<Budget> Budgets => Set<Budget>();
     public DbSet<BudgetItem> BudgetItems => Set<BudgetItem>();
+    public DbSet<ChartOfAccount> ChartOfAccounts { get; set; }
+    public DbSet<JournalEntry> JournalEntries { get; set; }
+    public DbSet<JournalEntryLine> JournalEntryLines { get; set; }
+    public DbSet<AccountingPeriod> AccountingPeriods { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Ignore<FinanceiroApi.Domain.Events.Base.DomainEvent>();
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+        modelBuilder.ApplyConfiguration(new ChartOfAccountConfiguration());
+        modelBuilder.ApplyConfiguration(new JournalEntryConfiguration());
+        modelBuilder.ApplyConfiguration(new JournalEntryLineConfiguration());
+        modelBuilder.ApplyConfiguration(new AccountingPeriodConfiguration());
     }
 
     private readonly HashSet<Guid> _newEntityIds = [];

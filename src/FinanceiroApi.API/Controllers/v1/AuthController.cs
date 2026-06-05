@@ -1,4 +1,5 @@
-using FinanceiroApi.Application.Commands.Auth;
+using FinanceiroApi.Application.Commands.Auth.Login;
+using FinanceiroApi.Application.Commands.Auth.Register;
 using FinanceiroApi.Application.DTOs.Request;
 using FinanceiroApi.CrossCutting.Notifications;
 using Microsoft.AspNetCore.RateLimiting;

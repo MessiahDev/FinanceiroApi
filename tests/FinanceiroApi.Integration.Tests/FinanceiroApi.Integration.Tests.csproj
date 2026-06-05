@@ -27,6 +27,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\FinanceiroApi.API\FinanceiroApi.API.csproj" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.8.0" />
   </ItemGroup>
-
 </Project>
+
+

@@ -265,3 +265,134 @@ public record BudgetItemResponse(
     decimal RealizedAmount,
     decimal Variance,
     bool IsOverBudget);
+
+public record ChartOfAccountResponse(
+    Guid Id,
+    string Code,
+    string Name,
+    string? Description,
+    AccountType AccountType,
+    string AccountTypeName,
+    AccountNature AccountNature,
+    string AccountNatureName,
+    bool AcceptsEntries,
+    bool IsActive,
+    Guid? ParentAccountId,
+    string? ParentAccountCode,
+    string? ParentAccountName,
+    IEnumerable<ChartOfAccountResponse>? ChildAccounts,
+    DateTime CreatedAt,
+    DateTime? UpdatedAt
+);
+
+public record ChartOfAccountSummaryResponse(
+    Guid Id,
+    string Code,
+    string Name,
+    AccountType AccountType,
+    AccountNature AccountNature,
+    bool AcceptsEntries,
+    bool IsActive
+);
+
+public record JournalEntryResponse(
+    Guid Id,
+    string EntryNumber,
+    string Description,
+    DateTime EntryDate,
+    JournalEntryStatus Status,
+    string StatusName,
+    JournalEntryType EntryType,
+    string EntryTypeName,
+    string? ReferenceDocument,
+    string? ReferenceDocumentType,
+    Guid? ReferenceDocumentId,
+    Guid AccountingPeriodId,
+    string AccountingPeriodName,
+    decimal TotalDebits,
+    decimal TotalCredits,
+    bool IsBalanced,
+    IEnumerable<JournalEntryLineResponse> Lines,
+    DateTime CreatedAt,
+    DateTime? UpdatedAt
+);
+
+public record JournalEntryLineResponse(
+    Guid Id,
+    Guid ChartOfAccountId,
+    string AccountCode,
+    string AccountName,
+    DebitCredit DebitCredit,
+    string DebitCreditName,
+    decimal Amount,
+    string? Description,
+    int LineOrder
+);
+
+public record JournalEntrySummaryResponse(
+    Guid Id,
+    string EntryNumber,
+    string Description,
+    DateTime EntryDate,
+    JournalEntryStatus Status,
+    string StatusName,
+    JournalEntryType EntryType,
+    decimal TotalAmount
+);
+
+public record AccountingPeriodResponse(
+    Guid Id,
+    string Name,
+    int Year,
+    int Month,
+    DateTime PeriodStart,
+    DateTime PeriodEnd,
+    AccountingPeriodStatus Status,
+    string StatusName,
+    int TotalEntries,
+    DateTime CreatedAt,
+    DateTime? UpdatedAt
+);
+
+public record LedgerEntryResponse(
+    DateTime EntryDate,
+    string EntryNumber,
+    string Description,
+    decimal? Debit,
+    decimal? Credit,
+    decimal Balance
+);
+
+public record AccountLedgerResponse(
+    Guid ChartOfAccountId,
+    string AccountCode,
+    string AccountName,
+    AccountNature AccountNature,
+    DateTime From,
+    DateTime To,
+    decimal OpeningBalance,
+    decimal TotalDebits,
+    decimal TotalCredits,
+    decimal ClosingBalance,
+    IEnumerable<LedgerEntryResponse> Entries
+);
+
+public record TrialBalanceLineResponse(
+    Guid AccountId,
+    string AccountCode,
+    string AccountName,
+    AccountType AccountType,
+    decimal TotalDebits,
+    decimal TotalCredits,
+    decimal Balance,
+    AccountNature BalanceNature
+);
+
+public record TrialBalanceResponse(
+    Guid AccountingPeriodId,
+    string PeriodName,
+    DateTime GeneratedAt,
+    decimal TotalDebits,
+    decimal TotalCredits,
+    IEnumerable<TrialBalanceLineResponse> Lines
+);

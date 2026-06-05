@@ -25,8 +25,6 @@ builder.Services.AddOpenApi(options =>
 
 var app = builder.Build();
 
-app.UsePathBase("/scala/v1");
-
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -47,6 +45,7 @@ app.MapScalarApiReference(options =>
 });
 app.MapControllers();
 app.MapHealthChecks("/health");
+app.MapGet("/", () => Results.Redirect("/scalar/v1"));
 app.Run();
 
 internal sealed class JwtSecuritySchemeTransformer : IOpenApiDocumentTransformer

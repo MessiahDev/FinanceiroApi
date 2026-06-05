@@ -58,3 +58,64 @@ public static class TransactionValidator
                 "Transaction amount exceeds the maximum allowed limit.");
     }
 }
+
+public static class ChartOfAccountValidator
+{
+    public static void ValidateCode(string code)
+    {
+        if (string.IsNullOrWhiteSpace(code))
+            throw new DomainException("O código da conta é obrigatório.");
+
+        if (code.Length > 20)
+            throw new DomainException("O código da conta deve ter no máximo 20 caracteres.");
+
+        if (!System.Text.RegularExpressions.Regex.IsMatch(code, @"^[\d.]+$"))
+            throw new DomainException("O código da conta deve conter apenas dígitos e pontos (ex: 1.1.01.001).");
+    }
+
+    public static void ValidateName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new DomainException("O nome da conta é obrigatório.");
+
+        if (name.Length > 150)
+            throw new DomainException("O nome da conta deve ter no máximo 150 caracteres.");
+    }
+}
+
+public static class JournalEntryValidator
+{
+    public static void ValidateDoubleEntry(IEnumerable<(decimal Amount, bool IsDebit)> lines)
+    {
+        var linesList = lines.ToList();
+
+        if (!linesList.Any())
+            throw new DomainException("O lançamento deve ter ao menos uma linha.");
+
+        var debits = linesList.Where(l => l.IsDebit).Sum(l => l.Amount);
+        var credits = linesList.Where(l => !l.IsDebit).Sum(l => l.Amount);
+
+        if (debits != credits)
+            throw new UnbalancedJournalEntryException(debits, credits);
+    }
+
+    public static void ValidateEntryDate(DateTime entryDate, DateTime periodStart, DateTime periodEnd)
+    {
+        if (entryDate < periodStart || entryDate > periodEnd)
+            throw new DomainException(
+                $"A data do lançamento ({entryDate:dd/MM/yyyy}) está fora do período contábil " +
+                $"({periodStart:dd/MM/yyyy} a {periodEnd:dd/MM/yyyy}).");
+    }
+}
+
+public static class AccountingPeriodValidator
+{
+    public static void ValidateYearMonth(int year, int month)
+    {
+        if (year < 2000 || year > 2100)
+            throw new DomainException("Ano do período contábil inválido (deve ser entre 2000 e 2100).");
+
+        if (month < 1 || month > 12)
+            throw new DomainException("Mês do período contábil inválido (deve ser entre 1 e 12).");
+    }
+}

@@ -7,8 +7,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MediatR" Version="14.1.0" />
+		<PackageReference Include="MediatR" Version="12.4.1" />
 		<ProjectReference Include="..\FinanceiroApi.CrossCutting\FinanceiroApi.CrossCutting.csproj" />
-	</ItemGroup>
-
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.8.0" />
+  </ItemGroup>
 </Project>
+
+
+

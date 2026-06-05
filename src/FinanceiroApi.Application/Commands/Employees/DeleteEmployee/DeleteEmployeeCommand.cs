@@ -1,4 +1,3 @@
-using FluentValidation;
 using FinanceiroApi.CrossCutting.Notifications;
 using FinanceiroApi.Domain.Interfaces;
 using FinanceiroApi.Domain.Interfaces.Repositories;
@@ -38,13 +37,5 @@ public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeComman
         await _unitOfWork.CommitAsync(cancellationToken);
 
         return true;
-    }
-}
-
-public class DeleteEmployeeCommandValidator : AbstractValidator<DeleteEmployeeCommand>
-{
-    public DeleteEmployeeCommandValidator()
-    {
-        RuleFor(x => x.Id).NotEmpty().WithMessage("Id do funcionário é obrigatório.");
     }
 }

@@ -103,3 +103,34 @@ public interface IBudgetRepository : IRepositoryBase<Budget>
     Task<IReadOnlyList<Budget>> GetByStatusAsync(BudgetStatus status, CancellationToken ct = default);
     Task<Budget?> GetWithItemsAsync(Guid id, CancellationToken ct = default, bool tracking = true);
 }
+
+public interface IChartOfAccountRepository : IRepositoryBase<ChartOfAccount>
+{
+    Task<ChartOfAccount?> GetByCodeAsync(string code, CancellationToken cancellationToken = default);
+    Task<IEnumerable<ChartOfAccount>> GetByTypeAsync(AccountType accountType, CancellationToken cancellationToken = default);
+    Task<IEnumerable<ChartOfAccount>> GetRootAccountsAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<ChartOfAccount>> GetChildAccountsAsync(Guid parentId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<ChartOfAccount>> GetActiveAccountsAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<ChartOfAccount>> GetAccountsAcceptingEntriesAsync(CancellationToken cancellationToken = default);
+    Task<bool> ExistsCodeAsync(string code, Guid? excludeId = null, CancellationToken cancellationToken = default);
+}
+
+public interface IJournalEntryRepository : IRepositoryBase<JournalEntry>
+{
+    Task<JournalEntry?> GetByEntryNumberAsync(string entryNumber, CancellationToken cancellationToken = default);
+    Task<JournalEntry?> GetWithLinesAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<IEnumerable<JournalEntry>> GetByPeriodAsync(Guid accountingPeriodId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<JournalEntry>> GetByAccountAsync(Guid chartOfAccountId, DateTime from, DateTime to, CancellationToken cancellationToken = default);
+    Task<IEnumerable<JournalEntry>> GetByReferenceDocumentAsync(string referenceDocumentType, Guid referenceDocumentId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<JournalEntry>> GetPostedEntriesAsync(Guid accountingPeriodId, CancellationToken cancellationToken = default);
+    Task<string> GetNextEntryNumberAsync(int year, CancellationToken cancellationToken = default);
+}
+
+public interface IAccountingPeriodRepository : IRepositoryBase<AccountingPeriod>
+{
+    Task<AccountingPeriod?> GetByYearMonthAsync(int year, int month, CancellationToken cancellationToken = default);
+    Task<AccountingPeriod?> GetCurrentOpenPeriodAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<AccountingPeriod>> GetByYearAsync(int year, CancellationToken cancellationToken = default);
+    Task<IEnumerable<AccountingPeriod>> GetOpenPeriodsAsync(CancellationToken cancellationToken = default);
+    Task<bool> ExistsByYearMonthAsync(int year, int month, Guid? excludeId = null, CancellationToken cancellationToken = default);
+}

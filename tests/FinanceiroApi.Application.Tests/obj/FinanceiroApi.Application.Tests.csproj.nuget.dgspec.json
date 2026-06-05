@@ -73,6 +73,10 @@
               "target": "Package",
               "version": "[12.1.1, )"
             },
+            "Microsoft.CodeAnalysis.VisualBasic": {
+              "target": "Package",
+              "version": "[4.8.0, )"
+            },
             "Microsoft.EntityFrameworkCore.Relational": {
               "target": "Package",
               "version": "[9.0.1, )"
@@ -147,6 +151,10 @@
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[9.0.0, )"
+            },
+            "Microsoft.CodeAnalysis.VisualBasic": {
+              "target": "Package",
+              "version": "[4.8.0, )"
             },
             "Microsoft.Extensions.Configuration.Abstractions": {
               "target": "Package",
@@ -241,7 +249,11 @@
           "dependencies": {
             "MediatR": {
               "target": "Package",
-              "version": "[14.1.0, )"
+              "version": "[12.4.1, )"
+            },
+            "Microsoft.CodeAnalysis.VisualBasic": {
+              "target": "Package",
+              "version": "[4.8.0, )"
             }
           },
           "imports": [
@@ -317,6 +329,10 @@
             "FluentAssertions": {
               "target": "Package",
               "version": "[8.10.0, )"
+            },
+            "Microsoft.CodeAnalysis.VisualBasic": {
+              "target": "Package",
+              "version": "[4.8.0, )"
             },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",

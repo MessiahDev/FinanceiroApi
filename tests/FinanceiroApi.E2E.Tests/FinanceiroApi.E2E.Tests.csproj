@@ -35,6 +35,8 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.8.0" />
   </ItemGroup>
-
 </Project>
+
+

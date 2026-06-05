@@ -18,7 +18,6 @@ using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.Application.DTOs.Request;
 using FinanceiroApi.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using FinanceiroApi.Domain.Enums;
 using Microsoft.AspNetCore.Hosting;
 using FinanceiroApi.Integration.Tests.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
@@ -192,3 +191,4 @@ public sealed class EmployeesControllerTests : IAsyncLifetime
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 }
+

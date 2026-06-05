@@ -1,4 +1,4 @@
-using FinanceiroApi.Domain.Events.Base;
+﻿using FinanceiroApi.Domain.Events.Base;
 using FinanceiroApi.Domain.Enums;
 using FinanceiroApi.Domain.ValueObjects;
 
@@ -85,7 +85,7 @@ public sealed class CustomerBlockedEvent(Guid customerId, string name, string re
 
 public sealed class AccountPayableCreatedEvent(Guid id, Guid supplierId, Money amount, DateOnly dueDate) : DomainEvent
 {
-    public Guid Id { get; } = id;
+    public new Guid Id { get; } = id;
     public Guid SupplierId { get; } = supplierId;
     public Money Amount { get; } = amount;
     public DateOnly DueDate { get; } = dueDate;
@@ -93,7 +93,7 @@ public sealed class AccountPayableCreatedEvent(Guid id, Guid supplierId, Money a
 
 public sealed class AccountPayablePaidEvent(Guid id, Guid supplierId, Money paidAmount, AccountPayableStatus status) : DomainEvent
 {
-    public Guid Id { get; } = id;
+    public new Guid Id { get; } = id;
     public Guid SupplierId { get; } = supplierId;
     public Money PaidAmount { get; } = paidAmount;
     public AccountPayableStatus Status { get; } = status;
@@ -101,7 +101,7 @@ public sealed class AccountPayablePaidEvent(Guid id, Guid supplierId, Money paid
 
 public sealed class AccountReceivableCreatedEvent(Guid id, Guid customerId, Money amount, DateOnly dueDate) : DomainEvent
 {
-    public Guid Id { get; } = id;
+    public new Guid Id { get; } = id;
     public Guid CustomerId { get; } = customerId;
     public Money Amount { get; } = amount;
     public DateOnly DueDate { get; } = dueDate;
@@ -109,7 +109,7 @@ public sealed class AccountReceivableCreatedEvent(Guid id, Guid customerId, Mone
 
 public sealed class AccountReceivableReceivedEvent(Guid id, Guid customerId, Money receivedAmount, AccountReceivableStatus status) : DomainEvent
 {
-    public Guid Id { get; } = id;
+    public new Guid Id { get; } = id;
     public Guid CustomerId { get; } = customerId;
     public Money ReceivedAmount { get; } = receivedAmount;
     public AccountReceivableStatus Status { get; } = status;
@@ -117,7 +117,7 @@ public sealed class AccountReceivableReceivedEvent(Guid id, Guid customerId, Mon
 
 public sealed class BankAccountCreatedEvent(Guid id, string bankName, string accountNumber, Money initialBalance) : DomainEvent
 {
-    public Guid Id { get; } = id;
+    public new Guid Id { get; } = id;
     public string BankName { get; } = bankName;
     public string AccountNumber { get; } = accountNumber;
     public Money InitialBalance { get; } = initialBalance;
@@ -125,7 +125,7 @@ public sealed class BankAccountCreatedEvent(Guid id, string bankName, string acc
 
 public sealed class BankAccountCreditedEvent(Guid id, Money amount, Money newBalance, string description) : DomainEvent
 {
-    public Guid Id { get; } = id;
+    public new Guid Id { get; } = id;
     public Money Amount { get; } = amount;
     public Money NewBalance { get; } = newBalance;
     public string Description { get; } = description;
@@ -133,7 +133,7 @@ public sealed class BankAccountCreditedEvent(Guid id, Money amount, Money newBal
 
 public sealed class BankAccountDebitedEvent(Guid id, Money amount, Money newBalance, string description) : DomainEvent
 {
-    public Guid Id { get; } = id;
+    public new Guid Id { get; } = id;
     public Money Amount { get; } = amount;
     public Money NewBalance { get; } = newBalance;
     public string Description { get; } = description;
@@ -146,3 +146,4 @@ public sealed class BudgetApprovedEvent(Guid budgetId, int year, Money totalPlan
     public Money TotalPlanned { get; } = totalPlanned;
     public Guid ApprovedBy { get; } = approvedBy;
 }
+

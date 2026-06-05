@@ -1,3 +1,5 @@
+using FinanceiroApi.Application.Commands.Transactions.CancelTransaction;
+using FinanceiroApi.Application.Commands.Transactions.ConfirmTransaction;
 using FinanceiroApi.Application.Commands.Transactions.CreateTransaction;
 using FinanceiroApi.Application.DTOs.Request;
 using FinanceiroApi.Application.DTOs.Response;
@@ -31,16 +33,42 @@ public class TransactionsController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateTransactionRequest request, CancellationToken ct)
     {
         var command = new CreateTransactionCommand(
-                        request.Description,
-                        request.Amount,
-                        request.Type.ToString(),
-                        request.Category.ToString(),
-                        request.EmployeeId,
-                        request.TransactionDate);
+            request.Description,
+            request.Amount,
+            request.Type.ToString(),
+            request.Category.ToString(),
+            request.EmployeeId,
+            request.TransactionDate);
 
         var result = await _mediator.Send(command, ct);
         if (_notifications.HasNotifications) return BadRequest(_notifications.Notifications);
 
         return Created($"api/v1/transactions/{result.Id}", result);
+    }
+
+    [HttpPatch("{id:guid}/confirm")]
+    [ProducesResponseType(typeof(TransactionResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Confirm(Guid id, CancellationToken ct)
+    {
+        var result = await _mediator.Send(new ConfirmTransactionCommand(id), ct);
+        if (_notifications.HasNotifications) return BadRequest(_notifications.Notifications);
+        if (result is null) return NotFound();
+
+        return Ok(result);
+    }
+
+    [HttpPatch("{id:guid}/cancel")]
+    [ProducesResponseType(typeof(TransactionResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Cancel(Guid id, [FromBody] CancelTransactionRequest request, CancellationToken ct)
+    {
+        var result = await _mediator.Send(new CancelTransactionCommand(id, request.Reason), ct);
+        if (_notifications.HasNotifications) return BadRequest(_notifications.Notifications);
+        if (result is null) return NotFound();
+
+        return Ok(result);
     }
 }
