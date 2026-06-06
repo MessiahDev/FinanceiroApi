@@ -85,6 +85,12 @@ public class PayrollFlowScenarioTests : IAsyncLifetime
                         .ToList();
                     hostedServices.ForEach(d => services.Remove(d));
 
+                    var rabbitHealthCheck = services
+                        .Where(d => d.ServiceType.FullName?.Contains("RabbitMQ") == true
+                                 || d.ImplementationType?.FullName?.Contains("RabbitMQ") == true)
+                        .ToList();
+                    rabbitHealthCheck.ForEach(d => services.Remove(d));
+
                     services.AddAuthentication("Test")
                         .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", _ => { });
 
@@ -146,7 +152,7 @@ public class PayrollFlowScenarioTests : IAsyncLifetime
         var duplicateResp = await _client.PostAsJsonAsync("/api/v1/payroll/process", processPayroll, _jsonOptions);
         duplicateResp.StatusCode.Should().BeOneOf(HttpStatusCode.BadRequest, HttpStatusCode.UnprocessableEntity);
 
-        var cancelResp = await _client.PostAsJsonAsync($"/api/v1/payroll/{payroll.Id}/cancel", "Cancelamento para teste", _jsonOptions);
+        var cancelResp = await _client.PostAsJsonAsync($"/api/v1/payroll/{payroll.Id}/cancel", new CancelReasonRequest("Cancelamento para teste"), _jsonOptions);
         cancelResp.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
         var getResp = await _client.GetAsync($"/api/v1/payroll/{payroll.Id}");

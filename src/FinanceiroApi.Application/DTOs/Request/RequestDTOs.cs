@@ -179,3 +179,62 @@ public record ApproveBudgetRequest(
 
 public record CancelTransactionRequest(
     string Reason);
+
+public record CreateTaxEntryRequest(
+    TaxType TaxType,
+    string Description,
+    decimal BaseAmount,
+    decimal Rate,
+    DateOnly Competence,
+    DateOnly DueDate,
+    Guid? CostCenterId,
+    string? ReferenceDocument,
+    Guid? ReferenceDocumentId,
+    string? Notes);
+
+public record CreateTaxPaymentRequest(
+    Guid TaxEntryId,
+    Guid BankAccountId,
+    decimal Amount,
+    DateOnly PaymentDate,
+    decimal Fine = 0,
+    decimal Interest = 0,
+    string? DarfNumber = null,
+    string? ReceiptCode = null,
+    string? Notes = null);
+
+public record CancelTaxPaymentRequest(string Reason);
+
+public record ImportBankStatementRequest(
+    Guid BankAccountId,
+    DateOnly StatementDate,
+    DateOnly PeriodStart,
+    DateOnly PeriodEnd,
+    decimal OpeningBalance,
+    decimal ClosingBalance,
+    string? FileName,
+    string? Notes,
+    List<ImportBankStatementEntryRequest> Entries);
+
+public record ImportBankStatementEntryRequest(
+    DateOnly Date,
+    string Description,
+    decimal Amount,
+    BankStatementEntryType EntryType,
+    string? DocumentNumber);
+
+public record CreateBankReconciliationRequest(
+    Guid BankAccountId,
+    Guid BankStatementId,
+    decimal SystemBalance,
+    string? Notes);
+
+public record AddReconciliationItemRequest(
+    Guid BankStatementEntryId,
+    Guid? TransactionId,
+    ReconciliationItemStatus ItemStatus,
+    string? Notes);
+
+public record CompleteReconciliationRequest(Guid CompletedBy);
+
+public record CancelReconciliationRequest(string Reason);

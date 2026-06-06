@@ -1,4 +1,5 @@
-using System.Text.Json;
+﻿using System.Text.Json;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.RateLimiting;
@@ -22,7 +23,31 @@ public static class ServiceCollectionExtensions
             });
 
         services.AddEndpointsApiExplorer();
-        services.AddHealthChecks();
+        services.AddHealthChecks()
+            .AddNpgSql(
+                configuration.GetConnectionString("Default") ?? "",
+                name: "postgresql",
+                tags: ["db", "sql", "postgres"]);
+
+        var redisConn = configuration.GetConnectionString("Redis");
+        if (!string.IsNullOrWhiteSpace(redisConn))
+        {
+            services.AddHealthChecks()
+                .AddRedis(redisConn, name: "redis", tags: ["cache"]);
+        }
+
+        var rabbitHost = configuration["RabbitMq:Host"];
+        if (!string.IsNullOrWhiteSpace(rabbitHost))
+        {
+            var user = configuration["RabbitMq:Username"] ?? "guest";
+            var pass = configuration["RabbitMq:Password"] ?? "guest";
+            var port = configuration["RabbitMq:Port"] ?? "5672";
+            services.AddHealthChecks()
+                .AddRabbitMQ(
+                    rabbitConnectionString: $"amqp://{user}:{pass}@{rabbitHost}:{port}/",
+                    name: "rabbitmq",
+                    tags: ["messaging"]);
+        }
 
         services.AddCors(options =>
         {

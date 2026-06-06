@@ -1,4 +1,4 @@
-using FinanceiroApi.Application.Commands.Customers.BlockCustomer;
+﻿using FinanceiroApi.Application.Commands.Customers.BlockCustomer;
 using FinanceiroApi.Application.Commands.Customers.CreateCustomer;
 using FinanceiroApi.Application.Commands.Customers.DeleteCustomer;
 using FinanceiroApi.Application.Commands.Customers.UpdateCustomer;
@@ -57,8 +57,6 @@ public class CustomersController : ControllerBase
                 request.Name, request.TaxId, request.PersonType,
                 request.Email, request.Phone, request.ContactName, request.CreditLimit), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return CreatedAtAction(nameof(GetById), new { id = result!.Id }, result);
     }
@@ -71,8 +69,6 @@ public class CustomersController : ControllerBase
         var result = await _mediator.Send(
             new UpdateCustomerCommand(id, request.Name, request.Email, request.Phone, request.ContactName), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result is null ? NotFound() : Ok(result);
     }
@@ -80,12 +76,10 @@ public class CustomersController : ControllerBase
     [HttpPatch("{id:guid}/block")]
     [ProducesResponseType(typeof(CustomerResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Block(Guid id, [FromBody] string reason, CancellationToken ct)
+    public async Task<IActionResult> Block(Guid id, [FromBody] CancelReasonRequest request, CancellationToken ct)
     {
-        var result = await _mediator.Send(new BlockCustomerCommand(id, reason), ct);
+        var result = await _mediator.Send(new BlockCustomerCommand(id, request.Reason), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result is null ? NotFound() : Ok(result);
     }
@@ -97,9 +91,8 @@ public class CustomersController : ControllerBase
     {
         var result = await _mediator.Send(new DeleteCustomerCommand(id), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result ? NoContent() : NotFound();
     }
 }
+

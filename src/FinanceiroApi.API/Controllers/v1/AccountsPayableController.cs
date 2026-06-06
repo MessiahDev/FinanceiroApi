@@ -1,4 +1,4 @@
-using FinanceiroApi.Application.Commands.AccountsPayable.CancelAccountPayable;
+﻿using FinanceiroApi.Application.Commands.AccountsPayable.CancelAccountPayable;
 using FinanceiroApi.Application.Commands.AccountsPayable.CreateAccountPayable;
 using FinanceiroApi.Application.Commands.AccountsPayable.PayAccountPayable;
 using FinanceiroApi.Application.DTOs.Request;
@@ -60,8 +60,6 @@ public class AccountsPayableController : ControllerBase
                 request.SupplierId, request.Description, request.TotalAmount,
                 request.DueDate, request.CostCenterId, request.InvoiceNumber, request.Notes), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return CreatedAtAction(nameof(GetById), new { id = result!.Id }, result);
     }
@@ -74,8 +72,6 @@ public class AccountsPayableController : ControllerBase
         var result = await _mediator.Send(
             new PayAccountPayableCommand(id, request.Amount, request.PaymentDate, request.BankAccountId), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result is null ? NotFound() : Ok(result);
     }
@@ -83,13 +79,12 @@ public class AccountsPayableController : ControllerBase
     [HttpPatch("{id:guid}/cancel")]
     [ProducesResponseType(typeof(AccountPayableResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Cancel(Guid id, [FromBody] string reason, CancellationToken ct)
+    public async Task<IActionResult> Cancel(Guid id, [FromBody] CancelReasonRequest request, CancellationToken ct)
     {
-        var result = await _mediator.Send(new CancelAccountPayableCommand(id, reason), ct);
+        var result = await _mediator.Send(new CancelAccountPayableCommand(id, request.Reason), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result is null ? NotFound() : Ok(result);
     }
 }
+

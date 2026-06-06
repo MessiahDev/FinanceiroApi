@@ -183,3 +183,62 @@ public enum AccountingPeriodStatus
     Closed = 2,
     Locked = 3
 }
+
+public enum TaxType
+{
+    ICMS = 1,
+    ISS = 2,
+    PIS = 3,
+    COFINS = 4,
+    CSLL = 5,
+    IRPJ = 6,
+    IPI = 7,
+    IOF = 8,
+    INSS = 9,
+    FGTS = 10,
+    Other = 99
+}
+
+public enum TaxEntryStatus
+{
+    Pending = 1,
+    Calculated = 2,
+    Paid = 3,
+    Cancelled = 4
+}
+
+public enum TaxPaymentStatus
+{
+    Pending = 1,
+    Paid = 2,
+    Overdue = 3,
+    Cancelled = 4
+}
+
+public enum BankStatementStatus
+{
+    Imported = 1,
+    Reconciled = 2,
+    Cancelled = 3
+}
+
+public enum BankStatementEntryType
+{
+    Credit = 1,
+    Debit = 2
+}
+
+public enum ReconciliationStatus
+{
+    Open = 1,
+    InProgress = 2,
+    Completed = 3,
+    Cancelled = 4
+}
+
+public enum ReconciliationItemStatus
+{
+    Pending = 1,
+    Matched = 2,
+    Unmatched = 3
+}

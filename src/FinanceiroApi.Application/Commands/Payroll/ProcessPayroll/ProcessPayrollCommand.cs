@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.CrossCutting.Notifications;
 using FinanceiroApi.Domain.Interfaces;
@@ -44,8 +44,8 @@ public class ProcessPayrollCommandHandler : IRequestHandler<ProcessPayrollComman
 
         if (alreadyProcessed)
         {
-            _notifications.AddNotification("Period", $"Folha {request.Month:D2}/{request.Year} já foi processada.");
-            return null!;
+            _notifications.AddNotification("Period", $"Folha {request.Month:D2}/{request.Year} jÃ¡ foi processada.");
+            return default!;
         }
 
         var payroll = Domain.Entities.Payroll.Create(request.Year, request.Month);
@@ -56,8 +56,10 @@ public class ProcessPayrollCommandHandler : IRequestHandler<ProcessPayrollComman
             if (employee is null) continue;
 
             var gross = employee.BaseSalary;
-            var inss = gross * 0.11m;
-            var irpf = gross * 0.075m;
+            var inssAmount = FinanceiroApi.CrossCutting.Helpers.MoneyHelper.CalculateInss(gross.Amount);
+            var irpfAmount = FinanceiroApi.CrossCutting.Helpers.MoneyHelper.CalculateIrrf(gross.Amount, inssAmount);
+            var inss = new Domain.ValueObjects.Money(inssAmount);
+            var irpf = new Domain.ValueObjects.Money(Math.Max(0, irpfAmount));
             var others = Domain.ValueObjects.Money.Zero;
 
             payroll.AddItem(employeeId, gross, inss, irpf, others);
@@ -65,8 +67,8 @@ public class ProcessPayrollCommandHandler : IRequestHandler<ProcessPayrollComman
 
         if (!payroll.Items.Any())
         {
-            _notifications.AddNotification("EmployeeIds", "Nenhum funcionário válido encontrado.");
-            return null!;
+            _notifications.AddNotification("EmployeeIds", "Nenhum funcionÃ¡rio vÃ¡lido encontrado.");
+            return default!;
         }
 
         payroll.Process();
@@ -82,8 +84,8 @@ public class ProcessPayrollCommandValidator : AbstractValidator<ProcessPayrollCo
 {
     public ProcessPayrollCommandValidator()
     {
-        RuleFor(x => x.Month).InclusiveBetween(1, 12).WithMessage("Mês deve estar entre 1 e 12.");
-        RuleFor(x => x.Year).InclusiveBetween(2000, 2100).WithMessage("Ano inválido.");
-        RuleFor(x => x.EmployeeIds).NotEmpty().WithMessage("Informe ao menos um funcionário.");
+        RuleFor(x => x.Month).InclusiveBetween(1, 12).WithMessage("MÃªs deve estar entre 1 e 12.");
+        RuleFor(x => x.Year).InclusiveBetween(2000, 2100).WithMessage("Ano invÃ¡lido.");
+        RuleFor(x => x.EmployeeIds).NotEmpty().WithMessage("Informe ao menos um funcionÃ¡rio.");
     }
 }

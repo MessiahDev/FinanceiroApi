@@ -1,4 +1,4 @@
-using FinanceiroApi.Application.Commands.BankAccounts.CreateBankAccount;
+﻿using FinanceiroApi.Application.Commands.BankAccounts.CreateBankAccount;
 using FinanceiroApi.Application.Commands.BankAccounts.TransferBetweenAccounts;
 using FinanceiroApi.Application.DTOs.Request;
 using FinanceiroApi.Application.DTOs.Response;
@@ -56,8 +56,6 @@ public class BankAccountsController : ControllerBase
                 request.AccountNumber, request.AccountType,
                 request.InitialBalance, request.PixKey, request.Description), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return CreatedAtAction(nameof(GetById), new { id = result!.Id }, result);
     }
@@ -72,8 +70,6 @@ public class BankAccountsController : ControllerBase
                 request.SourceAccountId, request.DestinationAccountId,
                 request.Amount, request.Description), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result ? NoContent() : BadRequest();
     }

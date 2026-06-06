@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using FinanceiroApi.Application.Commands.JournalEntries.CreateJournalEntry;
@@ -7,8 +7,8 @@ using FinanceiroApi.Application.Commands.JournalEntries.ReverseJournalEntry;
 using FinanceiroApi.Application.Queries.JournalEntries.GetJournalEntryById;
 using FinanceiroApi.Application.Queries.JournalEntries.GetJournalEntriesByPeriod;
 using FinanceiroApi.Application.Queries.Accounting.GetTrialBalance;
+using FinanceiroApi.CrossCutting.Services;
 using FinanceiroApi.Domain.Enums;
-using System.Security.Claims;
 
 namespace FinanceiroApi.API.Controllers.v1;
 
@@ -18,11 +18,13 @@ namespace FinanceiroApi.API.Controllers.v1;
 public class JournalEntriesController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly ICurrentUser _currentUser;
 
-    public JournalEntriesController(IMediator mediator) => _mediator = mediator;
-
-    private Guid CurrentUserId =>
-        Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? Guid.Empty.ToString());
+    public JournalEntriesController(IMediator mediator, ICurrentUser currentUser)
+    {
+        _mediator = mediator;
+        _currentUser = currentUser;
+    }
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -53,7 +55,7 @@ public class JournalEntriesController : ControllerBase
         [FromBody] CreateJournalEntryCommand command,
         CancellationToken cancellationToken = default)
     {
-        var id = await _mediator.Send(command with { CreatedByUserId = CurrentUserId }, cancellationToken);
+        var id = await _mediator.Send(command, cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id }, new { id });
     }
 
@@ -77,7 +79,7 @@ public class JournalEntriesController : ControllerBase
         CancellationToken cancellationToken = default)
     {
         var reversalId = await _mediator.Send(
-            new ReverseJournalEntryCommand(id, request.Description, CurrentUserId), cancellationToken);
+            new ReverseJournalEntryCommand(id, request.Description, _currentUser.UserId), cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id = reversalId }, new { id = reversalId });
     }
 

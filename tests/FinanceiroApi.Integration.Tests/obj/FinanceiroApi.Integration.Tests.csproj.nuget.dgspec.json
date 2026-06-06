@@ -60,6 +60,18 @@
           "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
+            "AspNetCore.HealthChecks.NpgSql": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "AspNetCore.HealthChecks.Rabbitmq": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "AspNetCore.HealthChecks.Redis": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
             "MediatR": {
               "target": "Package",
               "version": "[12.4.1, )"
@@ -494,7 +506,7 @@
             },
             "RabbitMQ.Client": {
               "target": "Package",
-              "version": "[6.8.1, )"
+              "version": "[7.*, )"
             },
             "SendGrid": {
               "target": "Package",

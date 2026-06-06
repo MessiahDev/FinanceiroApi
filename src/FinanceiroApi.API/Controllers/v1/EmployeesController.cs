@@ -1,4 +1,4 @@
-using FinanceiroApi.Application.Commands.Employees.CreateEmployee;
+﻿using FinanceiroApi.Application.Commands.Employees.CreateEmployee;
 using FinanceiroApi.Application.Commands.Employees.DeleteEmployee;
 using FinanceiroApi.Application.Commands.Employees.UpdateEmployee;
 using FinanceiroApi.Application.Commands.Employees.UpdateSalary;
@@ -81,8 +81,6 @@ public class EmployeesController : ControllerBase
 
         var result = await _mediator.Send(command, ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return CreatedAtAction(nameof(GetById), new { id = result!.Id }, result);
     }
@@ -102,8 +100,6 @@ public class EmployeesController : ControllerBase
 
         var result = await _mediator.Send(command, ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result is null ? NotFound() : Ok(result);
     }
@@ -119,8 +115,6 @@ public class EmployeesController : ControllerBase
         var command = new UpdateSalaryCommand(id, request.NewSalary, request.Reason);
         var result = await _mediator.Send(command, ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result is null ? NotFound() : Ok(result);
     }
@@ -132,8 +126,6 @@ public class EmployeesController : ControllerBase
     {
         var result = await _mediator.Send(new DeleteEmployeeCommand(id), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result ? NoContent() : NotFound();
     }

@@ -1,4 +1,4 @@
-using FinanceiroApi.Domain.Entities;
+﻿using FinanceiroApi.Domain.Entities;
 using FinanceiroApi.Domain.Entities.Base;
 using FinanceiroApi.Domain.Interfaces.Repositories;
 using FinanceiroApi.Infrastructure.Data;

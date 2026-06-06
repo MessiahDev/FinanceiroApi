@@ -230,6 +230,196 @@ namespace FinanceiroApi.Infrastructure.Migrations
                     b.ToTable("BankAccounts", (string)null);
                 });
 
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.BankReconciliation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BankAccountId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BankStatementId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CompletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<DateOnly>("PeriodEnd")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("PeriodStart")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankAccountId");
+
+                    b.HasIndex("BankStatementId");
+
+                    b.ToTable("BankReconciliations", (string)null);
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.BankReconciliationItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BankReconciliationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BankStatementEntryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<Guid?>("TransactionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankReconciliationId");
+
+                    b.HasIndex("BankStatementEntryId");
+
+                    b.HasIndex("TransactionId");
+
+                    b.ToTable("BankReconciliationItems", (string)null);
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.BankStatement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BankAccountId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FileName")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<DateOnly>("PeriodEnd")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("PeriodStart")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("StatementDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankAccountId");
+
+                    b.ToTable("BankStatements", (string)null);
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.BankStatementEntry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BankStatementId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("DocumentNumber")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("EntryType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsReconciled")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("ReconciliationItemId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankStatementId");
+
+                    b.ToTable("BankStatementEntries", (string)null);
+                });
+
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.Budget", b =>
                 {
                     b.Property<Guid>("Id")
@@ -811,6 +1001,116 @@ namespace FinanceiroApi.Infrastructure.Migrations
                     b.ToTable("Suppliers", (string)null);
                 });
 
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.TaxEntry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("Competence")
+                        .HasColumnType("date");
+
+                    b.Property<Guid?>("CostCenterId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateOnly>("DueDate")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("numeric(8,4)");
+
+                    b.Property<string>("ReferenceDocument")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<Guid?>("ReferenceDocumentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("TaxType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CostCenterId");
+
+                    b.ToTable("TaxEntries", (string)null);
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.TaxPayment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BankAccountId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DarfNumber")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<DateOnly>("PaymentDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ReceiptCode")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<Guid>("TaxEntryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankAccountId");
+
+                    b.HasIndex("TaxEntryId");
+
+                    b.ToTable("TaxPayments", (string)null);
+                });
+
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1104,6 +1404,255 @@ namespace FinanceiroApi.Infrastructure.Migrations
 
                     b.Navigation("Balance")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.BankReconciliation", b =>
+                {
+                    b.HasOne("FinanceiroApi.Domain.Entities.BankAccount", "BankAccount")
+                        .WithMany()
+                        .HasForeignKey("BankAccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FinanceiroApi.Domain.Entities.BankStatement", "BankStatement")
+                        .WithMany()
+                        .HasForeignKey("BankStatementId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.OwnsOne("FinanceiroApi.Domain.ValueObjects.Money", "StatementClosingBalance", b1 =>
+                        {
+                            b1.Property<Guid>("BankReconciliationId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(18,2)")
+                                .HasColumnName("StatementClosingBalance");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("StatementClosingCurrency");
+
+                            b1.HasKey("BankReconciliationId");
+
+                            b1.ToTable("BankReconciliations");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BankReconciliationId");
+                        });
+
+                    b.OwnsOne("FinanceiroApi.Domain.ValueObjects.Money", "StatementOpeningBalance", b1 =>
+                        {
+                            b1.Property<Guid>("BankReconciliationId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(18,2)")
+                                .HasColumnName("StatementOpeningBalance");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("StatementOpeningCurrency");
+
+                            b1.HasKey("BankReconciliationId");
+
+                            b1.ToTable("BankReconciliations");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BankReconciliationId");
+                        });
+
+                    b.OwnsOne("FinanceiroApi.Domain.ValueObjects.Money", "SystemBalance", b1 =>
+                        {
+                            b1.Property<Guid>("BankReconciliationId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(18,2)")
+                                .HasColumnName("SystemBalance");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("SystemBalanceCurrency");
+
+                            b1.HasKey("BankReconciliationId");
+
+                            b1.ToTable("BankReconciliations");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BankReconciliationId");
+                        });
+
+                    b.Navigation("BankAccount");
+
+                    b.Navigation("BankStatement");
+
+                    b.Navigation("StatementClosingBalance")
+                        .IsRequired();
+
+                    b.Navigation("StatementOpeningBalance")
+                        .IsRequired();
+
+                    b.Navigation("SystemBalance")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.BankReconciliationItem", b =>
+                {
+                    b.HasOne("FinanceiroApi.Domain.Entities.BankReconciliation", "BankReconciliation")
+                        .WithMany("Items")
+                        .HasForeignKey("BankReconciliationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FinanceiroApi.Domain.Entities.BankStatementEntry", "BankStatementEntry")
+                        .WithMany()
+                        .HasForeignKey("BankStatementEntryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FinanceiroApi.Domain.Entities.Transaction", "Transaction")
+                        .WithMany()
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.OwnsOne("FinanceiroApi.Domain.ValueObjects.Money", "Amount", b1 =>
+                        {
+                            b1.Property<Guid>("BankReconciliationItemId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(18,2)")
+                                .HasColumnName("Amount");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("Currency");
+
+                            b1.HasKey("BankReconciliationItemId");
+
+                            b1.ToTable("BankReconciliationItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BankReconciliationItemId");
+                        });
+
+                    b.Navigation("Amount")
+                        .IsRequired();
+
+                    b.Navigation("BankReconciliation");
+
+                    b.Navigation("BankStatementEntry");
+
+                    b.Navigation("Transaction");
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.BankStatement", b =>
+                {
+                    b.HasOne("FinanceiroApi.Domain.Entities.BankAccount", "BankAccount")
+                        .WithMany()
+                        .HasForeignKey("BankAccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.OwnsOne("FinanceiroApi.Domain.ValueObjects.Money", "ClosingBalance", b1 =>
+                        {
+                            b1.Property<Guid>("BankStatementId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(18,2)")
+                                .HasColumnName("ClosingBalance");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("ClosingCurrency");
+
+                            b1.HasKey("BankStatementId");
+
+                            b1.ToTable("BankStatements");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BankStatementId");
+                        });
+
+                    b.OwnsOne("FinanceiroApi.Domain.ValueObjects.Money", "OpeningBalance", b1 =>
+                        {
+                            b1.Property<Guid>("BankStatementId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(18,2)")
+                                .HasColumnName("OpeningBalance");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("OpeningCurrency");
+
+                            b1.HasKey("BankStatementId");
+
+                            b1.ToTable("BankStatements");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BankStatementId");
+                        });
+
+                    b.Navigation("BankAccount");
+
+                    b.Navigation("ClosingBalance")
+                        .IsRequired();
+
+                    b.Navigation("OpeningBalance")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.BankStatementEntry", b =>
+                {
+                    b.HasOne("FinanceiroApi.Domain.Entities.BankStatement", "BankStatement")
+                        .WithMany("Entries")
+                        .HasForeignKey("BankStatementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("FinanceiroApi.Domain.ValueObjects.Money", "Amount", b1 =>
+                        {
+                            b1.Property<Guid>("BankStatementEntryId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(18,2)")
+                                .HasColumnName("Amount");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("Currency");
+
+                            b1.HasKey("BankStatementEntryId");
+
+                            b1.ToTable("BankStatementEntries");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BankStatementEntryId");
+                        });
+
+                    b.Navigation("Amount")
+                        .IsRequired();
+
+                    b.Navigation("BankStatement");
                 });
 
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.BudgetItem", b =>
@@ -1620,6 +2169,165 @@ namespace FinanceiroApi.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.TaxEntry", b =>
+                {
+                    b.HasOne("FinanceiroApi.Domain.Entities.CostCenter", "CostCenter")
+                        .WithMany()
+                        .HasForeignKey("CostCenterId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.OwnsOne("FinanceiroApi.Domain.ValueObjects.Money", "BaseAmount", b1 =>
+                        {
+                            b1.Property<Guid>("TaxEntryId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(18,2)")
+                                .HasColumnName("BaseAmount");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("BaseCurrency");
+
+                            b1.HasKey("TaxEntryId");
+
+                            b1.ToTable("TaxEntries");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TaxEntryId");
+                        });
+
+                    b.OwnsOne("FinanceiroApi.Domain.ValueObjects.Money", "TaxAmount", b1 =>
+                        {
+                            b1.Property<Guid>("TaxEntryId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(18,2)")
+                                .HasColumnName("TaxAmount");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("TaxCurrency");
+
+                            b1.HasKey("TaxEntryId");
+
+                            b1.ToTable("TaxEntries");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TaxEntryId");
+                        });
+
+                    b.Navigation("BaseAmount")
+                        .IsRequired();
+
+                    b.Navigation("CostCenter");
+
+                    b.Navigation("TaxAmount")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.TaxPayment", b =>
+                {
+                    b.HasOne("FinanceiroApi.Domain.Entities.BankAccount", "BankAccount")
+                        .WithMany()
+                        .HasForeignKey("BankAccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FinanceiroApi.Domain.Entities.TaxEntry", "TaxEntry")
+                        .WithMany("Payments")
+                        .HasForeignKey("TaxEntryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.OwnsOne("FinanceiroApi.Domain.ValueObjects.Money", "Amount", b1 =>
+                        {
+                            b1.Property<Guid>("TaxPaymentId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(18,2)")
+                                .HasColumnName("Amount");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("Currency");
+
+                            b1.HasKey("TaxPaymentId");
+
+                            b1.ToTable("TaxPayments");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TaxPaymentId");
+                        });
+
+                    b.OwnsOne("FinanceiroApi.Domain.ValueObjects.Money", "Fine", b1 =>
+                        {
+                            b1.Property<Guid>("TaxPaymentId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(18,2)")
+                                .HasColumnName("Fine");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("FineCurrency");
+
+                            b1.HasKey("TaxPaymentId");
+
+                            b1.ToTable("TaxPayments");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TaxPaymentId");
+                        });
+
+                    b.OwnsOne("FinanceiroApi.Domain.ValueObjects.Money", "Interest", b1 =>
+                        {
+                            b1.Property<Guid>("TaxPaymentId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(18,2)")
+                                .HasColumnName("Interest");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("InterestCurrency");
+
+                            b1.HasKey("TaxPaymentId");
+
+                            b1.ToTable("TaxPayments");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TaxPaymentId");
+                        });
+
+                    b.Navigation("Amount")
+                        .IsRequired();
+
+                    b.Navigation("BankAccount");
+
+                    b.Navigation("Fine")
+                        .IsRequired();
+
+                    b.Navigation("Interest")
+                        .IsRequired();
+
+                    b.Navigation("TaxEntry");
+                });
+
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.Transaction", b =>
                 {
                     b.HasOne("FinanceiroApi.Domain.Entities.Employee", "Employee")
@@ -1659,6 +2367,16 @@ namespace FinanceiroApi.Infrastructure.Migrations
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.AccountingPeriod", b =>
                 {
                     b.Navigation("JournalEntries");
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.BankReconciliation", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.BankStatement", b =>
+                {
+                    b.Navigation("Entries");
                 });
 
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.Budget", b =>
@@ -1701,6 +2419,11 @@ namespace FinanceiroApi.Infrastructure.Migrations
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.Supplier", b =>
                 {
                     b.Navigation("Payables");
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.TaxEntry", b =>
+                {
+                    b.Navigation("Payments");
                 });
 #pragma warning restore 612, 618
         }

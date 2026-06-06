@@ -83,8 +83,8 @@ public class AccountPayablePaidDomainEventHandler : INotificationHandler<Account
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<AccountPayablePaidDomainEventHandler> _logger;
 
-    private const string AccountsPayableAccountCode = "2.1.01.001"; // Fornecedores (Passivo)
-    private const string BankAccountCode = "1.1.01.001";            // Caixa/Bancos (Ativo)
+    private const string AccountsPayableAccountCode = "2.1.01.001";
+    private const string BankAccountCode = "1.1.01.001";
 
     public AccountPayablePaidDomainEventHandler(
         IJournalEntryRepository journalEntryRepository,

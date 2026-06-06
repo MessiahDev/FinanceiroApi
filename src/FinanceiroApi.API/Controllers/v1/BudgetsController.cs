@@ -1,4 +1,4 @@
-
+﻿
 using FinanceiroApi.Application.Commands.Budgets.ApproveBudget;
 using FinanceiroApi.Application.Commands.Budgets.CreateBudget;
 using FinanceiroApi.Application.Commands.Budgets.UpdateBudget;
@@ -59,8 +59,6 @@ public class BudgetsController : ControllerBase
         var result = await _mediator.Send(
             new CreateBudgetCommand(request.Year, request.Name, request.Description), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return CreatedAtAction(nameof(GetById), new { id = result!.Id }, result);
     }
@@ -73,8 +71,6 @@ public class BudgetsController : ControllerBase
         var result = await _mediator.Send(
             new UpdateBudgetCommand(id, request.CostCenterId, request.Category, request.PlannedAmount), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result is null ? NotFound() : Ok(result);
     }
@@ -86,8 +82,6 @@ public class BudgetsController : ControllerBase
     {
         var result = await _mediator.Send(new ApproveBudgetCommand(id, request.ApprovedBy), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result is null ? NotFound() : Ok(result);
     }

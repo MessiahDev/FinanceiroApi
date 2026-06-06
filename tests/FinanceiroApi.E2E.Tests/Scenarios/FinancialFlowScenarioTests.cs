@@ -63,6 +63,12 @@ public class FinancialFlowScenarioTests : IAsyncLifetime
                 var hosted = services.Where(d => d.ImplementationType?.Namespace?.Contains("FinanceiroApi.Infrastructure.Messaging") == true).ToList();
                 hosted.ForEach(d => services.Remove(d));
 
+                var rabbitHealthCheck = services
+                    .Where(d => d.ServiceType.FullName?.Contains("RabbitMQ") == true
+                             || d.ImplementationType?.FullName?.Contains("RabbitMQ") == true)
+                    .ToList();
+                rabbitHealthCheck.ForEach(d => services.Remove(d));
+
                 services.AddAuthentication("Test").AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", _ => { });
                 services.PostConfigure<AuthenticationOptions>(o =>
                 {
@@ -85,24 +91,20 @@ public class FinancialFlowScenarioTests : IAsyncLifetime
     [Fact]
     public async Task BankAccountTransferFlow_ShouldSucceed()
     {
-        // Criar conta origem
         var createSource = new CreateBankAccountRequest("BB", "001", "0001", "11111-1", BankAccountType.Checking, 5000m, null, null);
         var sourceResp = await _client.PostAsJsonAsync("/api/v1/bank-accounts", createSource, _json);
         sourceResp.StatusCode.Should().Be(HttpStatusCode.Created);
         var source = await sourceResp.Content.ReadFromJsonAsync<BankAccountResponse>(_json);
 
-        // Criar conta destino
         var createDest = new CreateBankAccountRequest("Itau", "341", "0002", "22222-2", BankAccountType.Checking, 0m, null, null);
         var destResp = await _client.PostAsJsonAsync("/api/v1/bank-accounts", createDest, _json);
         destResp.StatusCode.Should().Be(HttpStatusCode.Created);
         var dest = await destResp.Content.ReadFromJsonAsync<BankAccountResponse>(_json);
 
-        // Transferir
         var transfer = new TransferBetweenAccountsRequest(source!.Id, dest!.Id, 1000m, "pagamento");
         var transferResp = await _client.PostAsJsonAsync("/api/v1/bank-accounts/transfer", transfer, _json);
         transferResp.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-        // Verificar saldos
         var updatedSource = await _client.GetFromJsonAsync<BankAccountResponse>($"/api/v1/bank-accounts/{source.Id}", _json);
         updatedSource!.Balance.Should().Be(4000m);
 
@@ -113,19 +115,16 @@ public class FinancialFlowScenarioTests : IAsyncLifetime
     [Fact]
     public async Task AccountReceivableFlow_ShouldSucceed()
     {
-        // Criar cliente
         var createCustomer = new CreateCustomerRequest("Cliente Teste", "12345678000195",
             PersonType.Company, $"cliente.{Guid.NewGuid():N}@test.com", null, null, 10000m);
         var customerResp = await _client.PostAsJsonAsync("/api/v1/customers", createCustomer, _json);
         customerResp.StatusCode.Should().Be(HttpStatusCode.Created);
         var customer = await customerResp.Content.ReadFromJsonAsync<CustomerResponse>(_json);
 
-        // Criar conta bancária
         var createBank = new CreateBankAccountRequest("BB", "001", "0001", "33333-3", BankAccountType.Checking, 0m, null, null);
         var bankResp = await _client.PostAsJsonAsync("/api/v1/bank-accounts", createBank, _json);
         var bank = await bankResp.Content.ReadFromJsonAsync<BankAccountResponse>(_json);
 
-        // Criar conta a receber
         var createAR = new CreateAccountReceivableRequest(
             customer!.Id, "Venda de produto", 2000m,
             DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)), null, "NF-001", null);
@@ -134,7 +133,6 @@ public class FinancialFlowScenarioTests : IAsyncLifetime
         var ar = await arResp.Content.ReadFromJsonAsync<AccountReceivableResponse>(_json);
         ar!.Status.Should().Be("Pending");
 
-        // Registrar recebimento
         var receive = new ReceivePaymentRequest(2000m, DateOnly.FromDateTime(DateTime.UtcNow), bank!.Id);
         var receiveResp = await _client.PostAsJsonAsync($"/api/v1/accounts-receivable/{ar.Id}/receive", receive, _json);
         receiveResp.StatusCode.Should().Be(HttpStatusCode.OK);

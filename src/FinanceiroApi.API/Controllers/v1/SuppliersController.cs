@@ -1,4 +1,4 @@
-using FinanceiroApi.Application.Commands.Suppliers.BlockSupplier;
+﻿using FinanceiroApi.Application.Commands.Suppliers.BlockSupplier;
 using FinanceiroApi.Application.Commands.Suppliers.CreateSupplier;
 using FinanceiroApi.Application.Commands.Suppliers.DeleteSupplier;
 using FinanceiroApi.Application.Commands.Suppliers.UpdateSupplier;
@@ -57,8 +57,6 @@ public class SuppliersController : ControllerBase
                 request.Name, request.TaxId, request.PersonType,
                 request.Email, request.Phone, request.ContactName), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return CreatedAtAction(nameof(GetById), new { id = result!.Id }, result);
     }
@@ -71,8 +69,6 @@ public class SuppliersController : ControllerBase
         var result = await _mediator.Send(
             new UpdateSupplierCommand(id, request.Name, request.Email, request.Phone, request.ContactName), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result is null ? NotFound() : Ok(result);
     }
@@ -84,8 +80,6 @@ public class SuppliersController : ControllerBase
     {
         var result = await _mediator.Send(new BlockSupplierCommand(id, request.Reason), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result is null ? NotFound() : Ok(result);
     }
@@ -97,8 +91,6 @@ public class SuppliersController : ControllerBase
     {
         var result = await _mediator.Send(new DeleteSupplierCommand(id), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result ? NoContent() : NotFound();
     }

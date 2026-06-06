@@ -1,4 +1,4 @@
-using FinanceiroApi.Application.Commands.Transactions.CancelTransaction;
+﻿using FinanceiroApi.Application.Commands.Transactions.CancelTransaction;
 using FinanceiroApi.Application.Commands.Transactions.ConfirmTransaction;
 using FinanceiroApi.Application.Commands.Transactions.CreateTransaction;
 using FinanceiroApi.Application.DTOs.Request;
@@ -41,7 +41,6 @@ public class TransactionsController : ControllerBase
             request.TransactionDate);
 
         var result = await _mediator.Send(command, ct);
-        if (_notifications.HasNotifications) return BadRequest(_notifications.Notifications);
 
         return Created($"api/v1/transactions/{result.Id}", result);
     }
@@ -53,7 +52,6 @@ public class TransactionsController : ControllerBase
     public async Task<IActionResult> Confirm(Guid id, CancellationToken ct)
     {
         var result = await _mediator.Send(new ConfirmTransactionCommand(id), ct);
-        if (_notifications.HasNotifications) return BadRequest(_notifications.Notifications);
         if (result is null) return NotFound();
 
         return Ok(result);
@@ -66,7 +64,6 @@ public class TransactionsController : ControllerBase
     public async Task<IActionResult> Cancel(Guid id, [FromBody] CancelTransactionRequest request, CancellationToken ct)
     {
         var result = await _mediator.Send(new CancelTransactionCommand(id, request.Reason), ct);
-        if (_notifications.HasNotifications) return BadRequest(_notifications.Notifications);
         if (result is null) return NotFound();
 
         return Ok(result);

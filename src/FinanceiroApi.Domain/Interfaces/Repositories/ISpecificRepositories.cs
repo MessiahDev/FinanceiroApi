@@ -134,3 +134,37 @@ public interface IAccountingPeriodRepository : IRepositoryBase<AccountingPeriod>
     Task<IEnumerable<AccountingPeriod>> GetOpenPeriodsAsync(CancellationToken cancellationToken = default);
     Task<bool> ExistsByYearMonthAsync(int year, int month, Guid? excludeId = null, CancellationToken cancellationToken = default);
 }
+
+public interface ITaxEntryRepository : IRepositoryBase<TaxEntry>
+{
+    Task<IReadOnlyList<TaxEntry>> GetByTaxTypeAsync(TaxType taxType, CancellationToken ct = default);
+    Task<IReadOnlyList<TaxEntry>> GetByStatusAsync(TaxEntryStatus status, CancellationToken ct = default);
+    Task<IReadOnlyList<TaxEntry>> GetByCompetenceAsync(int year, int month, CancellationToken ct = default);
+    Task<IReadOnlyList<TaxEntry>> GetByDueDateRangeAsync(DateOnly from, DateOnly to, CancellationToken ct = default);
+    Task<IReadOnlyList<TaxEntry>> GetOverdueAsync(CancellationToken ct = default);
+    Task<TaxEntry?> GetWithPaymentsAsync(Guid id, CancellationToken ct = default);
+}
+
+public interface ITaxPaymentRepository : IRepositoryBase<TaxPayment>
+{
+    Task<IReadOnlyList<TaxPayment>> GetByTaxEntryAsync(Guid taxEntryId, CancellationToken ct = default);
+    Task<IReadOnlyList<TaxPayment>> GetByBankAccountAsync(Guid bankAccountId, CancellationToken ct = default);
+    Task<IReadOnlyList<TaxPayment>> GetByPaymentDateRangeAsync(DateOnly from, DateOnly to, CancellationToken ct = default);
+    Task<TaxPayment?> GetWithDetailsAsync(Guid id, CancellationToken ct = default);
+}
+
+public interface IBankStatementRepository : IRepositoryBase<BankStatement>
+{
+    Task<IReadOnlyList<BankStatement>> GetByBankAccountAsync(Guid bankAccountId, CancellationToken ct = default);
+    Task<IReadOnlyList<BankStatement>> GetByPeriodAsync(Guid bankAccountId, DateOnly from, DateOnly to, CancellationToken ct = default);
+    Task<BankStatement?> GetWithEntriesAsync(Guid id, CancellationToken ct = default);
+    Task<bool> ExistsForPeriodAsync(Guid bankAccountId, DateOnly periodStart, DateOnly periodEnd, CancellationToken ct = default);
+}
+
+public interface IBankReconciliationRepository : IRepositoryBase<BankReconciliation>
+{
+    Task<IReadOnlyList<BankReconciliation>> GetByBankAccountAsync(Guid bankAccountId, CancellationToken ct = default);
+    Task<IReadOnlyList<BankReconciliation>> GetByStatusAsync(ReconciliationStatus status, CancellationToken ct = default);
+    Task<BankReconciliation?> GetWithItemsAsync(Guid id, CancellationToken ct = default);
+    Task<bool> ExistsForStatementAsync(Guid bankStatementId, CancellationToken ct = default);
+}

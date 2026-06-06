@@ -1,4 +1,4 @@
-using FinanceiroApi.Application.Commands.AccountsReceivable.CancelAccountReceivable;
+﻿using FinanceiroApi.Application.Commands.AccountsReceivable.CancelAccountReceivable;
 using FinanceiroApi.Application.Commands.AccountsReceivable.CreateAccountReceivable;
 using FinanceiroApi.Application.Commands.AccountsReceivable.ReceivePayment;
 using FinanceiroApi.Application.DTOs.Request;
@@ -46,8 +46,6 @@ public class AccountsReceivableController : ControllerBase
                 request.CustomerId, request.Description, request.TotalAmount,
                 request.DueDate, request.CostCenterId, request.InvoiceNumber, request.Notes), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return Created(string.Empty, result);
     }
@@ -60,8 +58,6 @@ public class AccountsReceivableController : ControllerBase
         var result = await _mediator.Send(
             new ReceivePaymentCommand(id, request.Amount, request.ReceiptDate, request.BankAccountId), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result is null ? NotFound() : Ok(result);
     }
@@ -69,13 +65,12 @@ public class AccountsReceivableController : ControllerBase
     [HttpPatch("{id:guid}/cancel")]
     [ProducesResponseType(typeof(AccountReceivableResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Cancel(Guid id, [FromBody] string reason, CancellationToken ct)
+    public async Task<IActionResult> Cancel(Guid id, [FromBody] CancelReasonRequest request, CancellationToken ct)
     {
-        var result = await _mediator.Send(new CancelAccountReceivableCommand(id, reason), ct);
+        var result = await _mediator.Send(new CancelAccountReceivableCommand(id, request.Reason), ct);
 
-        if (_notifications.HasNotifications)
-            return BadRequest(_notifications.Notifications);
 
         return result is null ? NotFound() : Ok(result);
     }
 }
+

@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "BuvOkfcTiLI=",
+  "dgSpecHash": "k+8QzsJFgrU=",
   "success": true,
   "projectFilePath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\src\\FinanceiroApi.API\\FinanceiroApi.API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Alex\\.nuget\\packages\\aspnetcore.healthchecks.npgsql\\8.0.1\\aspnetcore.healthchecks.npgsql.8.0.1.nupkg.sha512",
+    "C:\\Users\\Alex\\.nuget\\packages\\aspnetcore.healthchecks.rabbitmq\\8.0.1\\aspnetcore.healthchecks.rabbitmq.8.0.1.nupkg.sha512",
+    "C:\\Users\\Alex\\.nuget\\packages\\aspnetcore.healthchecks.redis\\8.0.1\\aspnetcore.healthchecks.redis.8.0.1.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\automapper\\16.1.1\\automapper.16.1.1.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\awssdk.core\\4.0.7.4\\awssdk.core.4.0.7.4.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\awssdk.s3\\4.0.23.6\\awssdk.s3.4.0.23.6.nupkg.sha512",
@@ -46,6 +49,8 @@
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.0\\microsoft.extensions.dependencyinjection.abstractions.10.0.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.extensions.dependencymodel\\9.0.0\\microsoft.extensions.dependencymodel.9.0.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.extensions.diagnostics.abstractions\\9.0.0\\microsoft.extensions.diagnostics.abstractions.9.0.0.nupkg.sha512",
+    "C:\\Users\\Alex\\.nuget\\packages\\microsoft.extensions.diagnostics.healthchecks\\8.0.0\\microsoft.extensions.diagnostics.healthchecks.8.0.0.nupkg.sha512",
+    "C:\\Users\\Alex\\.nuget\\packages\\microsoft.extensions.diagnostics.healthchecks.abstractions\\8.0.0\\microsoft.extensions.diagnostics.healthchecks.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\9.0.0\\microsoft.extensions.fileproviders.abstractions.9.0.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.extensions.hosting.abstractions\\9.0.0\\microsoft.extensions.hosting.abstractions.9.0.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.extensions.logging\\9.0.1\\microsoft.extensions.logging.9.0.1.nupkg.sha512",
@@ -67,7 +72,7 @@
     "C:\\Users\\Alex\\.nuget\\packages\\npgsql\\9.0.3\\npgsql.9.0.3.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\9.0.4\\npgsql.entityframeworkcore.postgresql.9.0.4.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\pipelines.sockets.unofficial\\2.2.16\\pipelines.sockets.unofficial.2.2.16.nupkg.sha512",
-    "C:\\Users\\Alex\\.nuget\\packages\\rabbitmq.client\\6.8.1\\rabbitmq.client.6.8.1.nupkg.sha512",
+    "C:\\Users\\Alex\\.nuget\\packages\\rabbitmq.client\\7.2.1\\rabbitmq.client.7.2.1.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\scalar.aspnetcore\\2.14.14\\scalar.aspnetcore.2.14.14.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\sendgrid\\9.29.3\\sendgrid.9.29.3.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\serilog\\4.2.0\\serilog.4.2.0.nupkg.sha512",
@@ -96,14 +101,14 @@
     "C:\\Users\\Alex\\.nuget\\packages\\system.drawing.common\\4.7.3\\system.drawing.common.4.7.3.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.16.0\\system.identitymodel.tokens.jwt.8.16.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\system.io.hashing\\10.0.2\\system.io.hashing.10.0.2.nupkg.sha512",
-    "C:\\Users\\Alex\\.nuget\\packages\\system.io.pipelines\\7.0.0\\system.io.pipelines.7.0.0.nupkg.sha512",
-    "C:\\Users\\Alex\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\Alex\\.nuget\\packages\\system.io.pipelines\\8.0.0\\system.io.pipelines.8.0.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\system.reflection.metadata\\7.0.0\\system.reflection.metadata.7.0.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\system.security.cryptography.pkcs\\9.0.13\\system.security.cryptography.pkcs.9.0.13.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.13\\system.security.cryptography.protecteddata.9.0.13.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\system.text.json\\9.0.0\\system.text.json.9.0.0.nupkg.sha512",
-    "C:\\Users\\Alex\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512"
+    "C:\\Users\\Alex\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512",
+    "C:\\Users\\Alex\\.nuget\\packages\\system.threading.ratelimiting\\8.0.0\\system.threading.ratelimiting.8.0.0.nupkg.sha512"
   ],
   "logs": []
 }

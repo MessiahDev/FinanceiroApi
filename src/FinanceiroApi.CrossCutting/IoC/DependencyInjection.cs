@@ -1,8 +1,10 @@
-using FinanceiroApi.CrossCutting.Notifications;
+﻿using FinanceiroApi.CrossCutting.Notifications;
 using FinanceiroApi.CrossCutting.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.JsonWebTokens;
 using System.Text;
@@ -23,6 +25,9 @@ public static class DependencyInjection
         services.AddScoped<TokenService>();
         services.AddJwtAuthentication(configuration);
 
+        services.AddHttpContextAccessor();
+        services.AddScoped<FinanceiroApi.CrossCutting.Services.ICurrentUser, FinanceiroApi.CrossCutting.Services.CurrentUserService>();
+
         return services;
     }
 
@@ -35,6 +40,12 @@ public static class DependencyInjection
 
         var key = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
 
+        var environment = services
+            .BuildServiceProvider()
+            .GetService<IWebHostEnvironment>();
+
+        var requireHttps = environment is null || !environment.IsDevelopment();
+
         services
             .AddAuthentication(options =>
             {
@@ -43,7 +54,7 @@ public static class DependencyInjection
             })
             .AddJwtBearer(options =>
             {
-                options.RequireHttpsMetadata = false;
+                options.RequireHttpsMetadata = requireHttps;
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -68,3 +79,4 @@ public static class DependencyInjection
         return services;
     }
 }
+

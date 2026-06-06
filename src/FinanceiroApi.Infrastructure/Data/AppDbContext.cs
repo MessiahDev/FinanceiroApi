@@ -1,6 +1,5 @@
 ﻿using FinanceiroApi.Domain.Entities;
 using FinanceiroApi.Domain.Entities.Base;
-using FinanceiroApi.Infrastructure.Configurations;
 using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -35,16 +34,36 @@ public sealed class AppDbContext : DbContext
     public DbSet<JournalEntry> JournalEntries { get; set; }
     public DbSet<JournalEntryLine> JournalEntryLines { get; set; }
     public DbSet<AccountingPeriod> AccountingPeriods { get; set; }
+    public DbSet<TaxEntry> TaxEntries { get; set; }
+    public DbSet<TaxPayment> TaxPayments { get; set; }
+    public DbSet<BankStatement> BankStatements { get; set; }
+    public DbSet<BankStatementEntry> BankStatementEntries { get; set; }
+    public DbSet<BankReconciliation> BankReconciliations { get; set; }
+    public DbSet<BankReconciliationItem> BankReconciliationItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
         modelBuilder.Ignore<FinanceiroApi.Domain.Events.Base.DomainEvent>();
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-        modelBuilder.ApplyConfiguration(new ChartOfAccountConfiguration());
-        modelBuilder.ApplyConfiguration(new JournalEntryConfiguration());
-        modelBuilder.ApplyConfiguration(new JournalEntryLineConfiguration());
-        modelBuilder.ApplyConfiguration(new AccountingPeriodConfiguration());
+
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))
+            {
+                modelBuilder.Entity(entityType.ClrType)
+                    .HasQueryFilter(BuildIsDeletedFilter(entityType.ClrType));
+            }
+        }
+    }
+
+    private static System.Linq.Expressions.LambdaExpression BuildIsDeletedFilter(Type type)
+    {
+        var param = System.Linq.Expressions.Expression.Parameter(type, "e");
+        var prop = System.Linq.Expressions.Expression.Property(param, nameof(BaseEntity.IsDeleted));
+        var body = System.Linq.Expressions.Expression.Not(prop);
+        return System.Linq.Expressions.Expression.Lambda(body, param);
     }
 
     private readonly HashSet<Guid> _newEntityIds = [];

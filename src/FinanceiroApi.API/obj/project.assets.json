@@ -2,6 +2,57 @@
   "version": 4,
   "targets": {
     "net9.0": {
+      "AspNetCore.HealthChecks.NpgSql/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.0",
+          "Npgsql": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0/HealthChecks.NpgSql.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/HealthChecks.NpgSql.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "AspNetCore.HealthChecks.Rabbitmq/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.0",
+          "RabbitMQ.Client": "6.7.0"
+        },
+        "compile": {
+          "lib/net6.0/HealthChecks.Rabbitmq.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/HealthChecks.Rabbitmq.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "AspNetCore.HealthChecks.Redis/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.0",
+          "StackExchange.Redis": "2.7.4"
+        },
+        "compile": {
+          "lib/net6.0/HealthChecks.Redis.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/HealthChecks.Redis.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "AutoMapper/16.1.1": {
         "type": "package",
         "dependencies": {
@@ -999,6 +1050,38 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
+      "Microsoft.Extensions.Diagnostics.HealthChecks/8.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions": "8.0.0",
+          "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
+          "Microsoft.Extensions.Options": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0/Microsoft.Extensions.Diagnostics.HealthChecks.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Diagnostics.HealthChecks.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions/8.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.Extensions.FileProviders.Abstractions/9.0.0": {
         "type": "package",
         "dependencies": {
@@ -1345,19 +1428,19 @@
           }
         }
       },
-      "RabbitMQ.Client/6.8.1": {
+      "RabbitMQ.Client/7.2.1": {
         "type": "package",
         "dependencies": {
-          "System.Memory": "4.5.5",
-          "System.Threading.Channels": "7.0.0"
+          "System.IO.Pipelines": "8.0.0",
+          "System.Threading.RateLimiting": "8.0.0"
         },
         "compile": {
-          "lib/netstandard2.0/RabbitMQ.Client.dll": {
+          "lib/net8.0/RabbitMQ.Client.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/netstandard2.0/RabbitMQ.Client.dll": {
+          "lib/net8.0/RabbitMQ.Client.dll": {
             "related": ".xml"
           }
         }
@@ -1857,29 +1940,20 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-      "System.IO.Pipelines/7.0.0": {
+      "System.IO.Pipelines/8.0.0": {
         "type": "package",
         "compile": {
-          "lib/net7.0/_._": {
+          "lib/net8.0/System.IO.Pipelines.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net7.0/System.IO.Pipelines.dll": {
+          "lib/net8.0/System.IO.Pipelines.dll": {
             "related": ".xml"
           }
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
-        }
-      },
-      "System.Memory/4.5.5": {
-        "type": "package",
-        "compile": {
-          "ref/netcoreapp2.1/_._": {}
-        },
-        "runtime": {
-          "lib/netcoreapp2.1/_._": {}
         }
       },
       "System.Reflection.Metadata/7.0.0": {
@@ -1974,12 +2048,28 @@
       "System.Threading.Channels/7.0.0": {
         "type": "package",
         "compile": {
-          "lib/net7.0/System.Threading.Channels.dll": {
+          "lib/net7.0/_._": {
             "related": ".xml"
           }
         },
         "runtime": {
           "lib/net7.0/System.Threading.Channels.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.Threading.RateLimiting/8.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Threading.RateLimiting.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Threading.RateLimiting.dll": {
             "related": ".xml"
           }
         },
@@ -2056,7 +2146,7 @@
           "Microsoft.Data.SqlClient": "7.0.1",
           "Microsoft.EntityFrameworkCore": "9.0.1",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.4",
-          "RabbitMQ.Client": "6.8.1",
+          "RabbitMQ.Client": "7.0.0",
           "SendGrid": "9.29.3",
           "StackExchange.Redis": "2.13.17"
         },
@@ -2070,6 +2160,58 @@
     }
   },
   "libraries": {
+    "AspNetCore.HealthChecks.NpgSql/8.0.1": {
+      "sha512": "SQAXxr70LjGdDzSXsr2hxYqcBRhMTddL/kHRs5ftpysdVw6UQhY2/mHl4Q+6yd8ajJsQW5My4tmqk1/zyBAY8w==",
+      "type": "package",
+      "path": "aspnetcore.healthchecks.npgsql/8.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "aspnetcore.healthchecks.npgsql.8.0.1.nupkg.sha512",
+        "aspnetcore.healthchecks.npgsql.nuspec",
+        "icon.png",
+        "lib/net7.0/HealthChecks.NpgSql.dll",
+        "lib/net7.0/HealthChecks.NpgSql.xml",
+        "lib/net8.0/HealthChecks.NpgSql.dll",
+        "lib/net8.0/HealthChecks.NpgSql.xml",
+        "lib/netstandard2.0/HealthChecks.NpgSql.dll",
+        "lib/netstandard2.0/HealthChecks.NpgSql.xml"
+      ]
+    },
+    "AspNetCore.HealthChecks.Rabbitmq/8.0.1": {
+      "sha512": "m4gfYpt54csWtIED0bmHUfx/CLrj48cc4tZ6Ytz8taAC/5S0n6o3FsQanrua9gxCI0PC9gOpLfexJnVZnugw0g==",
+      "type": "package",
+      "path": "aspnetcore.healthchecks.rabbitmq/8.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "aspnetcore.healthchecks.rabbitmq.8.0.1.nupkg.sha512",
+        "aspnetcore.healthchecks.rabbitmq.nuspec",
+        "icon.png",
+        "lib/net6.0/HealthChecks.Rabbitmq.dll",
+        "lib/net6.0/HealthChecks.Rabbitmq.xml",
+        "lib/netstandard2.0/HealthChecks.Rabbitmq.dll",
+        "lib/netstandard2.0/HealthChecks.Rabbitmq.xml"
+      ]
+    },
+    "AspNetCore.HealthChecks.Redis/8.0.1": {
+      "sha512": "45jqq4ydvmm7yKpTf0jEpUuYloe2vlytN9dasmqwmQyorpNbjdvWuyvSmjVZM5nBa5e5ryF5MU+F7bXv6Zp2vQ==",
+      "type": "package",
+      "path": "aspnetcore.healthchecks.redis/8.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "aspnetcore.healthchecks.redis.8.0.1.nupkg.sha512",
+        "aspnetcore.healthchecks.redis.nuspec",
+        "icon.png",
+        "lib/net6.0/HealthChecks.Redis.dll",
+        "lib/net6.0/HealthChecks.Redis.xml",
+        "lib/netstandard2.0/HealthChecks.Redis.dll",
+        "lib/netstandard2.0/HealthChecks.Redis.xml"
+      ]
+    },
     "AutoMapper/16.1.1": {
       "sha512": "VNEky8JA15ci+oIDRGHITOGOpV4dILsf8pnn24QhDl2urtqgJ2IXiS/V2EtGU17P/+f6OeFQPJETaZXV9QOIZg==",
       "type": "package",
@@ -3841,6 +3983,44 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "Microsoft.Extensions.Diagnostics.HealthChecks/8.0.0": {
+      "sha512": "P9SoBuVZhJPpALZmSq72aQEb9ryP67EdquaCZGXGrrcASTNHYdrUhnpgSwIipgM5oVC+dKpRXg5zxobmF9xr5g==",
+      "type": "package",
+      "path": "microsoft.extensions.diagnostics.healthchecks/8.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net462/Microsoft.Extensions.Diagnostics.HealthChecks.dll",
+        "lib/net462/Microsoft.Extensions.Diagnostics.HealthChecks.xml",
+        "lib/net8.0/Microsoft.Extensions.Diagnostics.HealthChecks.dll",
+        "lib/net8.0/Microsoft.Extensions.Diagnostics.HealthChecks.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Diagnostics.HealthChecks.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Diagnostics.HealthChecks.xml",
+        "microsoft.extensions.diagnostics.healthchecks.8.0.0.nupkg.sha512",
+        "microsoft.extensions.diagnostics.healthchecks.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions/8.0.0": {
+      "sha512": "AT2qqos3IgI09ok36Qag9T8bb6kHJ3uT9Q5ki6CySybFsK6/9JbvQAgAHf1pVEjST0/N4JaFaCbm40R5edffwg==",
+      "type": "package",
+      "path": "microsoft.extensions.diagnostics.healthchecks.abstractions/8.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net462/Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll",
+        "lib/net462/Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.xml",
+        "lib/net8.0/Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll",
+        "lib/net8.0/Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.xml",
+        "microsoft.extensions.diagnostics.healthchecks.abstractions.8.0.0.nupkg.sha512",
+        "microsoft.extensions.diagnostics.healthchecks.abstractions.nuspec"
+      ]
+    },
     "Microsoft.Extensions.FileProviders.Abstractions/9.0.0": {
       "sha512": "uK439QzYR0q2emLVtYzwyK3x+T5bTY4yWsd/k/ZUS9LR6Sflp8MIdhGXW8kQCd86dQD4tLqvcbLkku8qHY263Q==",
       "type": "package",
@@ -4412,20 +4592,20 @@
         "pipelines.sockets.unofficial.nuspec"
       ]
     },
-    "RabbitMQ.Client/6.8.1": {
-      "sha512": "jNsmGgmCNw2S/NzskeN2ijtGywtH4Sk/G6jWUTD5sY9SrC27Xz6BsLIiB8hdsfjeyWCa4j4GvCIGkpE8wrjU1Q==",
+    "RabbitMQ.Client/7.2.1": {
+      "sha512": "YKXEfg9fVQiTKgZlvIhAfPSFaamEgi8DsQmisCH0IAsU4FYLrtoguDrDj6JtJVGUt40QPnBLRH6fTQcAC4qsOg==",
       "type": "package",
-      "path": "rabbitmq.client/6.8.1",
+      "path": "rabbitmq.client/7.2.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "README.md",
         "icon.png",
-        "lib/net462/RabbitMQ.Client.dll",
-        "lib/net462/RabbitMQ.Client.xml",
+        "lib/net8.0/RabbitMQ.Client.dll",
+        "lib/net8.0/RabbitMQ.Client.xml",
         "lib/netstandard2.0/RabbitMQ.Client.dll",
         "lib/netstandard2.0/RabbitMQ.Client.xml",
-        "rabbitmq.client.6.8.1.nupkg.sha512",
+        "rabbitmq.client.7.2.1.nupkg.sha512",
         "rabbitmq.client.nuspec"
       ]
     },
@@ -5134,10 +5314,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "System.IO.Pipelines/7.0.0": {
-      "sha512": "jRn6JYnNPW6xgQazROBLSfpdoczRw694vO5kKvMcNnpXuolEixUyw6IBuBs2Y2mlSX/LdLvyyWmfXhaI3ND1Yg==",
+    "System.IO.Pipelines/8.0.0": {
+      "sha512": "FHNOatmUq0sqJOkTx+UF/9YK1f180cnW5FVqnQMvYUN0elp6wFzbtPSiqbo1/ru8ICp43JM1i7kKkk6GsNGHlA==",
       "type": "package",
-      "path": "system.io.pipelines/7.0.0",
+      "path": "system.io.pipelines/8.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5154,34 +5334,13 @@
         "lib/net6.0/System.IO.Pipelines.xml",
         "lib/net7.0/System.IO.Pipelines.dll",
         "lib/net7.0/System.IO.Pipelines.xml",
+        "lib/net8.0/System.IO.Pipelines.dll",
+        "lib/net8.0/System.IO.Pipelines.xml",
         "lib/netstandard2.0/System.IO.Pipelines.dll",
         "lib/netstandard2.0/System.IO.Pipelines.xml",
-        "system.io.pipelines.7.0.0.nupkg.sha512",
+        "system.io.pipelines.8.0.0.nupkg.sha512",
         "system.io.pipelines.nuspec",
         "useSharedDesignerContext.txt"
-      ]
-    },
-    "System.Memory/4.5.5": {
-      "sha512": "XIWiDvKPXaTveaB7HVganDlOCRoj03l+jrwNvcge/t8vhGYKvqV+dMv6G4SAX2NoNmN0wZfVPTAlFwZcZvVOUw==",
-      "type": "package",
-      "path": "system.memory/4.5.5",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE.TXT",
-        "THIRD-PARTY-NOTICES.TXT",
-        "lib/net461/System.Memory.dll",
-        "lib/net461/System.Memory.xml",
-        "lib/netcoreapp2.1/_._",
-        "lib/netstandard1.1/System.Memory.dll",
-        "lib/netstandard1.1/System.Memory.xml",
-        "lib/netstandard2.0/System.Memory.dll",
-        "lib/netstandard2.0/System.Memory.xml",
-        "ref/netcoreapp2.1/_._",
-        "system.memory.4.5.5.nupkg.sha512",
-        "system.memory.nuspec",
-        "useSharedDesignerContext.txt",
-        "version.txt"
       ]
     },
     "System.Reflection.Metadata/7.0.0": {
@@ -5404,6 +5563,35 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "System.Threading.RateLimiting/8.0.0": {
+      "sha512": "7mu9v0QDv66ar3DpGSZHg9NuNcxDaaAcnMULuZlaTpP9+hwXhrxNGsF5GmLkSHxFdb5bBc1TzeujsRgTrPWi+Q==",
+      "type": "package",
+      "path": "system.threading.ratelimiting/8.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.Threading.RateLimiting.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net6.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Threading.RateLimiting.targets",
+        "lib/net462/System.Threading.RateLimiting.dll",
+        "lib/net462/System.Threading.RateLimiting.xml",
+        "lib/net6.0/System.Threading.RateLimiting.dll",
+        "lib/net6.0/System.Threading.RateLimiting.xml",
+        "lib/net7.0/System.Threading.RateLimiting.dll",
+        "lib/net7.0/System.Threading.RateLimiting.xml",
+        "lib/net8.0/System.Threading.RateLimiting.dll",
+        "lib/net8.0/System.Threading.RateLimiting.xml",
+        "lib/netstandard2.0/System.Threading.RateLimiting.dll",
+        "lib/netstandard2.0/System.Threading.RateLimiting.xml",
+        "system.threading.ratelimiting.8.0.0.nupkg.sha512",
+        "system.threading.ratelimiting.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
     "FinanceiroApi.Application/1.0.0": {
       "type": "project",
       "path": "../FinanceiroApi.Application/FinanceiroApi.Application.csproj",
@@ -5427,6 +5615,9 @@
   },
   "projectFileDependencyGroups": {
     "net9.0": [
+      "AspNetCore.HealthChecks.NpgSql >= 8.0.1",
+      "AspNetCore.HealthChecks.RabbitMQ >= 8.0.1",
+      "AspNetCore.HealthChecks.Redis >= 8.0.1",
       "FinanceiroApi.Application >= 1.0.0",
       "FinanceiroApi.CrossCutting >= 1.0.0",
       "FinanceiroApi.Infrastructure >= 1.0.0",
@@ -5501,6 +5692,18 @@
         "framework": "net9.0",
         "targetAlias": "net9.0",
         "dependencies": {
+          "AspNetCore.HealthChecks.NpgSql": {
+            "target": "Package",
+            "version": "[8.0.1, )"
+          },
+          "AspNetCore.HealthChecks.RabbitMQ": {
+            "target": "Package",
+            "version": "[8.0.1, )"
+          },
+          "AspNetCore.HealthChecks.Redis": {
+            "target": "Package",
+            "version": "[8.0.1, )"
+          },
           "MediatR": {
             "target": "Package",
             "version": "[12.4.1, )"

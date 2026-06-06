@@ -7,10 +7,10 @@ using RabbitMQ.Client;
 
 namespace FinanceiroApi.Infrastructure.Messaging;
 
-public sealed class EventBusPublisher : IEventBusPublisher, IDisposable
+public sealed class EventBusPublisher : IEventBusPublisher, IAsyncDisposable
 {
     private IConnection? _connection;
-    private IModel? _channel;
+    private IChannel? _channel;
     private readonly ILogger<EventBusPublisher> _logger;
     private readonly ConnectionFactory _factory;
     private readonly SemaphoreSlim _lock = new(1, 1);
@@ -29,21 +29,20 @@ public sealed class EventBusPublisher : IEventBusPublisher, IDisposable
             VirtualHost = cfg.VirtualHost,
             UserName = cfg.Username,
             Password = cfg.Password,
-            DispatchConsumersAsync = true
         };
     }
 
-    private void EnsureChannelCreated()
+    private async Task EnsureChannelCreatedAsync(CancellationToken cancellationToken = default)
     {
         if (_channel is not null) return;
 
-        _lock.Wait();
+        await _lock.WaitAsync(cancellationToken);
         try
         {
             if (_channel is null)
             {
-                _connection = _factory.CreateConnection();
-                _channel = _connection.CreateModel();
+                _connection = await _factory.CreateConnectionAsync(cancellationToken);
+                _channel = await _connection.CreateChannelAsync(cancellationToken: cancellationToken);
             }
         }
         finally
@@ -52,50 +51,52 @@ public sealed class EventBusPublisher : IEventBusPublisher, IDisposable
         }
     }
 
-    public Task PublishAsync<T>(T @event, CancellationToken cancellationToken = default)
+    public async Task PublishAsync<T>(T @event, CancellationToken cancellationToken = default)
         where T : class
     {
-        EnsureChannelCreated();
+        await EnsureChannelCreatedAsync(cancellationToken);
 
         var exchangeName = typeof(T).Name.ToLowerInvariant();
 
-        _channel!.ExchangeDeclare(
+        await _channel!.ExchangeDeclareAsync(
             exchange: exchangeName,
             type: ExchangeType.Fanout,
             durable: true,
-            autoDelete: false);
+            autoDelete: false,
+            cancellationToken: cancellationToken);
 
         var json = JsonSerializer.Serialize(@event);
         var body = Encoding.UTF8.GetBytes(json);
 
-        if (_channel is null) return Task.CompletedTask;
-        var props = _channel.CreateBasicProperties();
-        props.Persistent = true;
-        props.ContentType = "application/json";
-        props.MessageId = Guid.NewGuid().ToString();
-        props.Timestamp = new AmqpTimestamp(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+        var props = new BasicProperties
+        {
+            Persistent = true,
+            ContentType = "application/json",
+            MessageId = Guid.NewGuid().ToString(),
+            Timestamp = new AmqpTimestamp(DateTimeOffset.UtcNow.ToUnixTimeSeconds())
+        };
 
-        _channel?.BasicPublish(
+        await _channel.BasicPublishAsync(
             exchange: exchangeName,
             routingKey: string.Empty,
+            mandatory: false,
             basicProperties: props,
-            body: body);
+            body: body,
+            cancellationToken: cancellationToken);
 
         _logger.LogInformation(
-            "Event published to exchange '{Exchange}': {Event}",
+            "Event published to exchange '{Exchange}': {EventType}",
             exchangeName, typeof(T).Name);
-
-        return Task.CompletedTask;
     }
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
-        _channel?.Close();
-        _connection?.Close();
+        if (_channel is not null)
+            await _channel.CloseAsync();
+
+        if (_connection is not null)
+            await _connection.CloseAsync();
+
         _lock.Dispose();
     }
 }
-
-
-
-

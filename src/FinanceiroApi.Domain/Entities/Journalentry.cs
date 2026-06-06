@@ -8,14 +8,14 @@ namespace FinanceiroApi.Domain.Entities;
 
 public class JournalEntry : AggregateRoot
 {
-    public string EntryNumber { get; private set; } = string.Empty;   // Número sequencial do lançamento
+    public string EntryNumber { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
     public DateTime EntryDate { get; private set; }
     public JournalEntryStatus Status { get; private set; }
     public JournalEntryType EntryType { get; private set; }
-    public string? ReferenceDocument { get; private set; }            // Ex: NF-001, REC-002
-    public string? ReferenceDocumentType { get; private set; }        // Ex: "AccountPayable", "Payroll"
-    public Guid? ReferenceDocumentId { get; private set; }            // FK para a entidade de origem
+    public string? ReferenceDocument { get; private set; }
+    public string? ReferenceDocumentType { get; private set; }
+    public Guid? ReferenceDocumentId { get; private set; }
 
     public Guid AccountingPeriodId { get; private set; }
     public AccountingPeriod? AccountingPeriod { get; private set; }
@@ -116,7 +116,6 @@ public class JournalEntry : AggregateRoot
         AddDomainEvent(new JournalEntryReversedEvent(Id, EntryNumber, reversalDescription, createdByUserId));
     }
 
-    /// <summary>Valida a regra das partidas dobradas: ∑Débitos == ∑Créditos</summary>
     private void ValidateDoubleEntry()
     {
         var totalDebits = _lines.Where(l => l.DebitCredit == DebitCredit.Debit).Sum(l => l.Amount);

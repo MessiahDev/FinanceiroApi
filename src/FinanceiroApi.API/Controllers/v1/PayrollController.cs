@@ -1,4 +1,4 @@
-using FinanceiroApi.Application.Commands.Payroll.CancelPayroll;
+﻿using FinanceiroApi.Application.Commands.Payroll.CancelPayroll;
 using FinanceiroApi.Application.Commands.Payroll.ProcessPayroll;
 using FinanceiroApi.Application.DTOs.Request;
 using FinanceiroApi.Application.DTOs.Response;
@@ -55,17 +55,17 @@ public class PayrollController : ControllerBase
         var command = new ProcessPayrollCommand(request.Month, request.Year, request.EmployeeIds);
         var result = await _mediator.Send(command, ct);
         if (_notifications.HasNotifications) return BadRequest(_notifications.Notifications);
-        return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+        return CreatedAtAction(nameof(GetById), new { id = result!.Id }, result);
     }
 
     [HttpPost("{id:guid}/cancel")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Cancel(Guid id, [FromBody] string reason, CancellationToken ct)
+    public async Task<IActionResult> Cancel(Guid id, [FromBody] CancelReasonRequest request, CancellationToken ct)
     {
-        var result = await _mediator.Send(new CancelPayrollCommand(id, reason), ct);
-        if (_notifications.HasNotifications) return BadRequest(_notifications.Notifications);
+        var result = await _mediator.Send(new CancelPayrollCommand(id, request.Reason), ct);
         return result ? NoContent() : NotFound();
     }
 }
+

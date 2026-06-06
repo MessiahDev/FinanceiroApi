@@ -251,6 +251,161 @@ public class ApplicationMappingProfile : Profile
                 src.JournalEntries.Count,
                 src.CreatedAt,
                 src.UpdatedAt));
+
+        CreateMap<TaxPayment, TaxPaymentResponse>()
+            .ConstructUsing(s => new TaxPaymentResponse(
+                s.Id,
+                s.TaxEntryId,
+                s.TaxEntry != null ? s.TaxEntry.TaxType.ToString() : string.Empty,
+                s.BankAccountId,
+                s.BankAccount != null ? $"{s.BankAccount.BankName} - {s.BankAccount.AccountNumber}" : string.Empty,
+                s.Amount.Amount,
+                s.Fine.Amount,
+                s.Interest.Amount,
+                s.TotalPaid.Amount,
+                s.Amount.Currency,
+                s.PaymentDate,
+                s.DarfNumber,
+                s.ReceiptCode,
+                s.Status.ToString(),
+                s.Notes,
+                s.CreatedAt,
+                s.UpdatedAt))
+            .ForAllMembers(o => o.Ignore());
+
+        CreateMap<TaxEntry, TaxEntrySummaryResponse>()
+            .ConstructUsing(s => new TaxEntrySummaryResponse(
+                s.Id,
+                s.TaxType.ToString(),
+                s.Description,
+                s.TaxAmount.Amount,
+                s.TaxAmount.Currency,
+                s.Competence,
+                s.DueDate,
+                s.Status.ToString()))
+            .ForAllMembers(o => o.Ignore());
+
+        CreateMap<TaxEntry, TaxEntryResponse>()
+            .ConstructUsing((s, ctx) => new TaxEntryResponse(
+                s.Id,
+                s.TaxType.ToString(),
+                s.Description,
+                s.BaseAmount.Amount,
+                s.Rate,
+                s.TaxAmount.Amount,
+                s.TaxAmount.Currency,
+                s.Competence,
+                s.DueDate,
+                s.Status.ToString(),
+                s.ReferenceDocument,
+                s.ReferenceDocumentId,
+                s.CostCenterId,
+                s.CostCenter != null ? s.CostCenter.Name : null,
+                s.Notes,
+                s.CreatedAt,
+                s.UpdatedAt,
+                ctx.Mapper.Map<IReadOnlyList<TaxPaymentResponse>>(s.Payments)))
+            .ForAllMembers(o => o.Ignore());
+
+        CreateMap<BankStatementEntry, BankStatementEntryResponse>()
+            .ConstructUsing(s => new BankStatementEntryResponse(
+                s.Id,
+                s.Date,
+                s.Description,
+                s.Amount.Amount,
+                s.Amount.Currency,
+                s.EntryType.ToString(),
+                s.DocumentNumber,
+                s.IsReconciled))
+            .ForAllMembers(o => o.Ignore());
+
+        CreateMap<BankStatement, BankStatementSummaryResponse>()
+            .ConstructUsing(s => new BankStatementSummaryResponse(
+                s.Id,
+                s.BankAccountId,
+                s.BankAccount != null ? $"{s.BankAccount.BankName} - {s.BankAccount.AccountNumber}" : string.Empty,
+                s.PeriodStart,
+                s.PeriodEnd,
+                s.OpeningBalance.Amount,
+                s.ClosingBalance.Amount,
+                s.Status.ToString(),
+                s.TotalEntries))
+            .ForAllMembers(o => o.Ignore());
+
+        CreateMap<BankStatement, BankStatementResponse>()
+            .ConstructUsing((s, ctx) => new BankStatementResponse(
+                s.Id,
+                s.BankAccountId,
+                s.BankAccount != null ? $"{s.BankAccount.BankName} - {s.BankAccount.AccountNumber}" : string.Empty,
+                s.StatementDate,
+                s.PeriodStart,
+                s.PeriodEnd,
+                s.OpeningBalance.Amount,
+                s.ClosingBalance.Amount,
+                s.OpeningBalance.Currency,
+                s.Status.ToString(),
+                s.TotalEntries,
+                s.TotalCredits.Amount,
+                s.TotalDebits.Amount,
+                s.FileName,
+                s.Notes,
+                s.CreatedAt,
+                s.UpdatedAt,
+                ctx.Mapper.Map<IReadOnlyList<BankStatementEntryResponse>>(s.Entries)))
+            .ForAllMembers(o => o.Ignore());
+
+        CreateMap<BankReconciliationItem, BankReconciliationItemResponse>()
+            .ConstructUsing(s => new BankReconciliationItemResponse(
+                s.Id,
+                s.BankStatementEntryId,
+                s.BankStatementEntry != null ? s.BankStatementEntry.Description : string.Empty,
+                s.BankStatementEntry != null ? s.BankStatementEntry.Date : DateOnly.MinValue,
+                s.Amount.Amount,
+                s.Amount.Currency,
+                s.BankStatementEntry != null ? s.BankStatementEntry.EntryType.ToString() : string.Empty,
+                s.TransactionId,
+                s.Status.ToString(),
+                s.Notes))
+            .ForAllMembers(o => o.Ignore());
+
+        CreateMap<BankReconciliation, BankReconciliationSummaryResponse>()
+            .ConstructUsing(s => new BankReconciliationSummaryResponse(
+                s.Id,
+                s.BankAccountId,
+                s.BankAccount != null ? $"{s.BankAccount.BankName} - {s.BankAccount.AccountNumber}" : string.Empty,
+                s.PeriodStart,
+                s.PeriodEnd,
+                s.Difference.Amount,
+                s.IsBalanced,
+                s.Status.ToString(),
+                s.TotalItems,
+                s.MatchedItems))
+            .ForAllMembers(o => o.Ignore());
+
+        CreateMap<BankReconciliation, BankReconciliationResponse>()
+            .ConstructUsing((s, ctx) => new BankReconciliationResponse(
+                s.Id,
+                s.BankAccountId,
+                s.BankAccount != null ? $"{s.BankAccount.BankName} - {s.BankAccount.AccountNumber}" : string.Empty,
+                s.BankStatementId,
+                s.PeriodStart,
+                s.PeriodEnd,
+                s.StatementOpeningBalance.Amount,
+                s.StatementClosingBalance.Amount,
+                s.SystemBalance.Amount,
+                s.Difference.Amount,
+                s.IsBalanced,
+                s.Status.ToString(),
+                s.TotalItems,
+                s.MatchedItems,
+                s.UnmatchedItems,
+                s.CompletedAt,
+                s.CompletedBy,
+                s.Notes,
+                s.CreatedAt,
+                s.UpdatedAt,
+                ctx.Mapper.Map<IReadOnlyList<BankReconciliationItemResponse>>(s.Items)))
+            .ForAllMembers(o => o.Ignore());
     }
 }
 

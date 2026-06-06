@@ -3,71 +3,84 @@ using FinanceiroApi.Domain.Events.Base;
 
 namespace FinanceiroApi.Domain.Events;
 
-public sealed class ChartOfAccountCreatedEvent : DomainEvent
+public sealed class ChartOfAccountCreatedEvent(
+    Guid accountId,
+    string code,
+    string name,
+    AccountType accountType) : DomainEvent
 {
-    public Guid AccountId { get; }
-    public string Code { get; }
-    public string Name { get; }
-    public AccountType AccountType { get; }
-    public ChartOfAccountCreatedEvent(Guid accountId, string code, string name, AccountType accountType)
-    { AccountId = accountId; Code = code; Name = name; AccountType = accountType; }
+    public Guid AccountId { get; } = accountId;
+    public string Code { get; } = code;
+    public string Name { get; } = name;
+    public AccountType AccountType { get; } = accountType;
 }
 
-public sealed class ChartOfAccountDeactivatedEvent : DomainEvent
+public sealed class ChartOfAccountDeactivatedEvent(
+    Guid accountId,
+    string code,
+    string name) : DomainEvent
 {
-    public Guid AccountId { get; }
-    public string Code { get; }
-    public string Name { get; }
-    public ChartOfAccountDeactivatedEvent(Guid accountId, string code, string name)
-    { AccountId = accountId; Code = code; Name = name; }
+    public Guid AccountId { get; } = accountId;
+    public string Code { get; } = code;
+    public string Name { get; } = name;
 }
 
-public sealed class JournalEntryPostedEvent : DomainEvent
+public sealed class JournalEntryPostedEvent(
+    Guid journalEntryId,
+    string entryNumber,
+    DateTime entryDate,
+    decimal totalAmount) : DomainEvent
 {
-    public Guid JournalEntryId { get; }
-    public string EntryNumber { get; }
-    public DateTime EntryDate { get; }
-    public decimal TotalAmount { get; }
-    public JournalEntryPostedEvent(Guid journalEntryId, string entryNumber, DateTime entryDate, decimal totalAmount)
-    { JournalEntryId = journalEntryId; EntryNumber = entryNumber; EntryDate = entryDate; TotalAmount = totalAmount; }
+    public Guid JournalEntryId { get; } = journalEntryId;
+    public string EntryNumber { get; } = entryNumber;
+    public DateTime EntryDate { get; } = entryDate;
+    public decimal TotalAmount { get; } = totalAmount;
 }
 
-public sealed class JournalEntryReversedEvent : DomainEvent
+public sealed class JournalEntryReversedEvent(
+    Guid journalEntryId,
+    string originalEntryNumber,
+    string reversalDescription,
+    Guid reversedByUserId) : DomainEvent
 {
-    public Guid JournalEntryId { get; }
-    public string OriginalEntryNumber { get; }
-    public string ReversalDescription { get; }
-    public Guid ReversedByUserId { get; }
-    public JournalEntryReversedEvent(Guid journalEntryId, string originalEntryNumber, string reversalDescription, Guid reversedByUserId)
-    { JournalEntryId = journalEntryId; OriginalEntryNumber = originalEntryNumber; ReversalDescription = reversalDescription; ReversedByUserId = reversedByUserId; }
+    public Guid JournalEntryId { get; } = journalEntryId;
+    public string OriginalEntryNumber { get; } = originalEntryNumber;
+    public string ReversalDescription { get; } = reversalDescription;
+    public Guid ReversedByUserId { get; } = reversedByUserId;
 }
 
-public sealed class AccountingPeriodOpenedEvent : DomainEvent
+public sealed class AccountingPeriodOpenedEvent(
+    Guid periodId,
+    string periodName,
+    int year,
+    int month) : DomainEvent
 {
-    public Guid PeriodId { get; }
-    public string PeriodName { get; }
-    public int Year { get; }
-    public int Month { get; }
-    public AccountingPeriodOpenedEvent(Guid periodId, string periodName, int year, int month)
-    { PeriodId = periodId; PeriodName = periodName; Year = year; Month = month; }
+    public Guid PeriodId { get; } = periodId;
+    public string PeriodName { get; } = periodName;
+    public int Year { get; } = year;
+    public int Month { get; } = month;
 }
 
-public sealed class AccountingPeriodClosedEvent : DomainEvent
+public sealed class AccountingPeriodClosedEvent(
+    Guid periodId,
+    string periodName,
+    int year,
+    int month) : DomainEvent
 {
-    public Guid PeriodId { get; }
-    public string PeriodName { get; }
-    public int Year { get; }
-    public int Month { get; }
-    public AccountingPeriodClosedEvent(Guid periodId, string periodName, int year, int month)
-    { PeriodId = periodId; PeriodName = periodName; Year = year; Month = month; }
+    public Guid PeriodId { get; } = periodId;
+    public string PeriodName { get; } = periodName;
+    public int Year { get; } = year;
+    public int Month { get; } = month;
 }
 
-public sealed class AccountingPeriodLockedEvent : DomainEvent
+public sealed class AccountingPeriodLockedEvent(
+    Guid periodId,
+    string periodName,
+    int year,
+    int month) : DomainEvent
 {
-    public Guid PeriodId { get; }
-    public string PeriodName { get; }
-    public int Year { get; }
-    public int Month { get; }
-    public AccountingPeriodLockedEvent(Guid periodId, string periodName, int year, int month)
-    { PeriodId = periodId; PeriodName = periodName; Year = year; Month = month; }
+    public Guid PeriodId { get; } = periodId;
+    public string PeriodName { get; } = periodName;
+    public int Year { get; } = year;
+    public int Month { get; } = month;
 }

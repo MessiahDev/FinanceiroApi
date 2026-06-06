@@ -1,5 +1,4 @@
 using System.Text;
-using System.Text.Json;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -11,7 +10,7 @@ namespace FinanceiroApi.Infrastructure.Messaging;
 public abstract class RabbitMqConsumerBase : BackgroundService
 {
     private IConnection? _connection;
-    private IModel? _channel;
+    private IChannel? _channel;
     protected readonly ILogger Logger;
     private readonly RabbitMqSettings _cfg;
 
@@ -24,7 +23,7 @@ public abstract class RabbitMqConsumerBase : BackgroundService
         Logger = logger;
     }
 
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         var factory = new ConnectionFactory
         {
@@ -33,43 +32,62 @@ public abstract class RabbitMqConsumerBase : BackgroundService
             VirtualHost = _cfg.VirtualHost,
             UserName = _cfg.Username,
             Password = _cfg.Password,
-            DispatchConsumersAsync = true
         };
 
-        _connection = factory.CreateConnection();
-        _channel = _connection.CreateModel();
+        _connection = await factory.CreateConnectionAsync(stoppingToken);
+        _channel = await _connection.CreateChannelAsync(cancellationToken: stoppingToken);
 
-        _channel.ExchangeDeclare(ExchangeName, ExchangeType.Fanout, durable: true);
-        _channel.QueueDeclare(QueueName, durable: true, exclusive: false, autoDelete: false);
-        _channel.QueueBind(QueueName, ExchangeName, routingKey: string.Empty);
-        _channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
+        await _channel.ExchangeDeclareAsync(
+            ExchangeName, ExchangeType.Fanout, durable: true,
+            cancellationToken: stoppingToken);
+
+        await _channel.QueueDeclareAsync(
+            QueueName, durable: true, exclusive: false, autoDelete: false,
+            cancellationToken: stoppingToken);
+
+        await _channel.QueueBindAsync(
+            QueueName, ExchangeName, routingKey: string.Empty,
+            cancellationToken: stoppingToken);
+
+        await _channel.BasicQosAsync(
+            prefetchSize: 0, prefetchCount: 1, global: false,
+            cancellationToken: stoppingToken);
 
         var consumer = new AsyncEventingBasicConsumer(_channel);
-        consumer.Received += async (_, ea) =>
+
+        consumer.ReceivedAsync += async (_, ea) =>
         {
             try
             {
                 var json = Encoding.UTF8.GetString(ea.Body.ToArray());
                 await HandleAsync(json, stoppingToken);
-                _channel.BasicAck(ea.DeliveryTag, multiple: false);
+                await _channel.BasicAckAsync(ea.DeliveryTag, multiple: false, stoppingToken);
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error processing message on queue '{Queue}'", QueueName);
-                _channel.BasicNack(ea.DeliveryTag, multiple: false, requeue: false);
+                await _channel.BasicNackAsync(
+                    ea.DeliveryTag, multiple: false, requeue: false, stoppingToken);
             }
         };
 
-        _channel.BasicConsume(QueueName, autoAck: false, consumer: consumer);
-        return Task.CompletedTask;
+        await _channel.BasicConsumeAsync(
+            QueueName, autoAck: false, consumer: consumer,
+            cancellationToken: stoppingToken);
+
+        await Task.Delay(Timeout.Infinite, stoppingToken).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
     }
 
     protected abstract Task HandleAsync(string json, CancellationToken cancellationToken);
 
-    public override void Dispose()
+    public override async void Dispose()
     {
-        _channel?.Close();
-        _connection?.Close();
+        if (_channel is not null)
+            await _channel.CloseAsync();
+
+        if (_connection is not null)
+            await _connection.CloseAsync();
+
         base.Dispose();
     }
 }
