@@ -200,7 +200,7 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment:
       name: production
-      url: ${{ secrets.DEPLOY_URL }}
+      url: ${{ vars.DEPLOY_URL }}
 
     steps:
       - name: Checkout
