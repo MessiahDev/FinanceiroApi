@@ -206,20 +206,16 @@ jobs:
       url: ${{ vars.DEPLOY_URL }}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1
+      - name: Notify pending deploy
+        uses: appleboy/telegram-action@v0.1.1
         with:
-          host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
-          script: |
-            cd /opt/financeiroapi
-            docker compose pull api
-            docker compose up -d api --remove-orphans
-            docker system prune -f
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            🚧 FinanceiroApi – Build OK!
+            Deploy pendente – servidor não configurado ainda.
+            Commit: ${{ github.sha }}
+            By: ${{ github.actor }}
 
       - name: Notify success
         if: success()
