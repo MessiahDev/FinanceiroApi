@@ -15,9 +15,9 @@ namespace FinanceiroApi.Application.Tests.Handlers.BankAccounts;
 
 public class TransferBetweenAccountsCommandHandlerTests
 {
-    private readonly IBankAccountRepository _repo   = Substitute.For<IBankAccountRepository>();
-    private readonly IUnitOfWork _uow               = Substitute.For<IUnitOfWork>();
-    private readonly INotificationContext _notif    = Substitute.For<INotificationContext>();
+    private readonly IBankAccountRepository _repo = Substitute.For<IBankAccountRepository>();
+    private readonly IUnitOfWork _uow = Substitute.For<IUnitOfWork>();
+    private readonly INotificationContext _notif = Substitute.For<INotificationContext>();
 
     private TransferBetweenAccountsCommandHandler CreateHandler() =>
         new(_repo, _uow, _notif);
@@ -29,8 +29,8 @@ public class TransferBetweenAccountsCommandHandlerTests
     public async Task Handle_WithValidAccounts_ShouldTransferAndReturnTrue()
     {
         var source = MakeAccount(1000m);
-        var dest   = MakeAccount(0m);
-        var cmd    = new TransferBetweenAccountsCommand(source.Id, dest.Id, 500m, "transferencia");
+        var dest = MakeAccount(0m);
+        var cmd = new TransferBetweenAccountsCommand(source.Id, dest.Id, 500m, "transferencia");
 
         _repo.GetByIdAsync(source.Id, default).Returns(source);
         _repo.GetByIdAsync(dest.Id, default).Returns(dest);
@@ -44,7 +44,7 @@ public class TransferBetweenAccountsCommandHandlerTests
     [Fact]
     public async Task Handle_SameSourceAndDestination_ShouldAddNotificationAndReturnFalse()
     {
-        var id  = Guid.NewGuid();
+        var id = Guid.NewGuid();
         var cmd = new TransferBetweenAccountsCommand(id, id, 500m, "mesmo");
 
         var result = await CreateHandler().Handle(cmd, default);
@@ -70,7 +70,7 @@ public class TransferBetweenAccountsCommandHandlerTests
     public async Task Handle_WithNonExistentDestinationAccount_ShouldAddNotificationAndReturnFalse()
     {
         var source = MakeAccount();
-        var cmd    = new TransferBetweenAccountsCommand(source.Id, Guid.NewGuid(), 500m, "x");
+        var cmd = new TransferBetweenAccountsCommand(source.Id, Guid.NewGuid(), 500m, "x");
 
         _repo.GetByIdAsync(source.Id, default).Returns(source);
         _repo.GetByIdAsync(cmd.DestinationAccountId, default).ReturnsNull();

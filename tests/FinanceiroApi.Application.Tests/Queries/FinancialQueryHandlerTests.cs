@@ -25,7 +25,7 @@ public class GetAccountingPeriodByIdQueryHandlerTests
     [Fact]
     public async Task Handle_WithExistingPeriod_ShouldReturnResponse()
     {
-        var period   = AccountingPeriod.Create(2025, 1);
+        var period = AccountingPeriod.Create(2025, 1);
         var expected = new AccountingPeriodResponse(period.Id, "Jan/2025", 2025, 1,
             new DateTime(2025, 1, 1), new DateTime(2025, 1, 31), AccountingPeriodStatus.Open, "Open", 0, DateTime.UtcNow, null);
         _repo.GetByIdAsync(period.Id, default).Returns(period);
@@ -80,7 +80,7 @@ public class GetAccountPayableByIdQueryHandlerTests
     [Fact]
     public async Task Handle_WithExistingPayable_ShouldReturnResponse()
     {
-        var payable  = AccountPayable.Create(Guid.NewGuid(), "Fatura 001", 1000m, DateOnly.FromDateTime(DateTime.Today.AddDays(30)));
+        var payable = AccountPayable.Create(Guid.NewGuid(), "Fatura 001", 1000m, DateOnly.FromDateTime(DateTime.Today.AddDays(30)));
         var expected = new AccountPayableResponse(payable.Id, payable.SupplierId, "Fornecedor", null, null, "Fatura 001", 1000m, 0m, 1000m, "BRL", payable.DueDate, null, "Pending", null, null, DateTime.UtcNow, null);
         _repo.GetWithDetailsAsync(payable.Id, default).Returns(payable);
         _mapper.Map<AccountPayableResponse>(payable).Returns(expected);

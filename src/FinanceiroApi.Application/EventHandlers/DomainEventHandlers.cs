@@ -135,7 +135,7 @@ public class AccountPayablePaidDomainEventHandler : INotificationHandler<Account
                 notification.Id);
 
             entry.AddLine(payableAccount.Id, DebitCredit.Debit, notification.PaidAmount.Amount);
-            
+
             entry.AddLine(bankAccount.Id, DebitCredit.Credit, notification.PaidAmount.Amount);
 
             entry.Post();
@@ -276,7 +276,7 @@ public class PayrollProcessedDomainEventHandler : INotificationHandler<PayrollPr
 
             entry.AddLine(salaryAccount.Id, DebitCredit.Debit, notification.TotalNet.Amount);
 
-            
+
             entry.AddLine(payableAccount.Id, DebitCredit.Credit, totalPayroll);
 
             entry.Post();

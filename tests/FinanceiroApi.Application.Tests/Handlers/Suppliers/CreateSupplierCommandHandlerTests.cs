@@ -13,9 +13,9 @@ namespace FinanceiroApi.Application.Tests.Handlers.Suppliers;
 
 public class CreateSupplierCommandHandlerTests
 {
-    private readonly ISupplierRepository _repo   = Substitute.For<ISupplierRepository>();
-    private readonly IUnitOfWork _uow            = Substitute.For<IUnitOfWork>();
-    private readonly IMapper _mapper             = Substitute.For<IMapper>();
+    private readonly ISupplierRepository _repo = Substitute.For<ISupplierRepository>();
+    private readonly IUnitOfWork _uow = Substitute.For<IUnitOfWork>();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
     private readonly INotificationContext _notif = Substitute.For<INotificationContext>();
 
     private CreateSupplierCommandHandler CreateHandler() => new(_repo, _uow, _mapper, _notif);
@@ -26,7 +26,7 @@ public class CreateSupplierCommandHandlerTests
     [Fact]
     public async Task Handle_WithNewTaxId_ShouldCreateSupplierAndReturnResponse()
     {
-        var cmd      = MakeCommand();
+        var cmd = MakeCommand();
         var expected = new SupplierResponse(Guid.NewGuid(), cmd.Name, cmd.TaxId, "Company",
             cmd.Email, cmd.Phone, cmd.ContactName, "Active", null, null, null, null, DateTime.UtcNow, null);
 

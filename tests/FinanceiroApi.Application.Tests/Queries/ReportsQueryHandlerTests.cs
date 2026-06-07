@@ -16,8 +16,8 @@ namespace FinanceiroApi.Application.Tests.Queries;
 public class GetTrialBalanceQueryHandlerTests
 {
     private readonly IAccountingPeriodRepository _periodRepo = Substitute.For<IAccountingPeriodRepository>();
-    private readonly IJournalEntryRepository _entryRepo      = Substitute.For<IJournalEntryRepository>();
-    private readonly IChartOfAccountRepository _accountRepo  = Substitute.For<IChartOfAccountRepository>();
+    private readonly IJournalEntryRepository _entryRepo = Substitute.For<IJournalEntryRepository>();
+    private readonly IChartOfAccountRepository _accountRepo = Substitute.For<IChartOfAccountRepository>();
     private GetTrialBalanceQueryHandler CreateHandler() => new(_periodRepo, _entryRepo, _accountRepo);
 
     [Fact]
@@ -44,9 +44,9 @@ public class GetTrialBalanceQueryHandlerTests
 public class GetFinancialSummaryQueryHandlerTests
 {
     private readonly ITransactionRepository _transactionRepo = Substitute.For<ITransactionRepository>();
-    private readonly IPayrollRepository _payrollRepo         = Substitute.For<IPayrollRepository>();
-    private readonly IEmployeeRepository _employeeRepo       = Substitute.For<IEmployeeRepository>();
-    private readonly ICacheService _cache                    = Substitute.For<ICacheService>();
+    private readonly IPayrollRepository _payrollRepo = Substitute.For<IPayrollRepository>();
+    private readonly IEmployeeRepository _employeeRepo = Substitute.For<IEmployeeRepository>();
+    private readonly ICacheService _cache = Substitute.For<ICacheService>();
     private GetFinancialSummaryQueryHandler CreateHandler() =>
         new(_transactionRepo, _payrollRepo, _employeeRepo, _cache);
 
@@ -54,7 +54,7 @@ public class GetFinancialSummaryQueryHandlerTests
     public async Task Handle_WithValidPeriod_ShouldReturnFinancialSummary()
     {
         var from = new DateOnly(2025, 1, 1);
-        var to   = new DateOnly(2025, 1, 31);
+        var to = new DateOnly(2025, 1, 31);
         _cache.GetAsync<FinancialSummaryResponse>(Arg.Any<string>(), default).ReturnsNull();
         _transactionRepo.GetByPeriodAsync(from, to, default).Returns(new List<Transaction>().AsReadOnly());
         _payrollRepo.GetProcessedByPeriodAsync(from, to, default).Returns(new List<Payroll>().AsReadOnly());
@@ -68,8 +68,8 @@ public class GetFinancialSummaryQueryHandlerTests
     [Fact]
     public async Task Handle_WhenCached_ShouldReturnCachedSummary()
     {
-        var from   = new DateOnly(2025, 1, 1);
-        var to     = new DateOnly(2025, 1, 31);
+        var from = new DateOnly(2025, 1, 1);
+        var to = new DateOnly(2025, 1, 31);
         var cached = new FinancialSummaryResponse(from, to, 0m, 0m, 0m, 0, 0m, 5, [], []);
         _cache.GetAsync<FinancialSummaryResponse>(Arg.Any<string>(), default).Returns(cached);
         var result = await CreateHandler().Handle(new GetFinancialSummaryQuery(from, to), default);

@@ -5,6 +5,7 @@ using FluentAssertions;
 using FluentValidation;
 using Xunit;
 namespace FinanceiroApi.Application.Tests.Behaviors;
+
 public class ValidationBehaviorTests
 {
     [Fact]

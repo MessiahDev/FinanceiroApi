@@ -16,10 +16,10 @@ namespace FinanceiroApi.Application.Tests.Handlers.AccountsReceivable;
 
 public class CancelAccountReceivableCommandHandlerTests
 {
-    private readonly IAccountReceivableRepository _repo   = Substitute.For<IAccountReceivableRepository>();
-    private readonly IUnitOfWork _uow                     = Substitute.For<IUnitOfWork>();
-    private readonly IMapper _mapper                      = Substitute.For<IMapper>();
-    private readonly INotificationContext _notif          = Substitute.For<INotificationContext>();
+    private readonly IAccountReceivableRepository _repo = Substitute.For<IAccountReceivableRepository>();
+    private readonly IUnitOfWork _uow = Substitute.For<IUnitOfWork>();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly INotificationContext _notif = Substitute.For<INotificationContext>();
 
     private CancelAccountReceivableCommandHandler CreateHandler() =>
         new(_repo, _uow, _mapper, _notif);
@@ -36,7 +36,7 @@ public class CancelAccountReceivableCommandHandlerTests
     [Fact]
     public async Task Handle_WithValidReceivable_ShouldCancelAndReturnResponse()
     {
-        var ar  = MakeReceivable();
+        var ar = MakeReceivable();
         var cmd = new CancelAccountReceivableCommand(ar.Id, "erro");
         _repo.GetByIdAsync(ar.Id, default).Returns(ar);
         _mapper.Map<AccountReceivableResponse>(ar).Returns(MakeResponse(ar));
@@ -63,10 +63,10 @@ public class CancelAccountReceivableCommandHandlerTests
 public class ReceivePaymentCommandHandlerTests
 {
     private readonly IAccountReceivableRepository _arRepo = Substitute.For<IAccountReceivableRepository>();
-    private readonly IBankAccountRepository _bankRepo      = Substitute.For<IBankAccountRepository>();
-    private readonly IUnitOfWork _uow                     = Substitute.For<IUnitOfWork>();
-    private readonly IMapper _mapper                      = Substitute.For<IMapper>();
-    private readonly INotificationContext _notif          = Substitute.For<INotificationContext>();
+    private readonly IBankAccountRepository _bankRepo = Substitute.For<IBankAccountRepository>();
+    private readonly IUnitOfWork _uow = Substitute.For<IUnitOfWork>();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly INotificationContext _notif = Substitute.For<INotificationContext>();
 
     private ReceivePaymentCommandHandler CreateHandler() =>
         new(_arRepo, _bankRepo, _uow, _mapper, _notif);
@@ -74,10 +74,10 @@ public class ReceivePaymentCommandHandlerTests
     [Fact]
     public async Task Handle_WithValidData_ShouldRegisterReceiptAndReturnResponse()
     {
-        var ar      = AccountReceivable.Create(Guid.NewGuid(), "Venda", 1000m,
+        var ar = AccountReceivable.Create(Guid.NewGuid(), "Venda", 1000m,
                           DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)));
-        var bank    = BankAccount.Create("BB", "001", "1234", "56789-0", BankAccountType.Checking, 0m);
-        var cmd     = new ReceivePaymentCommand(ar.Id, 1000m,
+        var bank = BankAccount.Create("BB", "001", "1234", "56789-0", BankAccountType.Checking, 0m);
+        var cmd = new ReceivePaymentCommand(ar.Id, 1000m,
                           DateOnly.FromDateTime(DateTime.UtcNow), bank.Id);
         var expected = new AccountReceivableResponse(ar.Id, ar.CustomerId, "Cliente",
             null, null, ar.Description, 1000m, 1000m, 0m, "BRL",
@@ -109,7 +109,7 @@ public class ReceivePaymentCommandHandlerTests
     [Fact]
     public async Task Handle_WithNonExistentBankAccount_ShouldReturnNull()
     {
-        var ar  = AccountReceivable.Create(Guid.NewGuid(), "Venda", 1000m,
+        var ar = AccountReceivable.Create(Guid.NewGuid(), "Venda", 1000m,
                       DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)));
         var cmd = new ReceivePaymentCommand(ar.Id, 500m,
                       DateOnly.FromDateTime(DateTime.UtcNow), Guid.NewGuid());

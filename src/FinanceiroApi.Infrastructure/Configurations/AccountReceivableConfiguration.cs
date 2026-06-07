@@ -14,11 +14,13 @@ public sealed class AccountReceivableConfiguration : IEntityTypeConfiguration<Ac
         builder.Property(e => e.InvoiceNumber).HasMaxLength(100);
         builder.Property(e => e.Notes).HasMaxLength(1000);
 
-        builder.OwnsOne(e => e.TotalAmount, m => {
+        builder.OwnsOne(e => e.TotalAmount, m =>
+        {
             m.Property(x => x.Amount).HasColumnName("TotalAmount").HasColumnType("numeric(18,2)");
             m.Property(x => x.Currency).HasColumnName("TotalCurrency").HasMaxLength(3);
         });
-        builder.OwnsOne(e => e.ReceivedAmount, m => {
+        builder.OwnsOne(e => e.ReceivedAmount, m =>
+        {
             m.Property(x => x.Amount).HasColumnName("ReceivedAmount").HasColumnType("numeric(18,2)");
             m.Property(x => x.Currency).HasColumnName("ReceivedCurrency").HasMaxLength(3);
         });

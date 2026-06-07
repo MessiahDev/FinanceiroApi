@@ -11,7 +11,7 @@ public sealed class Cpf : IEquatable<Cpf>
     {
         var digits = CpfHelper.Strip(value ?? "");
         if (!CpfHelper.IsValid(digits))
-            throw new DomainException($"'"+ value + @"' is not a valid CPF.");
+            throw new DomainException($"'" + value + @"' is not a valid CPF.");
         Value = digits;
     }
 

@@ -20,7 +20,8 @@ public sealed class SupplierConfiguration : IEntityTypeConfiguration<Supplier>
         builder.Property(e => e.BankAccount).HasMaxLength(20);
         builder.Property(e => e.PixKey).HasMaxLength(150);
 
-        builder.OwnsOne(e => e.Email, email => {
+        builder.OwnsOne(e => e.Email, email =>
+        {
             email.Property(em => em.Value).HasColumnName("Email").IsRequired().HasMaxLength(200);
         });
 

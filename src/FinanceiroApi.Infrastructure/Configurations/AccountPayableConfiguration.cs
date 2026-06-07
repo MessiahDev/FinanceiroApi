@@ -14,11 +14,13 @@ public sealed class AccountPayableConfiguration : IEntityTypeConfiguration<Accou
         builder.Property(e => e.InvoiceNumber).HasMaxLength(100);
         builder.Property(e => e.Notes).HasMaxLength(1000);
 
-        builder.OwnsOne(e => e.TotalAmount, m => {
+        builder.OwnsOne(e => e.TotalAmount, m =>
+        {
             m.Property(x => x.Amount).HasColumnName("TotalAmount").HasColumnType("numeric(18,2)");
             m.Property(x => x.Currency).HasColumnName("TotalCurrency").HasMaxLength(3);
         });
-        builder.OwnsOne(e => e.PaidAmount, m => {
+        builder.OwnsOne(e => e.PaidAmount, m =>
+        {
             m.Property(x => x.Amount).HasColumnName("PaidAmount").HasColumnType("numeric(18,2)");
             m.Property(x => x.Currency).HasColumnName("PaidCurrency").HasMaxLength(3);
         });

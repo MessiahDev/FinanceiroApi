@@ -73,8 +73,8 @@ public class FinancialFlowScenarioTests : IAsyncLifetime
                 services.PostConfigure<AuthenticationOptions>(o =>
                 {
                     o.DefaultAuthenticateScheme = "Test";
-                    o.DefaultChallengeScheme    = "Test";
-                    o.DefaultScheme             = "Test";
+                    o.DefaultChallengeScheme = "Test";
+                    o.DefaultScheme = "Test";
                 });
             });
         });

@@ -15,11 +15,11 @@ namespace FinanceiroApi.Application.Tests.Handlers;
 
 public class CreateEmployeeCommandHandlerTests
 {
-    private readonly IEmployeeRepository _employeeRepo     = Substitute.For<IEmployeeRepository>();
+    private readonly IEmployeeRepository _employeeRepo = Substitute.For<IEmployeeRepository>();
     private readonly IDepartmentRepository _departmentRepo = Substitute.For<IDepartmentRepository>();
-    private readonly IUnitOfWork _unitOfWork               = Substitute.For<IUnitOfWork>();
-    private readonly IMapper _mapper                       = Substitute.For<IMapper>();
-    private readonly INotificationContext _notifications   = Substitute.For<INotificationContext>();
+    private readonly IUnitOfWork _unitOfWork = Substitute.For<IUnitOfWork>();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly INotificationContext _notifications = Substitute.For<INotificationContext>();
 
     private CreateEmployeeCommandHandler CreateHandler() => new(
         _employeeRepo, _departmentRepo, _unitOfWork, _mapper, _notifications);
@@ -56,9 +56,9 @@ public class CreateEmployeeCommandHandlerTests
     [Fact]
     public async Task Handle_WithValidCommand_ShouldCreateEmployee()
     {
-        var command    = ValidCommand();
+        var command = ValidCommand();
         var department = Department.Create("TI", "CC-001");
-        var expected   = MakeResponse(command);
+        var expected = MakeResponse(command);
 
         _departmentRepo.GetByIdAsync(command.DepartmentId, default).Returns(department);
         _employeeRepo.ExistsByCpfAsync(command.Cpf, default).Returns(false);
@@ -88,7 +88,7 @@ public class CreateEmployeeCommandHandlerTests
     [Fact]
     public async Task Handle_WithDuplicateCpf_ShouldAddNotificationAndReturnNull()
     {
-        var command    = ValidCommand();
+        var command = ValidCommand();
         var department = Department.Create("TI", "CC-001");
 
         _departmentRepo.GetByIdAsync(command.DepartmentId, default).Returns(department);

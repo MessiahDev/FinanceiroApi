@@ -13,11 +13,11 @@ namespace FinanceiroApi.Application.Tests.Handlers.BankStatements;
 
 public class ImportBankStatementCommandHandlerTests
 {
-    private readonly IBankStatementRepository _statementRepo  = Substitute.For<IBankStatementRepository>();
-    private readonly IBankAccountRepository _bankAccountRepo  = Substitute.For<IBankAccountRepository>();
-    private readonly IUnitOfWork _uow                        = Substitute.For<IUnitOfWork>();
-    private readonly IMapper _mapper                         = Substitute.For<IMapper>();
-    private readonly INotificationContext _notif             = Substitute.For<INotificationContext>();
+    private readonly IBankStatementRepository _statementRepo = Substitute.For<IBankStatementRepository>();
+    private readonly IBankAccountRepository _bankAccountRepo = Substitute.For<IBankAccountRepository>();
+    private readonly IUnitOfWork _uow = Substitute.For<IUnitOfWork>();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly INotificationContext _notif = Substitute.For<INotificationContext>();
 
     private ImportBankStatementCommandHandler CreateHandler() =>
         new(_statementRepo, _bankAccountRepo, _uow, _mapper, _notif);
@@ -34,8 +34,8 @@ public class ImportBankStatementCommandHandlerTests
     public async Task Handle_WithValidData_ShouldImportAndReturnResponse()
     {
         var bankAccountId = Guid.NewGuid();
-        var cmd           = MakeCommand(bankAccountId);
-        var expected      = new BankStatementResponse(Guid.NewGuid(), bankAccountId, "Banco",
+        var cmd = MakeCommand(bankAccountId);
+        var expected = new BankStatementResponse(Guid.NewGuid(), bankAccountId, "Banco",
             cmd.StatementDate, cmd.PeriodStart, cmd.PeriodEnd, 1000m, 1500m, "BRL",
             "Imported", 1, 500m, 0m, cmd.FileName, null, DateTime.UtcNow, null, []);
 
@@ -70,7 +70,7 @@ public class ImportBankStatementCommandHandlerTests
     public async Task Handle_WithDuplicatePeriod_ShouldNotifyAndReturnNull()
     {
         var bankAccountId = Guid.NewGuid();
-        var cmd           = MakeCommand(bankAccountId);
+        var cmd = MakeCommand(bankAccountId);
         _bankAccountRepo.ExistsAsync(bankAccountId, default).Returns(true);
         _statementRepo.ExistsForPeriodAsync(bankAccountId, cmd.PeriodStart, cmd.PeriodEnd, default).Returns(true);
 

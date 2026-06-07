@@ -4,8 +4,8 @@ namespace FinanceiroApi.Application.Commands.AccountingPeriods.ReopenAccountingP
 
 public class ReopenAccountingPeriodCommandValidator : AbstractValidator<ReopenAccountingPeriodCommand>
 {
-	public ReopenAccountingPeriodCommandValidator()
-	{
-		RuleFor(x => x.Id).NotEmpty().WithMessage("O id do período contábil é obrigatório.");
-	}
+    public ReopenAccountingPeriodCommandValidator()
+    {
+        RuleFor(x => x.Id).NotEmpty().WithMessage("O id do período contábil é obrigatório.");
+    }
 }

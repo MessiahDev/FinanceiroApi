@@ -16,10 +16,12 @@ public sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.Property(e => e.Phone).HasMaxLength(20);
         builder.Property(e => e.ContactName).HasMaxLength(200);
 
-        builder.OwnsOne(e => e.Email, email => {
+        builder.OwnsOne(e => e.Email, email =>
+        {
             email.Property(em => em.Value).HasColumnName("Email").IsRequired().HasMaxLength(200);
         });
-        builder.OwnsOne(e => e.CreditLimit, m => {
+        builder.OwnsOne(e => e.CreditLimit, m =>
+        {
             m.Property(x => x.Amount).HasColumnName("CreditLimit").HasColumnType("numeric(18,2)");
             m.Property(x => x.Currency).HasColumnName("CreditCurrency").HasMaxLength(3);
         });

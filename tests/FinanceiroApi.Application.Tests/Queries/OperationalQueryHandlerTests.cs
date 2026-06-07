@@ -32,8 +32,8 @@ public class GetBankReconciliationByIdQueryHandlerTests
     [Fact]
     public async Task Handle_WithExistingReconciliation_ShouldReturnResponse()
     {
-        var bankAccountId  = Guid.NewGuid();
-        var statementId    = Guid.NewGuid();
+        var bankAccountId = Guid.NewGuid();
+        var statementId = Guid.NewGuid();
         var reconciliation = BankReconciliation.Create(bankAccountId, statementId,
             new DateOnly(2025, 1, 1), new DateOnly(2025, 1, 31), 1000m, 1500m, 1400m);
         var expected = new BankReconciliationResponse(reconciliation.Id, bankAccountId, "Banco",
@@ -94,7 +94,7 @@ public class GetBankStatementByIdQueryHandlerTests
     public async Task Handle_WithExistingStatement_ShouldReturnResponse()
     {
         var bankAccountId = Guid.NewGuid();
-        var statement     = BankStatement.Create(bankAccountId, new DateOnly(2025, 1, 31),
+        var statement = BankStatement.Create(bankAccountId, new DateOnly(2025, 1, 31),
             new DateOnly(2025, 1, 1), new DateOnly(2025, 1, 31), 1000m, 1500m, null, null);
         var expected = new BankStatementResponse(statement.Id, bankAccountId, "Banco",
             new DateOnly(2025, 1, 31), new DateOnly(2025, 1, 1), new DateOnly(2025, 1, 31),
@@ -137,7 +137,7 @@ public class GetBankStatementsByAccountQueryHandlerTests
     {
         var bankAccountId = Guid.NewGuid();
         var from = new DateOnly(2025, 1, 1);
-        var to   = new DateOnly(2025, 1, 31);
+        var to = new DateOnly(2025, 1, 31);
         _repo.GetByPeriodAsync(bankAccountId, from, to, default).Returns(new List<BankStatement>().AsReadOnly());
         _mapper.Map<IReadOnlyList<BankStatementSummaryResponse>>(Arg.Any<object>()).Returns(new List<BankStatementSummaryResponse>().AsReadOnly());
         var result = await CreateHandler().Handle(new GetBankStatementsByAccountQuery(bankAccountId, from, to), default);
@@ -182,7 +182,7 @@ public class GetChartOfAccountByIdQueryHandlerTests
     [Fact]
     public async Task Handle_WithExistingAccount_ShouldReturnResponse()
     {
-        var account  = ChartOfAccount.Create("1.1.1", "Caixa", null, AccountType.Asset, AccountNature.Debit, true);
+        var account = ChartOfAccount.Create("1.1.1", "Caixa", null, AccountType.Asset, AccountNature.Debit, true);
         var expected = new ChartOfAccountResponse(account.Id, "1.1.1", "Caixa", null, AccountType.Asset, "Asset", AccountNature.Debit, "Debit", true, true, null, null, null, null, DateTime.UtcNow, null);
         _repo.GetByIdAsync(account.Id, default).Returns(account);
         _mapper.Map<ChartOfAccountResponse>(account).Returns(expected);
@@ -299,7 +299,7 @@ public class GetDepartmentByIdQueryHandlerTests
     public async Task Handle_WithExistingDepartment_ShouldReturnResponse()
     {
         var department = Department.Create("Tecnologia", "TI-001", "Depto de TI");
-        var expected   = new DepartmentResponse(department.Id, "Tecnologia", "Depto de TI", "TI-001", true, 0);
+        var expected = new DepartmentResponse(department.Id, "Tecnologia", "Depto de TI", "TI-001", true, 0);
         _repo.GetByIdAsync(department.Id, default).Returns(department);
         _mapper.Map<DepartmentResponse>(department).Returns(expected);
         var result = await CreateHandler().Handle(new GetDepartmentByIdQuery(department.Id), default);

@@ -14,7 +14,8 @@ public sealed class CostCenterConfiguration : IEntityTypeConfiguration<CostCente
         builder.Property(e => e.Description).HasMaxLength(500);
         builder.Property(e => e.Status).HasConversion<string>();
 
-        builder.OwnsOne(e => e.AnnualBudget, m => {
+        builder.OwnsOne(e => e.AnnualBudget, m =>
+        {
             m.Property(x => x.Amount).HasColumnName("AnnualBudget").HasColumnType("numeric(18,2)");
             m.Property(x => x.Currency).HasColumnName("BudgetCurrency").HasMaxLength(3);
         });

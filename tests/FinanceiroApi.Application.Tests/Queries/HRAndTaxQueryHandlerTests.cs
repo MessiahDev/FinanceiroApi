@@ -48,19 +48,19 @@ public class GetAllEmployeesQueryHandlerTests
 
 public class GetEmployeeByIdQueryHandlerTests
 {
-    private readonly IEmployeeRepository _employeeRepo     = Substitute.For<IEmployeeRepository>();
+    private readonly IEmployeeRepository _employeeRepo = Substitute.For<IEmployeeRepository>();
     private readonly IDepartmentRepository _departmentRepo = Substitute.For<IDepartmentRepository>();
-    private readonly IMapper _mapper                       = Substitute.For<IMapper>();
-    private readonly ICacheService _cache                  = Substitute.For<ICacheService>();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly ICacheService _cache = Substitute.For<ICacheService>();
     private GetEmployeeByIdQueryHandler CreateHandler() => new(_employeeRepo, _departmentRepo, _mapper, _cache);
 
     [Fact]
     public async Task Handle_WithExistingEmployee_ShouldReturnResponse()
     {
-        var deptId     = Guid.NewGuid();
-        var employee   = Employee.Create("Joao", "Silva", "52998224725", "joao@empresa.com", 5000m, ContractType.CLT, deptId);
+        var deptId = Guid.NewGuid();
+        var employee = Employee.Create("Joao", "Silva", "52998224725", "joao@empresa.com", 5000m, ContractType.CLT, deptId);
         var department = Department.Create("TI", "TI-001");
-        var expected   = new EmployeeResponse(employee.Id, "Joao", "Silva", "Joao Silva",
+        var expected = new EmployeeResponse(employee.Id, "Joao", "Silva", "Joao Silva",
             "joao@empresa.com", "52998224725", null, deptId, "TI", 5000m, "BRL",
             "Active", "CLT", DateOnly.FromDateTime(DateTime.Today), null, DateTime.UtcNow, null);
         _cache.GetAsync<EmployeeResponse>(Arg.Any<string>(), default).ReturnsNull();
@@ -124,7 +124,7 @@ public class GetJournalEntryByIdQueryHandlerTests
     public async Task Handle_WithExistingEntry_ShouldReturnResponse()
     {
         var periodId = Guid.NewGuid();
-        var entry    = JournalEntry.Create("LCT-2025-001", "Teste lancamento", new DateTime(2025, 1, 15), JournalEntryType.Manual, periodId, Guid.NewGuid());
+        var entry = JournalEntry.Create("LCT-2025-001", "Teste lancamento", new DateTime(2025, 1, 15), JournalEntryType.Manual, periodId, Guid.NewGuid());
         var expected = new JournalEntryResponse(entry.Id, "LCT-2025-001", "Teste lancamento", new DateTime(2025, 1, 15), JournalEntryStatus.Draft, "Draft", JournalEntryType.Manual, "Manual", null, null, null, periodId, "Jan/2025", 0m, 0m, true, [], DateTime.UtcNow, null);
         _repo.GetWithLinesAsync(entry.Id, default).Returns(entry);
         _mapper.Map<JournalEntryResponse>(entry).Returns(expected);
@@ -169,7 +169,7 @@ public class GetPayrollByIdQueryHandlerTests
     [Fact]
     public async Task Handle_WithExistingPayroll_ShouldReturnResponse()
     {
-        var payroll  = Payroll.Create(2025, 1);
+        var payroll = Payroll.Create(2025, 1);
         var expected = new PayrollDetailResponse(payroll.Id, 1, 2025, "Jan/2025", "Draft",
             0m, 0m, 0m, null, null, null, DateTime.UtcNow, []);
         _repo.GetByIdWithDetailsAsync(payroll.Id, default).Returns(payroll);
@@ -303,7 +303,7 @@ public class GetTaxEntryByIdQueryHandlerTests
     [Fact]
     public async Task Handle_WithExistingEntry_ShouldReturnResponse()
     {
-        var entry    = TaxEntry.Create(TaxType.INSS, "INSS Jan/2025", 10000m, 0.11m, new DateOnly(2025, 1, 1), new DateOnly(2025, 2, 20));
+        var entry = TaxEntry.Create(TaxType.INSS, "INSS Jan/2025", 10000m, 0.11m, new DateOnly(2025, 1, 1), new DateOnly(2025, 2, 20));
         var expected = new TaxEntryResponse(entry.Id, "INSS", "INSS Jan/2025",
             10000m, 0.11m, 1100m, "BRL", new DateOnly(2025, 1, 1), new DateOnly(2025, 2, 20),
             "Calculated", null, null, null, null, null, DateTime.UtcNow, null, []);
@@ -334,7 +334,7 @@ public class GetTaxPaymentByIdQueryHandlerTests
     [Fact]
     public async Task Handle_WithExistingPayment_ShouldReturnResponse()
     {
-        var taxEntryId    = Guid.NewGuid();
+        var taxEntryId = Guid.NewGuid();
         var bankAccountId = Guid.NewGuid();
         var payment = TaxPayment.Create(taxEntryId, bankAccountId, 1100m, new DateOnly(2025, 2, 20));
         var expected = new TaxPaymentResponse(payment.Id, taxEntryId, "INSS", bankAccountId,

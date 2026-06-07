@@ -17,10 +17,10 @@ namespace FinanceiroApi.Application.Tests.Handlers.Suppliers;
 
 public class BlockSupplierCommandHandlerTests
 {
-    private readonly ISupplierRepository _repo      = Substitute.For<ISupplierRepository>();
-    private readonly IUnitOfWork _uow               = Substitute.For<IUnitOfWork>();
-    private readonly IMapper _mapper                = Substitute.For<IMapper>();
-    private readonly INotificationContext _notif    = Substitute.For<INotificationContext>();
+    private readonly ISupplierRepository _repo = Substitute.For<ISupplierRepository>();
+    private readonly IUnitOfWork _uow = Substitute.For<IUnitOfWork>();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly INotificationContext _notif = Substitute.For<INotificationContext>();
 
     private BlockSupplierCommandHandler CreateHandler() =>
         new(_repo, _uow, _mapper, _notif);
@@ -36,7 +36,7 @@ public class BlockSupplierCommandHandlerTests
     public async Task Handle_WithValidSupplier_ShouldBlockAndReturnResponse()
     {
         var supplier = MakeSupplier();
-        var cmd      = new BlockSupplierCommand(supplier.Id, "fraude");
+        var cmd = new BlockSupplierCommand(supplier.Id, "fraude");
         _repo.GetByIdAsync(supplier.Id, default).Returns(supplier);
         _mapper.Map<SupplierResponse>(supplier).Returns(MakeResponse(supplier));
 
@@ -61,9 +61,9 @@ public class BlockSupplierCommandHandlerTests
 
 public class DeleteSupplierCommandHandlerTests
 {
-    private readonly ISupplierRepository _repo      = Substitute.For<ISupplierRepository>();
-    private readonly IUnitOfWork _uow               = Substitute.For<IUnitOfWork>();
-    private readonly INotificationContext _notif    = Substitute.For<INotificationContext>();
+    private readonly ISupplierRepository _repo = Substitute.For<ISupplierRepository>();
+    private readonly IUnitOfWork _uow = Substitute.For<IUnitOfWork>();
+    private readonly INotificationContext _notif = Substitute.For<INotificationContext>();
 
     private DeleteSupplierCommandHandler CreateHandler() =>
         new(_repo, _uow, _notif);
@@ -72,7 +72,7 @@ public class DeleteSupplierCommandHandlerTests
     public async Task Handle_WithValidSupplier_ShouldDeleteAndReturnTrue()
     {
         var supplier = Supplier.Create("Fornecedor", "12345678000195", PersonType.Company, "f@email.com");
-        var cmd      = new DeleteSupplierCommand(supplier.Id);
+        var cmd = new DeleteSupplierCommand(supplier.Id);
         _repo.GetByIdAsync(supplier.Id, default).Returns(supplier);
 
         var result = await CreateHandler().Handle(cmd, default);
@@ -97,10 +97,10 @@ public class DeleteSupplierCommandHandlerTests
 
 public class UpdateSupplierCommandHandlerTests
 {
-    private readonly ISupplierRepository _repo      = Substitute.For<ISupplierRepository>();
-    private readonly IUnitOfWork _uow               = Substitute.For<IUnitOfWork>();
-    private readonly IMapper _mapper                = Substitute.For<IMapper>();
-    private readonly INotificationContext _notif    = Substitute.For<INotificationContext>();
+    private readonly ISupplierRepository _repo = Substitute.For<ISupplierRepository>();
+    private readonly IUnitOfWork _uow = Substitute.For<IUnitOfWork>();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly INotificationContext _notif = Substitute.For<INotificationContext>();
 
     private UpdateSupplierCommandHandler CreateHandler() =>
         new(_repo, _uow, _mapper, _notif);
@@ -109,7 +109,7 @@ public class UpdateSupplierCommandHandlerTests
     public async Task Handle_WithValidSupplier_ShouldUpdateAndReturnResponse()
     {
         var supplier = Supplier.Create("Fornecedor", "12345678000195", PersonType.Company, "f@email.com");
-        var cmd      = new UpdateSupplierCommand(supplier.Id, "Novo Nome", "novo@email.com", null, null);
+        var cmd = new UpdateSupplierCommand(supplier.Id, "Novo Nome", "novo@email.com", null, null);
         var expected = new SupplierResponse(supplier.Id, "Novo Nome", supplier.TaxId,
             supplier.PersonType.ToString(), "novo@email.com", null, null, "Active",
             null, null, null, null, DateTime.UtcNow, null);

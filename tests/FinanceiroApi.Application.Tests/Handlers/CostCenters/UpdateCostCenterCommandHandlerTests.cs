@@ -14,10 +14,10 @@ namespace FinanceiroApi.Application.Tests.Handlers.CostCenters;
 
 public class UpdateCostCenterCommandHandlerTests
 {
-    private readonly ICostCenterRepository _repo    = Substitute.For<ICostCenterRepository>();
-    private readonly IUnitOfWork _uow               = Substitute.For<IUnitOfWork>();
-    private readonly IMapper _mapper                = Substitute.For<IMapper>();
-    private readonly INotificationContext _notif    = Substitute.For<INotificationContext>();
+    private readonly ICostCenterRepository _repo = Substitute.For<ICostCenterRepository>();
+    private readonly IUnitOfWork _uow = Substitute.For<IUnitOfWork>();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly INotificationContext _notif = Substitute.For<INotificationContext>();
 
     private UpdateCostCenterCommandHandler CreateHandler() =>
         new(_repo, _uow, _mapper, _notif);
@@ -25,8 +25,8 @@ public class UpdateCostCenterCommandHandlerTests
     [Fact]
     public async Task Handle_WithValidCostCenter_ShouldUpdateAndReturnResponse()
     {
-        var cc      = CostCenter.Create("TI-001", "Tecnologia", 50000m);
-        var cmd     = new UpdateCostCenterCommand(cc.Id, "TI-002", "Novo Nome", null, null);
+        var cc = CostCenter.Create("TI-001", "Tecnologia", 50000m);
+        var cmd = new UpdateCostCenterCommand(cc.Id, "TI-002", "Novo Nome", null, null);
         var expected = new CostCenterResponse(cc.Id, "TI-002", "Novo Nome", null,
             null, null, 50000m, "BRL", "Active", null, null, DateTime.UtcNow, null);
 

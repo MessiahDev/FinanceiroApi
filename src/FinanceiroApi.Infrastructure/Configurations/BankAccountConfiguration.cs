@@ -17,7 +17,8 @@ public sealed class BankAccountConfiguration : IEntityTypeConfiguration<BankAcco
         builder.Property(e => e.PixKey).HasMaxLength(150);
         builder.Property(e => e.Description).HasMaxLength(500);
 
-        builder.OwnsOne(e => e.Balance, m => {
+        builder.OwnsOne(e => e.Balance, m =>
+        {
             m.Property(x => x.Amount).HasColumnName("Balance").HasColumnType("numeric(18,2)");
             m.Property(x => x.Currency).HasColumnName("Currency").HasMaxLength(3);
         });

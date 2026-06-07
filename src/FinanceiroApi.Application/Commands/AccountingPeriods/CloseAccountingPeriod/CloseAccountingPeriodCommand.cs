@@ -12,24 +12,24 @@ public record CloseAccountingPeriodCommand(Guid Id) : IRequest;
 
 public class CloseAccountingPeriodCommandHandler : IRequestHandler<CloseAccountingPeriodCommand>
 {
-	private readonly IAccountingPeriodRepository _repository;
-	private readonly IUnitOfWork _unitOfWork;
+    private readonly IAccountingPeriodRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-	public CloseAccountingPeriodCommandHandler(IAccountingPeriodRepository repository, IUnitOfWork unitOfWork)
-	{
-		_repository = repository;
-		_unitOfWork = unitOfWork;
-	}
+    public CloseAccountingPeriodCommandHandler(IAccountingPeriodRepository repository, IUnitOfWork unitOfWork)
+    {
+        _repository = repository;
+        _unitOfWork = unitOfWork;
+    }
 
-	public async Task Handle(CloseAccountingPeriodCommand request, CancellationToken cancellationToken)
-	{
-		var period = await _repository.GetByIdAsync(request.Id, cancellationToken)
-			?? throw new DomainException($"PerÃ­odo contÃ¡bil '{request.Id}' nÃ£o encontrado.");
+    public async Task Handle(CloseAccountingPeriodCommand request, CancellationToken cancellationToken)
+    {
+        var period = await _repository.GetByIdAsync(request.Id, cancellationToken)
+            ?? throw new DomainException($"PerÃ­odo contÃ¡bil '{request.Id}' nÃ£o encontrado.");
 
-		period.Close();
-		await _repository.UpdateAsync(period, cancellationToken);
-		await _unitOfWork.CommitAsync(cancellationToken);
-	}
+        period.Close();
+        await _repository.UpdateAsync(period, cancellationToken);
+        await _unitOfWork.CommitAsync(cancellationToken);
+    }
 }
 
 

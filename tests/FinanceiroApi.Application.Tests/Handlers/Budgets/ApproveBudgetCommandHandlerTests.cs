@@ -14,10 +14,10 @@ namespace FinanceiroApi.Application.Tests.Handlers.Budgets;
 
 public class ApproveBudgetCommandHandlerTests
 {
-    private readonly IBudgetRepository _repo        = Substitute.For<IBudgetRepository>();
-    private readonly IUnitOfWork _uow               = Substitute.For<IUnitOfWork>();
-    private readonly IMapper _mapper                = Substitute.For<IMapper>();
-    private readonly INotificationContext _notif    = Substitute.For<INotificationContext>();
+    private readonly IBudgetRepository _repo = Substitute.For<IBudgetRepository>();
+    private readonly IUnitOfWork _uow = Substitute.For<IUnitOfWork>();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly INotificationContext _notif = Substitute.For<INotificationContext>();
 
     private ApproveBudgetCommandHandler CreateHandler() =>
         new(_repo, _uow, _mapper, _notif);

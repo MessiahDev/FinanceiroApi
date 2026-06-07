@@ -12,11 +12,11 @@ namespace FinanceiroApi.Application.Tests.Handlers.AccountsReceivable;
 
 public class CreateAccountReceivableCommandHandlerTests
 {
-    private readonly IAccountReceivableRepository _repo     = Substitute.For<IAccountReceivableRepository>();
-    private readonly ICustomerRepository _customerRepo      = Substitute.For<ICustomerRepository>();
-    private readonly IUnitOfWork _uow                       = Substitute.For<IUnitOfWork>();
-    private readonly IMapper _mapper                        = Substitute.For<IMapper>();
-    private readonly INotificationContext _notif            = Substitute.For<INotificationContext>();
+    private readonly IAccountReceivableRepository _repo = Substitute.For<IAccountReceivableRepository>();
+    private readonly ICustomerRepository _customerRepo = Substitute.For<ICustomerRepository>();
+    private readonly IUnitOfWork _uow = Substitute.For<IUnitOfWork>();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly INotificationContext _notif = Substitute.For<INotificationContext>();
 
     private CreateAccountReceivableCommandHandler CreateHandler() =>
         new(_repo, _customerRepo, _uow, _mapper, _notif);
@@ -29,8 +29,8 @@ public class CreateAccountReceivableCommandHandlerTests
     public async Task Handle_WithValidCustomer_ShouldCreateReceivableAndReturnResponse()
     {
         var customerId = Guid.NewGuid();
-        var cmd        = MakeCommand(customerId);
-        var expected   = new AccountReceivableResponse(
+        var cmd = MakeCommand(customerId);
+        var expected = new AccountReceivableResponse(
             Guid.NewGuid(), customerId, "Cliente", null, null,
             "Venda de produtos", 1500m, 0m, 1500m, "BRL",
             DateOnly.FromDateTime(DateTime.Today.AddDays(30)),

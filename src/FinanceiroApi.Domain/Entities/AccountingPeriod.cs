@@ -4,6 +4,7 @@ using FinanceiroApi.Domain.Events;
 using FinanceiroApi.Domain.Exceptions;
 using FinanceiroApi.Domain.ValueObjects;
 namespace FinanceiroApi.Domain.Entities;
+
 public class AccountingPeriod : AggregateRoot
 {
     public string Name { get; private set; } = string.Empty;

@@ -35,13 +35,13 @@ public class GetFinancialSummaryQueryHandler : IRequestHandler<GetFinancialSumma
         var cached = await _cache.GetAsync<FinancialSummaryResponse>(cacheKey, cancellationToken);
         if (cached is not null) return cached;
 
-        var transactions  = await _transactionRepository.GetByPeriodAsync(request.PeriodStart, request.PeriodEnd, cancellationToken);
-        var payrolls      = await _payrollRepository.GetProcessedByPeriodAsync(request.PeriodStart, request.PeriodEnd, cancellationToken);
+        var transactions = await _transactionRepository.GetByPeriodAsync(request.PeriodStart, request.PeriodEnd, cancellationToken);
+        var payrolls = await _payrollRepository.GetProcessedByPeriodAsync(request.PeriodStart, request.PeriodEnd, cancellationToken);
         var employeeCount = await _employeeRepository.CountActiveAsync(cancellationToken);
 
-        var totalCredits  = transactions.Where(t => t.Type == TransactionType.Credit).Sum(t => t.Amount.Amount);
-        var totalDebits   = transactions.Where(t => t.Type == TransactionType.Debit).Sum(t => t.Amount.Amount);
-        var totalPayroll  = payrolls.Sum(p => p.TotalNet.Amount);
+        var totalCredits = transactions.Where(t => t.Type == TransactionType.Credit).Sum(t => t.Amount.Amount);
+        var totalDebits = transactions.Where(t => t.Type == TransactionType.Debit).Sum(t => t.Amount.Amount);
+        var totalPayroll = payrolls.Sum(p => p.TotalNet.Amount);
 
         var breakdown = transactions
             .GroupBy(t => new { Category = t.Category.ToString(), Type = t.Type.ToString() })
@@ -63,16 +63,16 @@ public class GetFinancialSummaryQueryHandler : IRequestHandler<GetFinancialSumma
             .ToList();
 
         var summary = new FinancialSummaryResponse(
-            From:               request.PeriodStart,
-            To:                 request.PeriodEnd,
-            TotalCredits:       totalCredits,
-            TotalDebits:        totalDebits,
-            NetBalance:         totalCredits - totalDebits,
-            PayrollsProcessed:  payrolls.Count,
-            TotalPayroll:       totalPayroll,
-            ActiveEmployees:    employeeCount,
-            Breakdown:          breakdown,
-            MonthlyTrend:       monthlyTrend);
+            From: request.PeriodStart,
+            To: request.PeriodEnd,
+            TotalCredits: totalCredits,
+            TotalDebits: totalDebits,
+            NetBalance: totalCredits - totalDebits,
+            PayrollsProcessed: payrolls.Count,
+            TotalPayroll: totalPayroll,
+            ActiveEmployees: employeeCount,
+            Breakdown: breakdown,
+            MonthlyTrend: monthlyTrend);
 
         await _cache.SetAsync(cacheKey, summary, TimeSpan.FromMinutes(10), cancellationToken);
         return summary;

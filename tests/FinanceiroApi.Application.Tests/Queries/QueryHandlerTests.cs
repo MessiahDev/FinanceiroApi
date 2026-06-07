@@ -16,14 +16,14 @@ namespace FinanceiroApi.Application.Tests.Queries;
 public class GetBankAccountByIdQueryHandlerTests
 {
     private readonly IBankAccountRepository _repo = Substitute.For<IBankAccountRepository>();
-    private readonly IMapper _mapper              = Substitute.For<IMapper>();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
 
     private GetBankAccountByIdQueryHandler CreateHandler() => new(_repo, _mapper);
 
     [Fact]
     public async Task Handle_WithExistingAccount_ShouldReturnResponse()
     {
-        var account  = BankAccount.Create("BB", "001", "1234", "56789-0", BankAccountType.Checking, 1000m);
+        var account = BankAccount.Create("BB", "001", "1234", "56789-0", BankAccountType.Checking, 1000m);
         var expected = new BankAccountResponse(account.Id, "BB", "001", "1234", "56789-0",
             "Checking", null, 1000m, "BRL", true, null, DateTime.UtcNow, null);
 
@@ -48,14 +48,14 @@ public class GetBankAccountByIdQueryHandlerTests
 public class GetBudgetByIdQueryHandlerTests
 {
     private readonly IBudgetRepository _repo = Substitute.For<IBudgetRepository>();
-    private readonly IMapper _mapper         = Substitute.For<IMapper>();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
 
     private GetBudgetByIdQueryHandler CreateHandler() => new(_repo, _mapper);
 
     [Fact]
     public async Task Handle_WithExistingBudget_ShouldReturnResponse()
     {
-        var budget   = Budget.Create(2025, "Orcamento");
+        var budget = Budget.Create(2025, "Orcamento");
         var expected = new BudgetResponse(budget.Id, 2025, "Orcamento", null, "Draft",
             0m, 0m, 0m, "BRL", null, null, DateTime.UtcNow, null, []);
 
@@ -80,7 +80,7 @@ public class GetBudgetByIdQueryHandlerTests
 public class GetAllCostCentersQueryHandlerTests
 {
     private readonly ICostCenterRepository _repo = Substitute.For<ICostCenterRepository>();
-    private readonly IMapper _mapper             = Substitute.For<IMapper>();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
 
     private GetAllCostCentersQueryHandler CreateHandler() => new(_repo, _mapper);
 
