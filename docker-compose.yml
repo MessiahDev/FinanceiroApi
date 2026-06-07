@@ -1,153 +1,241 @@
-﻿name: financeiroapi
+﻿name: FinanceiroApi – API CI/CD
 
-services:
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
 
-  # -----------------------------------------
-  # Banco de dados
-  # -----------------------------------------
-  postgres:
-    image: postgres:16-alpine
-    container_name: financeiroapi-postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-financeiro}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-financeiro123}
-      POSTGRES_DB: ${POSTGRES_DB:-financeirodb}
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-financeiro} -d ${POSTGRES_DB:-financeirodb}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - financeiroapi-net
+env:
+  DOTNET_VERSION: "9.0.x"
+  SOLUTION: "FinanceiroApi.slnx"
 
-  # -----------------------------------------
-  # Cache
-  # -----------------------------------------
-  redis:
-    image: redis:7-alpine
-    container_name: financeiroapi-redis
-    restart: unless-stopped
-    command: redis-server --requirepass ${REDIS_PASSWORD:-redis123}
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis123}", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - financeiroapi-net
+jobs:
+  # ─────────────────────────────────────────
+  # 1. BUILD & TEST
+  # ─────────────────────────────────────────
+  api-ci:
+    name: Build & Test
+    runs-on: ubuntu-latest
 
-  # -----------------------------------------
-  # RabbitMQ
-  # -----------------------------------------
-  rabbitmq:
-    image: rabbitmq:3.13-management-alpine
-    container_name: financeiroapi-rabbitmq
-    restart: unless-stopped
-    environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-guest}
-      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST:-/}
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - financeiroapi-net
-
-  # -----------------------------------------
-  # API .NET Core 10
-  # -----------------------------------------
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: financeiroapi-api
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
-    environment:
-      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
-      ConnectionStrings__Default: >
-        Host=postgres;Port=5432;
-        Database=${POSTGRES_DB:-financeirodb};
-        Username=${POSTGRES_USER:-financeiro};
-        Password=${POSTGRES_PASSWORD:-financeiro123}
-      ConnectionStrings__Redis: "redis:6379,password=${REDIS_PASSWORD:-redis123}"
-      Jwt__SecretKey: ${JWT_SECRET:-sua_chave_secreta_minimo_32_caracteres_aqui}
-      Jwt__Issuer: ${JWT_ISSUER:-FinanceiroApi}
-      Jwt__Audience: ${JWT_AUDIENCE:-FinanceiroApiClients}
-      Jwt__ExpiresInMinutes: ${JWT_EXPIRES:-60}
-      RabbitMQ__Host: rabbitmq
-      RabbitMQ__Port: 5672
-      RabbitMQ__Username: ${RABBITMQ_USER:-guest}
-      RabbitMQ__Password: ${RABBITMQ_PASSWORD:-guest}
-      RabbitMQ__VirtualHost: ${RABBITMQ_VHOST:-/}
-    depends_on:
+    services:
       postgres:
-        condition: service_healthy
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: financeiro
+          POSTGRES_PASSWORD: financeiro123
+          POSTGRES_DB: financeirodb_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
       redis:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
-    networks:
-      - financeiroapi-net
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  # -----------------------------------------
-  # Frontend Vite + React + Tailwind
-  # -----------------------------------------
-  frontend:
-    build:
-      context: ../financeiro-web
-      dockerfile: Dockerfile.financeiro-web
-      args:
-        VITE_API_URL: ${VITE_API_URL:-http://localhost:8080}
-    container_name: financeiroapi-frontend
-    restart: unless-stopped
-    ports:
-      - "80:80"
-    depends_on:
-      - api
-    networks:
-      - financeiroapi-net
+      - name: Setup .NET ${{ env.DOTNET_VERSION }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-  # -----------------------------------------
-  # Adminer — UI para o banco (dev only)
-  # -----------------------------------------
-  adminer:
-    image: adminer:latest
-    container_name: financeiroapi-adminer
-    restart: unless-stopped
-    ports:
-      - "8888:8080"
-    depends_on:
-      - postgres
-    networks:
-      - financeiroapi-net
-    profiles:
-      - dev
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
 
-volumes:
-  postgres_data:
-  redis_data:
-  rabbitmq_data:
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.SOLUTION }}
 
-networks:
-  financeiroapi-net:
-    driver: bridge
+      - name: Build (Release)
+        run: dotnet build ${{ env.SOLUTION }} --no-restore -c Release
 
+      - name: Run unit tests – Domain
+        run: |
+          dotnet test tests/FinanceiroApi.Domain.Tests/FinanceiroApi.Domain.Tests.csproj \
+            --no-build -c Release \
+            --logger "trx;LogFileName=domain-results.trx" \
+            --collect:"XPlat Code Coverage" \
+            --results-directory ./TestResults
+
+      - name: Run unit tests – Application
+        run: |
+          dotnet test tests/FinanceiroApi.Application.Tests/FinanceiroApi.Application.Tests.csproj \
+            --no-build -c Release \
+            --logger "trx;LogFileName=application-results.trx" \
+            --collect:"XPlat Code Coverage" \
+            --results-directory ./TestResults
+
+      - name: Run integration tests
+        env:
+          ConnectionStrings__DefaultConnection: "Host=localhost;Port=5432;Database=financeirodb_test;Username=financeiro;Password=financeiro123"
+          Redis__ConnectionString: "localhost:6379"
+        run: |
+          dotnet test tests/FinanceiroApi.Integration.Tests/FinanceiroApi.Integration.Tests.csproj \
+            --no-build -c Release \
+            --logger "trx;LogFileName=integration-results.trx" \
+            --collect:"XPlat Code Coverage" \
+            --results-directory ./TestResults
+
+      - name: Run E2E tests
+        env:
+          ConnectionStrings__DefaultConnection: "Host=localhost;Port=5432;Database=financeirodb_test;Username=financeiro;Password=financeiro123"
+          Redis__ConnectionString: "localhost:6379"
+        run: |
+          dotnet test tests/FinanceiroApi.E2E.Tests/FinanceiroApi.E2E.Tests.csproj \
+            --no-build -c Release \
+            --logger "trx;LogFileName=e2e-results.trx" \
+            --collect:"XPlat Code Coverage" \
+            --results-directory ./TestResults
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: api-test-results
+          path: TestResults/
+
+      - name: Generate coverage report
+        run: |
+          dotnet tool install -g dotnet-reportgenerator-globaltool
+          reportgenerator \
+            -reports:"TestResults/**/coverage.cobertura.xml" \
+            -targetdir:"CoverageReport" \
+            -reporttypes:"HtmlInline_AzurePipelines;Cobertura;Badges"
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: CoverageReport/
+
+  # ─────────────────────────────────────────
+  # 2. CODE QUALITY
+  # ─────────────────────────────────────────
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    needs: [api-ci]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET ${{ env.DOTNET_VERSION }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install dotnet-format
+        run: dotnet tool install -g dotnet-format
+
+      - name: Check formatting
+        run: dotnet format ${{ env.SOLUTION }} --verify-no-changes --severity warn
+
+  # ─────────────────────────────────────────
+  # 3. DOCKER BUILD & PUSH – apenas na main
+  # ─────────────────────────────────────────
+  docker-build:
+    name: Docker – Build & Push
+    runs-on: ubuntu-latest
+    needs: [api-ci, code-quality]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}/financeiroapi
+          tags: |
+            type=sha,prefix=,suffix=,format=short
+            type=raw,value=latest
+
+      - name: Build & push API image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ─────────────────────────────────────────
+  # 4. DEPLOY – apenas na main
+  # ─────────────────────────────────────────
+  deploy:
+    name: Deploy – Production
+    runs-on: ubuntu-latest
+    needs: [docker-build]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment:
+      name: production
+      url: ${{ vars.DEPLOY_URL }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            cd /opt/financeiroapi
+            docker compose pull api
+            docker compose up -d api --remove-orphans
+            docker system prune -f
+
+      - name: Notify success
+        if: success()
+        uses: appleboy/telegram-action@v0.1.1
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ✅ FinanceiroApi – API deployed!
+            Commit: ${{ github.sha }}
+            By: ${{ github.actor }}
+
+      - name: Notify failure
+        if: failure()
+        uses: appleboy/telegram-action@v0.1.1
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ❌ FinanceiroApi – API deploy FAILED!
+            Commit: ${{ github.sha }}
+            By: ${{ github.actor }}
