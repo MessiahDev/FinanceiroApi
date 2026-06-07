@@ -5,11 +5,8 @@ using FinanceiroApi.Domain.Specifications;
 using FinanceiroApi.Domain.Validators;
 using FinanceiroApi.Domain.ValueObjects;
 
-namespace FinanceiroApi.Domain.Tests;
+namespace FinanceiroApi.Domain.Tests.Validators;
 
-// ---------------------------------------------------------------
-// DomainValidators
-// ---------------------------------------------------------------
 public class EmployeeValidatorTests
 {
     private static Employee CreateEmployee(decimal salary = 5000m) =>
@@ -41,7 +38,6 @@ public class EmployeeValidatorTests
     {
         var emp = CreateEmployee(1000m);
 
-        // 200% de aumento = salário acima de 3x o atual
         Assert.Throws<BusinessRuleException>(() => EmployeeValidator.ValidateSalaryUpdate(emp, 3001m));
     }
 
@@ -212,9 +208,6 @@ public class AccountingPeriodValidatorTests
     }
 }
 
-// ---------------------------------------------------------------
-// DomainSpecifications
-// ---------------------------------------------------------------
 public class DomainSpecificationsTests
 {
     private static Employee CreateEmployee(EmployeeStatus status = EmployeeStatus.Active, Guid? deptId = null) =>
