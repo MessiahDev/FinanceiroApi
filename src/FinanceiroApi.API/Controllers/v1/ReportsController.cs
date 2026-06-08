@@ -9,7 +9,7 @@ namespace FinanceiroApi.API.Controllers.v1;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-[Authorize(Roles = "Admin,Financial")]
+[Authorize]
 [EnableRateLimiting("general")]
 [Produces("application/json")]
 public class ReportsController : ControllerBase
