@@ -155,6 +155,7 @@ public interface ITaxPaymentRepository : IRepositoryBase<TaxPayment>
 
 public interface IBankStatementRepository : IRepositoryBase<BankStatement>
 {
+    Task<IReadOnlyList<BankStatement>> GetAsync(Guid? bankAccountId, DateOnly? from, DateOnly? to, CancellationToken ct = default);
     Task<IReadOnlyList<BankStatement>> GetByBankAccountAsync(Guid bankAccountId, CancellationToken ct = default);
     Task<IReadOnlyList<BankStatement>> GetByPeriodAsync(Guid bankAccountId, DateOnly from, DateOnly to, CancellationToken ct = default);
     Task<BankStatement?> GetWithEntriesAsync(Guid id, CancellationToken ct = default);
@@ -164,6 +165,7 @@ public interface IBankStatementRepository : IRepositoryBase<BankStatement>
 public interface IBankReconciliationRepository : IRepositoryBase<BankReconciliation>
 {
     Task<IReadOnlyList<BankReconciliation>> GetByBankAccountAsync(Guid bankAccountId, CancellationToken ct = default);
+    Task<IReadOnlyList<BankReconciliation>> GetAllDetailedAsync(CancellationToken ct = default);
     Task<IReadOnlyList<BankReconciliation>> GetByStatusAsync(ReconciliationStatus status, CancellationToken ct = default);
     Task<BankReconciliation?> GetWithItemsAsync(Guid id, CancellationToken ct = default);
     Task<bool> ExistsForStatementAsync(Guid bankStatementId, CancellationToken ct = default);

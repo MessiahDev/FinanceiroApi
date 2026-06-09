@@ -18,6 +18,14 @@ public class BankReconciliationRepository : RepositoryBase<BankReconciliation>, 
             .OrderByDescending(r => r.PeriodStart)
             .ToListAsync(ct);
 
+    public async Task<IReadOnlyList<BankReconciliation>> GetAllDetailedAsync(CancellationToken ct = default)
+        => await Context.BankReconciliations
+            .Include(r => r.BankAccount)
+            .Include(r => r.BankStatement)
+            .Where(r => !r.IsDeleted)
+            .OrderByDescending(r => r.PeriodStart)
+            .ToListAsync(ct);
+
     public async Task<IReadOnlyList<BankReconciliation>> GetByStatusAsync(ReconciliationStatus status, CancellationToken ct = default)
         => await Context.BankReconciliations
             .Include(r => r.BankAccount)

@@ -32,7 +32,7 @@ public class BankReconciliationsController : ControllerBase
 	[HttpGet]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	public async Task<IActionResult> GetAll(
-		[FromQuery] Guid bankAccountId,
+		[FromQuery] Guid? bankAccountId,
 		[FromQuery] ReconciliationStatus? status,
 		CancellationToken ct)
 	{

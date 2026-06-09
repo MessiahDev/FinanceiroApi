@@ -8,7 +8,7 @@ using MediatR;
 namespace FinanceiroApi.Application.Queries.BankStatements.GetBankStatementsByAccount;
 
 public record GetBankStatementsByAccountQuery(
-    Guid BankAccountId,
+    Guid? BankAccountId,
     DateOnly? From,
     DateOnly? To) : IRequest<IReadOnlyList<BankStatementSummaryResponse>>;
 
@@ -25,12 +25,14 @@ public class GetBankStatementsByAccountQueryHandler
     }
 
     public async Task<IReadOnlyList<BankStatementSummaryResponse>> Handle(
-        GetBankStatementsByAccountQuery request,
-        CancellationToken cancellationToken)
+    GetBankStatementsByAccountQuery request,
+    CancellationToken cancellationToken)
     {
-        var statements = request.From.HasValue && request.To.HasValue
-            ? await _bankStatementRepository.GetByPeriodAsync(request.BankAccountId, request.From.Value, request.To.Value, cancellationToken)
-            : await _bankStatementRepository.GetByBankAccountAsync(request.BankAccountId, cancellationToken);
+        var statements = await _bankStatementRepository.GetAsync(
+            request.BankAccountId,
+            request.From,
+            request.To,
+            cancellationToken);
 
         return _mapper.Map<IReadOnlyList<BankStatementSummaryResponse>>(statements);
     }

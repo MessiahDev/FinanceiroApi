@@ -9,12 +9,39 @@ public class BankStatementRepository : RepositoryBase<BankStatement>, IBankState
 {
     public BankStatementRepository(AppDbContext context) : base(context) { }
 
+    public async Task<IReadOnlyList<BankStatement>> GetAsync(
+        Guid? bankAccountId,
+        DateOnly? from,
+        DateOnly? to,
+        CancellationToken ct = default)
+        {
+            var query = Context.BankStatements
+                .Include(s => s.BankAccount)
+                .Include(s => s.Entries)
+                .Where(s => !s.IsDeleted)
+                .AsQueryable();
+
+            if (bankAccountId.HasValue)
+                query = query.Where(s => s.BankAccountId == bankAccountId.Value);
+
+            if (from.HasValue)
+                query = query.Where(s => s.PeriodStart >= from.Value);
+
+            if (to.HasValue)
+                query = query.Where(s => s.PeriodEnd <= to.Value);
+
+            return await query
+                .OrderByDescending(s => s.StatementDate)
+                .ToListAsync(ct);
+        }
+
     public async Task<IReadOnlyList<BankStatement>> GetByBankAccountAsync(Guid bankAccountId, CancellationToken ct = default)
-        => await Context.BankStatements
-            .Include(s => s.BankAccount)
-            .Where(s => s.BankAccountId == bankAccountId && !s.IsDeleted)
-            .OrderByDescending(s => s.StatementDate)
-            .ToListAsync(ct);
+    => await Context.BankStatements
+        .Include(s => s.BankAccount)
+        .Include(s => s.Entries)
+        .Where(s => s.BankAccountId == bankAccountId && !s.IsDeleted)
+        .OrderByDescending(s => s.StatementDate)
+        .ToListAsync(ct);
 
     public async Task<IReadOnlyList<BankStatement>> GetByPeriodAsync(
         Guid bankAccountId,
@@ -23,6 +50,7 @@ public class BankStatementRepository : RepositoryBase<BankStatement>, IBankState
         CancellationToken ct = default)
         => await Context.BankStatements
             .Include(s => s.BankAccount)
+            .Include(s => s.Entries)
             .Where(s => s.BankAccountId == bankAccountId
                 && s.PeriodStart >= from
                 && s.PeriodEnd <= to

@@ -31,7 +31,7 @@ public class BankStatementsController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<BankStatementSummaryResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(
-        [FromQuery] Guid bankAccountId,
+        [FromQuery] Guid? bankAccountId,
         [FromQuery] DateOnly? from,
         [FromQuery] DateOnly? to,
         CancellationToken ct)

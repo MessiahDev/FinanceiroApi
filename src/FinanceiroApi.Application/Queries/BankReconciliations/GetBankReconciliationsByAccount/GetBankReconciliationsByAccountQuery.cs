@@ -31,7 +31,7 @@ public class GetBankReconciliationsByAccountQueryHandler
             ? await _reconciliationRepository.GetByBankAccountAsync(request.BankAccountId.Value, cancellationToken)
             : request.Status.HasValue
                 ? await _reconciliationRepository.GetByStatusAsync(request.Status.Value, cancellationToken)
-                : await _reconciliationRepository.GetAllAsync(cancellationToken);
+                : await _reconciliationRepository.GetAllDetailedAsync(cancellationToken);
 
         return _mapper.Map<IReadOnlyList<BankReconciliationSummaryResponse>>(reconciliations);
     }
