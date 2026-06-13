@@ -32,7 +32,7 @@ public class PayrollController : ControllerBase
     }
 
     [HttpPost("{id:guid}/approve")]
-    [Authorize(Roles = "Admin,Manager")]
+    [Authorize(Policy = "RequireManager")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Approve(Guid id, CancellationToken ct)
@@ -43,7 +43,7 @@ public class PayrollController : ControllerBase
     }
 
     [HttpPost("{id:guid}/pay")]
-    [Authorize(Roles = "Admin,Manager")]
+    [Authorize(Policy = "RequireManager")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Pay(Guid id, [FromBody] PayPayrollRequest request, CancellationToken ct)
@@ -71,7 +71,7 @@ public class PayrollController : ControllerBase
     }
 
     [HttpPost("process")]
-    [Authorize(Roles = "Admin,Manager")]
+    [Authorize(Policy = "RequireManager")]
     [ProducesResponseType(typeof(PayrollResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Process([FromBody] ProcessPayrollRequest request, CancellationToken ct)
@@ -83,7 +83,7 @@ public class PayrollController : ControllerBase
     }
 
     [HttpPost("{id:guid}/cancel")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "RequireAdmin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Cancel(Guid id, [FromBody] CancelReasonRequest request, CancellationToken ct)
@@ -92,4 +92,3 @@ public class PayrollController : ControllerBase
         return result ? NoContent() : NotFound();
     }
 }
-
