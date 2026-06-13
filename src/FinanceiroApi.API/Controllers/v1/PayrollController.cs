@@ -1,4 +1,4 @@
-﻿using FinanceiroApi.Application.Commands.Payroll.CancelPayroll;
+using FinanceiroApi.Application.Commands.Payroll.CancelPayroll;
 using FinanceiroApi.Application.Commands.Payroll.ProcessPayroll;
 using FinanceiroApi.Application.Commands.Payroll.ApprovePayroll;
 using FinanceiroApi.Application.Commands.Payroll.PayPayroll;
@@ -32,7 +32,7 @@ public class PayrollController : ControllerBase
     }
 
     [HttpPost("{id:guid}/approve")]
-    [Authorize(Roles = "Admin,Financial")]
+    [Authorize(Roles = "Admin,Manager")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Approve(Guid id, CancellationToken ct)
@@ -43,7 +43,7 @@ public class PayrollController : ControllerBase
     }
 
     [HttpPost("{id:guid}/pay")]
-    [Authorize(Roles = "Admin,Financial")]
+    [Authorize(Roles = "Admin,Manager")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Pay(Guid id, [FromBody] PayPayrollRequest request, CancellationToken ct)
@@ -71,7 +71,7 @@ public class PayrollController : ControllerBase
     }
 
     [HttpPost("process")]
-    [Authorize(Roles = "Admin,Financial")]
+    [Authorize(Roles = "Admin,Manager")]
     [ProducesResponseType(typeof(PayrollResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Process([FromBody] ProcessPayrollRequest request, CancellationToken ct)
