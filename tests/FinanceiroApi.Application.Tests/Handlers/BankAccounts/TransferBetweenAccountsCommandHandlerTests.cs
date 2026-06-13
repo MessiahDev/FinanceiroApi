@@ -16,11 +16,12 @@ namespace FinanceiroApi.Application.Tests.Handlers.BankAccounts;
 public class TransferBetweenAccountsCommandHandlerTests
 {
     private readonly IBankAccountRepository _repo = Substitute.For<IBankAccountRepository>();
+    private readonly ITransactionRepository _transactionRepo = Substitute.For<ITransactionRepository>();
     private readonly IUnitOfWork _uow = Substitute.For<IUnitOfWork>();
     private readonly INotificationContext _notif = Substitute.For<INotificationContext>();
 
     private TransferBetweenAccountsCommandHandler CreateHandler() =>
-        new(_repo, _uow, _notif);
+        new(_repo, _transactionRepo, _uow, _notif);
 
     private static BankAccount MakeAccount(decimal balance = 1000m) =>
         BankAccount.Create("BB", "001", "1234", "56789-0", BankAccountType.Checking, balance);
@@ -31,7 +32,6 @@ public class TransferBetweenAccountsCommandHandlerTests
         var source = MakeAccount(1000m);
         var dest = MakeAccount(0m);
         var cmd = new TransferBetweenAccountsCommand(source.Id, dest.Id, 500m, "transferencia");
-
         _repo.GetByIdAsync(source.Id, default).Returns(source);
         _repo.GetByIdAsync(dest.Id, default).Returns(dest);
 
@@ -71,7 +71,6 @@ public class TransferBetweenAccountsCommandHandlerTests
     {
         var source = MakeAccount();
         var cmd = new TransferBetweenAccountsCommand(source.Id, Guid.NewGuid(), 500m, "x");
-
         _repo.GetByIdAsync(source.Id, default).Returns(source);
         _repo.GetByIdAsync(cmd.DestinationAccountId, default).ReturnsNull();
 

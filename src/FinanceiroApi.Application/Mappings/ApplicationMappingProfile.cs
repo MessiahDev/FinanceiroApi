@@ -59,11 +59,21 @@ public class ApplicationMappingProfile : Profile
             .ForAllMembers(o => o.Ignore());
 
         CreateMap<Transaction, TransactionResponse>()
-            .ForMember(d => d.Amount, o => o.MapFrom(s => s.Amount.Amount))
-            .ForMember(d => d.Currency, o => o.MapFrom(s => s.Amount.Currency))
-            .ForMember(d => d.Type, o => o.MapFrom(s => s.Type.ToString()))
-            .ForMember(d => d.Category, o => o.MapFrom(s => s.Category.ToString()))
-            .ForMember(d => d.Status, o => o.MapFrom(s => s.Status.ToString()));
+            .ConstructUsing(s => new TransactionResponse(
+                s.Id,
+                s.Description,
+                s.Amount.Amount,
+                s.Amount.Currency,
+                s.Type.ToString(),
+                s.Category.ToString(),
+                s.Status.ToString(),
+                s.TransactionDate,
+                s.EmployeeId,
+                s.PayrollId,
+                s.ReferenceNumber,
+                s.CreatedAt
+            ))
+            .ForAllMembers(o => o.Ignore());
 
         CreateMap<Customer, CustomerResponse>()
             .ConstructUsing(s => new CustomerResponse(

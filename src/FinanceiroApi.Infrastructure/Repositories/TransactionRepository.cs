@@ -10,6 +10,36 @@ public sealed class TransactionRepository : RepositoryBase<Transaction>, ITransa
 {
     public TransactionRepository(AppDbContext context) : base(context) { }
 
+    public async Task<(IReadOnlyList<Transaction> Items, int TotalCount)> GetPagedAsync(
+    Guid? employeeId,
+    TransactionType? type,
+    TransactionStatus? status,
+    int pageNumber,
+    int pageSize,
+    CancellationToken ct = default)
+    {
+        var query = DbSet.AsNoTracking().AsQueryable();
+
+        if (employeeId.HasValue)
+            query = query.Where(x => x.EmployeeId == employeeId.Value);
+
+        if (type.HasValue)
+            query = query.Where(x => x.Type == type.Value);
+
+        if (status.HasValue)
+            query = query.Where(x => x.Status == status.Value);
+
+        var totalCount = await query.CountAsync(ct);
+
+        var items = await query
+            .OrderByDescending(x => x.TransactionDate)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
+
+        return (items, totalCount);
+    }
+
     public async Task<IReadOnlyList<Transaction>> GetByPeriodAsync(
         DateOnly from,
         DateOnly to,

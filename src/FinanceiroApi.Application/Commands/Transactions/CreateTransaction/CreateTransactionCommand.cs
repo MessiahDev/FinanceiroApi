@@ -5,7 +5,6 @@ using FinanceiroApi.Domain.Entities;
 using FinanceiroApi.Domain.Enums;
 using FinanceiroApi.Domain.Interfaces;
 using FinanceiroApi.Domain.Interfaces.Repositories;
-using FluentValidation;
 using MediatR;
 
 namespace FinanceiroApi.Application.Commands.Transactions.CreateTransaction;
@@ -15,7 +14,9 @@ public record CreateTransactionCommand(
     decimal Amount,
     string Type,
     string Category,
-    Guid? ReferenceId,
+    Guid? EmployeeId,
+    Guid? PayrollId,
+    string? ReferenceNumber,
     DateOnly? TransactionDate) : IRequest<TransactionResponse>;
 
 public class CreateTransactionCommandHandler : IRequestHandler<CreateTransactionCommand, TransactionResponse>
@@ -57,7 +58,9 @@ public class CreateTransactionCommandHandler : IRequestHandler<CreateTransaction
             category,
             request.Description,
             request.TransactionDate,
-            employeeId: request.ReferenceId);
+            request.EmployeeId,
+            request.PayrollId,
+            request.ReferenceNumber);
 
         await _transactionRepository.AddAsync(transaction, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);

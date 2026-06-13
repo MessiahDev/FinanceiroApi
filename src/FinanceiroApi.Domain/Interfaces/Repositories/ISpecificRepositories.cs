@@ -40,6 +40,13 @@ public interface ITransactionRepository : IRepositoryBase<Transaction>
     Task<IReadOnlyList<Transaction>> GetByPeriodAsync(DateOnly from, DateOnly to, CancellationToken ct = default);
     Task<IReadOnlyList<Transaction>> GetByPayrollAsync(Guid payrollId, CancellationToken ct = default);
     Task<decimal> GetTotalByTypeAsync(TransactionType type, DateOnly from, DateOnly to, CancellationToken ct = default);
+    Task<(IReadOnlyList<Transaction> Items, int TotalCount)> GetPagedAsync(
+        Guid? employeeId,
+        TransactionType? type,
+        TransactionStatus? status,
+        int pageNumber,
+        int pageSize,
+        CancellationToken ct = default);
 }
 
 public interface IDepartmentRepository : IRepositoryBase<Department>

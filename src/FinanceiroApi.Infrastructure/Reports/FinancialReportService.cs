@@ -84,6 +84,11 @@ public sealed class FinancialReportService : IFinancialReportService
             PayrollsProcessed: summary?.PayrollsProcessed ?? 0,
             TotalPayroll: summary?.TotalPayroll ?? 0,
             ActiveEmployees: summary?.ActiveEmployees ?? 0,
+            TotalPaid: 0m,
+            TotalReceived: 0m,
+            TotalTaxesPaid: 0m,
+            PendingPayables: 0m,
+            PendingReceivables: 0m,
             Breakdown: breakdown.Select(b => new CategoryBreakdown(b.Category, b.Type, b.Total, b.Count)).ToList(),
             MonthlyTrend: trend.Select(t => new MonthlyTrend(t.Month, t.Credits, t.Debits)).ToList());
     }

@@ -62,6 +62,7 @@ public class Transaction : AggregateRoot
 
         Status = TransactionStatus.Confirmed;
         SetUpdatedAt();
+        AddDomainEvent(new TransactionConfirmedEvent(Id, Amount, Type, Category, Description));
     }
 
     public void Cancel(string reason)

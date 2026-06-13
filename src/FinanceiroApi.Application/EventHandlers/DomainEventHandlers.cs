@@ -289,6 +289,190 @@ public class PayrollProcessedDomainEventHandler : INotificationHandler<PayrollPr
             _logger.LogError(ex, "Erro ao gerar lanÃ§amento contÃ¡bil para folha {Id}", notification.PayrollId);
         }
     }
+
+    public class TransactionConfirmedDomainEventHandler : INotificationHandler<TransactionConfirmedEvent>
+    {
+        private readonly IJournalEntryRepository _journalEntryRepository;
+        private readonly IAccountingPeriodRepository _periodRepository;
+        private readonly IChartOfAccountRepository _accountRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<TransactionConfirmedDomainEventHandler> _logger;
+
+        private const string BankAccountCode = "1.1.01.001";
+        private const string RevenueOtherCode = "4.1.99.001";
+
+        private static readonly Dictionary<TransactionCategory, string> ExpenseAccountCodes = new()
+    {
+        { TransactionCategory.Salary, "3.1.01.001" },
+        { TransactionCategory.Bonus, "3.1.01.003" },
+        { TransactionCategory.Deduction, "3.1.01.004" },
+        { TransactionCategory.Tax, "3.1.02.001" },
+        { TransactionCategory.Benefit, "3.1.01.005" },
+        { TransactionCategory.Reimbursement, "3.1.01.006" },
+        { TransactionCategory.Other, "3.1.99.001" },
+    };
+
+        public TransactionConfirmedDomainEventHandler(
+            IJournalEntryRepository journalEntryRepository,
+            IAccountingPeriodRepository periodRepository,
+            IChartOfAccountRepository accountRepository,
+            IUnitOfWork unitOfWork,
+            ILogger<TransactionConfirmedDomainEventHandler> logger)
+        {
+            _journalEntryRepository = journalEntryRepository;
+            _periodRepository = periodRepository;
+            _accountRepository = accountRepository;
+            _unitOfWork = unitOfWork;
+            _logger = logger;
+        }
+
+        public async Task Handle(TransactionConfirmedEvent notification, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var period = await _periodRepository.GetCurrentOpenPeriodAsync(cancellationToken);
+                if (period is null)
+                {
+                    _logger.LogWarning("Nenhum período contábil aberto para lançamento automático da transação {Id}", notification.TransactionId);
+                    return;
+                }
+
+                var bankAccount = await _accountRepository.GetByCodeAsync(BankAccountCode, cancellationToken);
+                if (bankAccount is null)
+                {
+                    _logger.LogWarning("Conta bancária contábil padrão não configurada para lançamento automático.");
+                    return;
+                }
+
+                string counterCode = notification.Type == TransactionType.Debit
+                    ? ExpenseAccountCodes[notification.Category]
+                    : RevenueOtherCode;
+
+                var counterAccount = await _accountRepository.GetByCodeAsync(counterCode, cancellationToken);
+                if (counterAccount is null)
+                {
+                    _logger.LogWarning("Conta contábil {Code} não configurada para lançamento automático da transação {Id}", counterCode, notification.TransactionId);
+                    return;
+                }
+
+                var entryNumber = await _journalEntryRepository.GetNextEntryNumberAsync(DateTime.UtcNow.Year, cancellationToken);
+
+                var entry = JournalEntry.Create(
+                    entryNumber,
+                    $"Transação confirmada - {notification.Description}",
+                    DateTime.UtcNow,
+                    JournalEntryType.Manual,
+                    period.Id,
+                    Guid.Empty,
+                    null,
+                    nameof(Transaction),
+                    notification.TransactionId);
+
+                if (notification.Type == TransactionType.Debit)
+                {
+                    entry.AddLine(counterAccount.Id, DebitCredit.Debit, notification.Amount.Amount);
+                    entry.AddLine(bankAccount.Id, DebitCredit.Credit, notification.Amount.Amount);
+                }
+                else
+                {
+                    entry.AddLine(bankAccount.Id, DebitCredit.Debit, notification.Amount.Amount);
+                    entry.AddLine(counterAccount.Id, DebitCredit.Credit, notification.Amount.Amount);
+                }
+
+                entry.Post();
+
+                await _journalEntryRepository.AddAsync(entry, cancellationToken);
+                await _unitOfWork.CommitAsync(cancellationToken);
+
+                _logger.LogInformation("Lançamento contábil {Number} gerado para confirmação da transação {Id}",
+                    entryNumber, notification.TransactionId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao gerar lançamento contábil para confirmação da transação {Id}", notification.TransactionId);
+            }
+        }
+    }
+
+    public class TaxPaymentRegisteredDomainEventHandler : INotificationHandler<TaxPaymentRegisteredEvent>
+    {
+        private readonly IJournalEntryRepository _journalEntryRepository;
+        private readonly IAccountingPeriodRepository _periodRepository;
+        private readonly IChartOfAccountRepository _accountRepository;
+        private readonly ITaxPaymentRepository _taxPaymentRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<TaxPaymentRegisteredDomainEventHandler> _logger;
+
+        private const string TaxesPayableCode = "2.1.03.001";
+        private const string FinancialExpenseCode = "3.1.02.003";
+        private const string BankAccountCode = "1.1.01.001";
+
+        public TaxPaymentRegisteredDomainEventHandler(
+            IJournalEntryRepository journalEntryRepository,
+            IAccountingPeriodRepository periodRepository,
+            IChartOfAccountRepository accountRepository,
+            ITaxPaymentRepository taxPaymentRepository,
+            IUnitOfWork unitOfWork,
+            ILogger<TaxPaymentRegisteredDomainEventHandler> logger)
+        {
+            _journalEntryRepository = journalEntryRepository;
+            _periodRepository = periodRepository;
+            _accountRepository = accountRepository;
+            _taxPaymentRepository = taxPaymentRepository;
+            _unitOfWork = unitOfWork;
+            _logger = logger;
+        }
+
+        public async Task Handle(TaxPaymentRegisteredEvent notification, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var period = await _periodRepository.GetCurrentOpenPeriodAsync(cancellationToken);
+                if (period is null) return;
+
+                var bankAccount = await _accountRepository.GetByCodeAsync(BankAccountCode, cancellationToken);
+                var taxesPayableAccount = await _accountRepository.GetByCodeAsync(TaxesPayableCode, cancellationToken);
+                if (bankAccount is null || taxesPayableAccount is null) return;
+
+                var payment = await _taxPaymentRepository.GetByIdAsync(notification.TaxPaymentId, cancellationToken);
+                if (payment is null) return;
+
+                var entryNumber = await _journalEntryRepository.GetNextEntryNumberAsync(DateTime.UtcNow.Year, cancellationToken);
+
+                var entry = JournalEntry.Create(
+                    entryNumber,
+                    $"Pagamento de imposto - {notification.TaxEntryId}",
+                    DateTime.UtcNow,
+                    JournalEntryType.Manual,
+                    period.Id,
+                    Guid.Empty,
+                    null,
+                    nameof(TaxPayment),
+                    notification.TaxPaymentId);
+
+                entry.AddLine(taxesPayableAccount.Id, DebitCredit.Debit, payment.Amount.Amount);
+
+                var extraCharges = payment.Fine.Amount + payment.Interest.Amount;
+                if (extraCharges > 0)
+                {
+                    var financialExpenseAccount = await _accountRepository.GetByCodeAsync(FinancialExpenseCode, cancellationToken);
+                    if (financialExpenseAccount is not null)
+                        entry.AddLine(financialExpenseAccount.Id, DebitCredit.Debit, extraCharges);
+                }
+
+                entry.AddLine(bankAccount.Id, DebitCredit.Credit, notification.TotalPaid.Amount);
+
+                entry.Post();
+
+                await _journalEntryRepository.AddAsync(entry, cancellationToken);
+                await _unitOfWork.CommitAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao gerar lançamento contábil para pagamento de imposto {Id}", notification.TaxPaymentId);
+            }
+        }
+    }
 }
 
 

@@ -5616,7 +5616,7 @@
   "projectFileDependencyGroups": {
     "net9.0": [
       "AspNetCore.HealthChecks.NpgSql >= 8.0.1",
-      "AspNetCore.HealthChecks.RabbitMQ >= 8.0.1",
+      "AspNetCore.HealthChecks.Rabbitmq >= 8.0.1",
       "AspNetCore.HealthChecks.Redis >= 8.0.1",
       "FinanceiroApi.Application >= 1.0.0",
       "FinanceiroApi.CrossCutting >= 1.0.0",
@@ -5696,7 +5696,7 @@
             "target": "Package",
             "version": "[8.0.1, )"
           },
-          "AspNetCore.HealthChecks.RabbitMQ": {
+          "AspNetCore.HealthChecks.Rabbitmq": {
             "target": "Package",
             "version": "[8.0.1, )"
           },
@@ -5758,6 +5758,24 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[9.0.16, 9.0.16]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[9.0.16, 9.0.16]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[9.0.16, 9.0.16]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[9.0.16, 9.0.16]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"

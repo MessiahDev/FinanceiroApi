@@ -1,5 +1,7 @@
 ﻿using FinanceiroApi.Application.Commands.Payroll.CancelPayroll;
 using FinanceiroApi.Application.Commands.Payroll.ProcessPayroll;
+using FinanceiroApi.Application.Commands.Payroll.ApprovePayroll;
+using FinanceiroApi.Application.Commands.Payroll.PayPayroll;
 using FinanceiroApi.Application.DTOs.Request;
 using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.Application.Queries.Payroll.GetPayrollById;
@@ -27,6 +29,28 @@ public class PayrollController : ControllerBase
     {
         _mediator = mediator;
         _notifications = notifications;
+    }
+
+    [HttpPost("{id:guid}/approve")]
+    [Authorize(Roles = "Admin,Financial")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Approve(Guid id, CancellationToken ct)
+    {
+        var result = await _mediator.Send(new ApprovePayrollCommand(id), ct);
+        if (!result) return BadRequest(_notifications.Notifications);
+        return NoContent();
+    }
+
+    [HttpPost("{id:guid}/pay")]
+    [Authorize(Roles = "Admin,Financial")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Pay(Guid id, [FromBody] PayPayrollRequest request, CancellationToken ct)
+    {
+        var result = await _mediator.Send(new PayPayrollCommand(id, request.BankAccountId), ct);
+        if (!result) return BadRequest(_notifications.Notifications);
+        return NoContent();
     }
 
     [HttpGet]

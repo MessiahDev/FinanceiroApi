@@ -1,11 +1,11 @@
-﻿
-using FinanceiroApi.Application.Commands.Budgets.ApproveBudget;
+﻿using FinanceiroApi.Application.Commands.Budgets.ApproveBudget;
 using FinanceiroApi.Application.Commands.Budgets.CreateBudget;
 using FinanceiroApi.Application.Commands.Budgets.UpdateBudget;
 using FinanceiroApi.Application.DTOs.Request;
 using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.Application.Queries.Budgets.GetBudgetById;
 using FinanceiroApi.Application.Queries.Budgets.GetBudgets;
+using FinanceiroApi.Application.Queries.Budgets.GetBudgetVsActual;
 using FinanceiroApi.CrossCutting.Notifications;
 using FinanceiroApi.Domain.Enums;
 using MediatR;
@@ -51,6 +51,15 @@ public class BudgetsController : ControllerBase
         return result is null ? NotFound() : Ok(result);
     }
 
+    [HttpGet("{id:guid}/vs-actual")]
+    [ProducesResponseType(typeof(BudgetVsActualResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetVsActual(Guid id, CancellationToken ct)
+    {
+        var result = await _mediator.Send(new GetBudgetVsActualQuery(id), ct);
+        return result is null ? NotFound() : Ok(result);
+    }
+
     [HttpPost]
     [ProducesResponseType(typeof(BudgetSummaryResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -58,7 +67,6 @@ public class BudgetsController : ControllerBase
     {
         var result = await _mediator.Send(
             new CreateBudgetCommand(request.Year, request.Name, request.Description), ct);
-
 
         return CreatedAtAction(nameof(GetById), new { id = result!.Id }, result);
     }
@@ -71,7 +79,6 @@ public class BudgetsController : ControllerBase
         var result = await _mediator.Send(
             new UpdateBudgetCommand(id, request.CostCenterId, request.Category, request.PlannedAmount), ct);
 
-
         return result is null ? NotFound() : Ok(result);
     }
 
@@ -81,7 +88,6 @@ public class BudgetsController : ControllerBase
     public async Task<IActionResult> Approve(Guid id, [FromBody] ApproveBudgetRequest request, CancellationToken ct)
     {
         var result = await _mediator.Send(new ApproveBudgetCommand(id, request.ApprovedBy), ct);
-
 
         return result is null ? NotFound() : Ok(result);
     }

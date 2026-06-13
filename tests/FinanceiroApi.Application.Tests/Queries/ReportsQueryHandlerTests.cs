@@ -46,20 +46,30 @@ public class GetFinancialSummaryQueryHandlerTests
     private readonly ITransactionRepository _transactionRepo = Substitute.For<ITransactionRepository>();
     private readonly IPayrollRepository _payrollRepo = Substitute.For<IPayrollRepository>();
     private readonly IEmployeeRepository _employeeRepo = Substitute.For<IEmployeeRepository>();
+    private readonly IAccountPayableRepository _payableRepo = Substitute.For<IAccountPayableRepository>();
+    private readonly IAccountReceivableRepository _receivableRepo = Substitute.For<IAccountReceivableRepository>();
+    private readonly ITaxPaymentRepository _taxPaymentRepo = Substitute.For<ITaxPaymentRepository>();
     private readonly ICacheService _cache = Substitute.For<ICacheService>();
+
     private GetFinancialSummaryQueryHandler CreateHandler() =>
-        new(_transactionRepo, _payrollRepo, _employeeRepo, _cache);
+        new(_transactionRepo, _payrollRepo, _employeeRepo, _payableRepo, _receivableRepo, _taxPaymentRepo, _cache);
 
     [Fact]
     public async Task Handle_WithValidPeriod_ShouldReturnFinancialSummary()
     {
         var from = new DateOnly(2025, 1, 1);
         var to = new DateOnly(2025, 1, 31);
+
         _cache.GetAsync<FinancialSummaryResponse>(Arg.Any<string>(), default).ReturnsNull();
         _transactionRepo.GetByPeriodAsync(from, to, default).Returns(new List<Transaction>().AsReadOnly());
         _payrollRepo.GetProcessedByPeriodAsync(from, to, default).Returns(new List<Payroll>().AsReadOnly());
         _employeeRepo.CountActiveAsync(default).Returns(10);
+        _payableRepo.GetByDueDateRangeAsync(from, to, default).Returns(new List<AccountPayable>().AsReadOnly());
+        _receivableRepo.GetByDueDateRangeAsync(from, to, default).Returns(new List<AccountReceivable>().AsReadOnly());
+        _taxPaymentRepo.GetByPaymentDateRangeAsync(from, to, default).Returns(new List<TaxPayment>().AsReadOnly());
+
         var result = await CreateHandler().Handle(new GetFinancialSummaryQuery(from, to), default);
+
         result.Should().NotBeNull();
         result.From.Should().Be(from);
         result.To.Should().Be(to);
@@ -70,9 +80,28 @@ public class GetFinancialSummaryQueryHandlerTests
     {
         var from = new DateOnly(2025, 1, 1);
         var to = new DateOnly(2025, 1, 31);
-        var cached = new FinancialSummaryResponse(from, to, 0m, 0m, 0m, 0, 0m, 5, [], []);
+
+        var cached = new FinancialSummaryResponse(
+            From: from,
+            To: to,
+            TotalCredits: 0m,
+            TotalDebits: 0m,
+            NetBalance: 0m,
+            PayrollsProcessed: 0,
+            TotalPayroll: 0m,
+            ActiveEmployees: 5,
+            TotalPaid: 0m,
+            TotalReceived: 0m,
+            TotalTaxesPaid: 0m,
+            PendingPayables: 0m,
+            PendingReceivables: 0m,
+            Breakdown: [],
+            MonthlyTrend: []);
+
         _cache.GetAsync<FinancialSummaryResponse>(Arg.Any<string>(), default).Returns(cached);
+
         var result = await CreateHandler().Handle(new GetFinancialSummaryQuery(from, to), default);
+
         result.Should().NotBeNull();
         result.ActiveEmployees.Should().Be(5);
         await _transactionRepo.DidNotReceive().GetByPeriodAsync(Arg.Any<DateOnly>(), Arg.Any<DateOnly>(), default);

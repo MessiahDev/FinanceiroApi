@@ -53,8 +53,8 @@ public class CreateTaxPaymentCommandHandler : IRequestHandler<CreateTaxPaymentCo
             return null!;
         }
 
-        var bankAccountExists = await _bankAccountRepository.ExistsAsync(request.BankAccountId, cancellationToken);
-        if (!bankAccountExists)
+        var bankAccount = await _bankAccountRepository.GetByIdAsync(request.BankAccountId, cancellationToken);
+        if (bankAccount is null)
         {
             _notifications.AddNotification("BankAccountId", "Conta bancária não encontrada.");
             return null!;
@@ -71,9 +71,12 @@ public class CreateTaxPaymentCommandHandler : IRequestHandler<CreateTaxPaymentCo
             request.ReceiptCode,
             request.Notes);
 
+        bankAccount.Debit(payment.TotalPaid, $"Pagamento de imposto - {taxEntry.TaxType}");
+
         taxEntry.MarkAsPaid();
 
         await _taxPaymentRepository.AddAsync(payment, cancellationToken);
+        await _bankAccountRepository.UpdateAsync(bankAccount, cancellationToken);
         await _taxEntryRepository.UpdateAsync(taxEntry, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);
 

@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using FinanceiroApi.Application.Commands.Transactions.CancelTransaction;
 using FinanceiroApi.Application.Commands.Transactions.ConfirmTransaction;
 using FinanceiroApi.Application.Commands.Transactions.CreateTransaction;
@@ -33,8 +33,8 @@ public class CreateTransactionCommandHandlerTests
     public async Task Handle_ValidCommand_ShouldCreateTransactionAndReturnResponse()
     {
         var cmd = new CreateTransactionCommand(
-            "Salário", 5000m, "Credit", "Salary", null,
-            DateOnly.FromDateTime(DateTime.UtcNow));
+            "Salário", 5000m, "Credit", "Salary", null, null,
+            "REF-001", DateOnly.FromDateTime(DateTime.UtcNow));
 
         _mapper.Map<TransactionResponse>(Arg.Any<Transaction>())
                .Returns(c => MakeResponse(c.Arg<Transaction>()));
@@ -51,7 +51,8 @@ public class CreateTransactionCommandHandlerTests
     public async Task Handle_InvalidType_ShouldNotifyAndReturnNull()
     {
         var cmd = new CreateTransactionCommand(
-            "Teste", 100m, "Invalido", "Salary", null, null);
+            "Teste", 100m, "Invalido", "Salary", null, null,
+            "REF-002", null);
 
         var result = await CreateHandler().Handle(cmd, default);
 
@@ -64,7 +65,8 @@ public class CreateTransactionCommandHandlerTests
     public async Task Handle_InvalidCategory_ShouldNotifyAndReturnNull()
     {
         var cmd = new CreateTransactionCommand(
-            "Teste", 100m, "Credit", "CategoriaInvalida", null, null);
+            "Teste", 100m, "Credit", "CategoriaInvalida", null, null,
+            "REF-003", null);
 
         var result = await CreateHandler().Handle(cmd, default);
 

@@ -3,6 +3,7 @@ using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.CrossCutting.Notifications;
 using FinanceiroApi.Domain.Enums;
 using FinanceiroApi.Domain.Interfaces.Repositories;
+using FinanceiroApi.Domain.Entities;
 using MediatR;
 
 namespace FinanceiroApi.Application.Queries.BankStatements.GetBankStatementsByAccount;
@@ -28,11 +29,24 @@ public class GetBankStatementsByAccountQueryHandler
     GetBankStatementsByAccountQuery request,
     CancellationToken cancellationToken)
     {
-        var statements = await _bankStatementRepository.GetAsync(
-            request.BankAccountId,
-            request.From,
-            request.To,
-            cancellationToken);
+        var bankAccountId = request.BankAccountId!.Value;
+
+        IReadOnlyList<BankStatement> statements;
+
+        if (request.From.HasValue && request.To.HasValue)
+        {
+            statements = await _bankStatementRepository.GetByPeriodAsync(
+                bankAccountId,
+                request.From.Value,
+                request.To.Value,
+                cancellationToken);
+        }
+        else
+        {
+            statements = await _bankStatementRepository.GetByBankAccountAsync(
+                bankAccountId,
+                cancellationToken);
+        }
 
         return _mapper.Map<IReadOnlyList<BankStatementSummaryResponse>>(statements);
     }

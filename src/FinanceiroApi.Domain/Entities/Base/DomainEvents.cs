@@ -55,6 +55,15 @@ public sealed class TransactionCreatedEvent(Guid transactionId, Money amount, Tr
     public TransactionCategory Category { get; } = category;
 }
 
+public sealed class TransactionConfirmedEvent(Guid transactionId, Money amount, TransactionType type, TransactionCategory category, string description) : DomainEvent
+{
+    public Guid TransactionId { get; } = transactionId;
+    public Money Amount { get; } = amount;
+    public TransactionType Type { get; } = type;
+    public TransactionCategory Category { get; } = category;
+    public string Description { get; } = description;
+}
+
 public sealed class SupplierCreatedEvent(Guid supplierId, string name, string taxId) : DomainEvent
 {
     public Guid SupplierId { get; } = supplierId;

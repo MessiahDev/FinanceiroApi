@@ -29,6 +29,8 @@ public record ProcessPayrollRequest(
     int Year,
     List<Guid> EmployeeIds);
 
+public record PayPayrollRequest(Guid BankAccountId);
+
 public record CreateTransactionRequest(
     string Description,
     decimal Amount,

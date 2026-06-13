@@ -100,6 +100,11 @@ public record FinancialSummaryResponse(
     int PayrollsProcessed,
     decimal TotalPayroll,
     int ActiveEmployees,
+    decimal TotalPaid,
+    decimal TotalReceived,
+    decimal TotalTaxesPaid,
+    decimal PendingPayables,
+    decimal PendingReceivables,
     IReadOnlyList<CategoryBreakdown> Breakdown,
     IReadOnlyList<MonthlyTrend> MonthlyTrend);
 
