@@ -24,6 +24,7 @@ public record EmployeeResponse(
 public record EmployeeSummaryResponse(
     Guid Id,
     string FullName,
+    string Cpf,
     Position? Position,
     Guid DepartmentId,
     string DepartmentName,

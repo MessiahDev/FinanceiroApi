@@ -20,7 +20,7 @@ public class ApplicationMappingProfile : Profile
 
         CreateMap<Employee, EmployeeSummaryResponse>()
             .ConstructUsing(s => new EmployeeSummaryResponse(
-                s.Id, s.FullName, s.Position, s.DepartmentId,
+                s.Id, s.FullName, s.Cpf, s.Position, s.DepartmentId,
                 s.Department != null ? s.Department.Name : string.Empty,
                 s.BaseSalary.Amount, s.Status.ToString()))
             .ForAllMembers(o => o.Ignore());

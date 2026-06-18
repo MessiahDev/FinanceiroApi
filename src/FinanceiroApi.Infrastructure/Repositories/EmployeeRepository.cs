@@ -45,7 +45,7 @@ public sealed class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepo
         bool? isActive = null,
         CancellationToken ct = default)
     {
-        var query = DbSet.AsNoTracking().AsQueryable();
+        var query = DbSet.AsNoTracking().Include(e => e.Department).AsQueryable();
 
         if (departmentId.HasValue)
             query = query.Where(e => e.DepartmentId == departmentId.Value);

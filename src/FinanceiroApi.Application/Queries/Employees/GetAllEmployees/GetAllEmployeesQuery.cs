@@ -28,7 +28,7 @@ public class GetAllEmployeesQueryHandler : IRequestHandler<GetAllEmployeesQuery,
             request.PageSize,
             null,
             null,
-            null,
+            true,
             cancellationToken);
 
         var dtos = _mapper.Map<List<EmployeeSummaryResponse>>(result.Items);
