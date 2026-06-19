@@ -16,10 +16,12 @@ public class Transaction : AggregateRoot
     public DateOnly TransactionDate { get; private set; }
     public Guid? EmployeeId { get; private set; }
     public Guid? PayrollId { get; private set; }
+    public Guid? BankAccountId { get; private set; }
     public string? ReferenceNumber { get; private set; }
     public string? Notes { get; private set; }
 
     public Employee? Employee { get; private set; }
+    public BankAccount? BankAccount { get; private set; }
 
     protected Transaction() { }
 
@@ -32,7 +34,8 @@ public class Transaction : AggregateRoot
         Guid? employeeId = null,
         Guid? payrollId = null,
         string? referenceNumber = null,
-        string? notes = null)
+        string? notes = null,
+        Guid? bankAccountId = null)
     {
         if (string.IsNullOrWhiteSpace(description))
             throw new DomainException("Transaction description is required.");
@@ -47,6 +50,7 @@ public class Transaction : AggregateRoot
             TransactionDate = transactionDate ?? DateOnly.FromDateTime(DateTime.UtcNow),
             EmployeeId = employeeId,
             PayrollId = payrollId,
+            BankAccountId = bankAccountId,
             ReferenceNumber = referenceNumber,
             Notes = notes
         };

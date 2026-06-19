@@ -28,6 +28,11 @@ public sealed class TransactionConfiguration : IEntityTypeConfiguration<Transact
             .HasForeignKey(t => t.EmployeeId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasOne(t => t.BankAccount)
+            .WithMany()
+            .HasForeignKey(t => t.BankAccountId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.ToTable("Transactions");
     }
 }

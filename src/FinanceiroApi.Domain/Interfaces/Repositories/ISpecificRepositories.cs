@@ -40,8 +40,10 @@ public interface ITransactionRepository : IRepositoryBase<Transaction>
     Task<IReadOnlyList<Transaction>> GetByPeriodAsync(DateOnly from, DateOnly to, CancellationToken ct = default);
     Task<IReadOnlyList<Transaction>> GetByPayrollAsync(Guid payrollId, CancellationToken ct = default);
     Task<decimal> GetTotalByTypeAsync(TransactionType type, DateOnly from, DateOnly to, CancellationToken ct = default);
+    Task<IReadOnlyList<Transaction>> GetByBankAccountAsync(Guid bankAccountId, CancellationToken ct = default);
     Task<(IReadOnlyList<Transaction> Items, int TotalCount)> GetPagedAsync(
         Guid? employeeId,
+        Guid? bankAccountId,
         TransactionType? type,
         TransactionStatus? status,
         int pageNumber,
@@ -76,6 +78,7 @@ public interface IAccountPayableRepository : IRepositoryBase<AccountPayable>
     Task<IReadOnlyList<AccountPayable>> GetBySupplierAsync(Guid supplierId, CancellationToken ct = default);
     Task<IReadOnlyList<AccountPayable>> GetByStatusAsync(AccountPayableStatus status, CancellationToken ct = default);
     Task<IReadOnlyList<AccountPayable>> GetByDueDateRangeAsync(DateOnly from, DateOnly to, CancellationToken ct = default);
+    Task<IReadOnlyList<AccountPayable>> GetAllWithDetailsAsync(CancellationToken ct = default);
     Task<IReadOnlyList<AccountPayable>> GetOverdueAsync(CancellationToken ct = default);
     Task<AccountPayable?> GetWithDetailsAsync(Guid id, CancellationToken ct = default);
 }

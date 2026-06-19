@@ -24,6 +24,7 @@ public class JournalEntryRepository : RepositoryBase<JournalEntry>, IJournalEntr
     public async Task<IEnumerable<JournalEntry>> GetByPeriodAsync(Guid accountingPeriodId, CancellationToken cancellationToken = default)
         => await DbSet
             .Include(e => e.Lines)
+            .Include(e => e.AccountingPeriod)
             .Where(e => e.AccountingPeriodId == accountingPeriodId)
             .OrderByDescending(e => e.EntryDate)
             .ThenBy(e => e.EntryNumber)

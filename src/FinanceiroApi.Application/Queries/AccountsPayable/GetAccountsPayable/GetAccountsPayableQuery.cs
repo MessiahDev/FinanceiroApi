@@ -29,7 +29,7 @@ public class GetAccountsPayableQueryHandler : IRequestHandler<GetAccountsPayable
             ? await _accountPayableRepository.GetByStatusAsync(request.Status.Value, cancellationToken)
             : request.SupplierId.HasValue
                 ? await _accountPayableRepository.GetBySupplierAsync(request.SupplierId.Value, cancellationToken)
-                : await _accountPayableRepository.GetAllAsync(cancellationToken);
+                : await _accountPayableRepository.GetAllWithDetailsAsync(cancellationToken);
 
         return _mapper.Map<IReadOnlyList<AccountPayableResponse>>(payables);
     }

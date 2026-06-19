@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using FinanceiroApi.Application.Commands.AccountsPayable.CancelAccountPayable;
 using FinanceiroApi.Application.Commands.AccountsPayable.CreateAccountPayable;
 using FinanceiroApi.Application.Commands.AccountsPayable.PayAccountPayable;
@@ -114,10 +114,11 @@ public class PayAccountPayableCommandHandlerTests
     private readonly IBankAccountRepository _bankRepo = Substitute.For<IBankAccountRepository>();
     private readonly IUnitOfWork _uow = Substitute.For<IUnitOfWork>();
     private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly ITransactionRepository _transactionRepo = Substitute.For<ITransactionRepository>();
     private readonly INotificationContext _notif = Substitute.For<INotificationContext>();
 
     private PayAccountPayableCommandHandler CreateHandler() =>
-        new(_payableRepo, _bankRepo, _uow, _mapper, _notif);
+        new(_payableRepo, _bankRepo, _transactionRepo, _uow, _mapper, _notif);
 
     private static AccountPayableResponse MakeResponse(AccountPayable ap) =>
         new(ap.Id, ap.SupplierId, "Fornecedor", null, null, ap.Description,
@@ -175,3 +176,4 @@ public class PayAccountPayableCommandHandlerTests
         _notif.Received(1).AddNotification("BankAccountId", Arg.Any<string>());
     }
 }
+

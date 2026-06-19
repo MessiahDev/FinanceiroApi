@@ -29,3 +29,4 @@ public sealed class AccountPayableConfiguration : IEntityTypeConfiguration<Accou
         builder.ToTable("AccountsPayable");
     }
 }
+

@@ -89,6 +89,7 @@ public record TransactionResponse(
     DateOnly TransactionDate,
     Guid? EmployeeId,
     Guid? PayrollId,
+    Guid? BankAccountId,
     string? ReferenceNumber,
     DateTime CreatedAt);
 
@@ -343,7 +344,9 @@ public record JournalEntrySummaryResponse(
     JournalEntryStatus Status,
     string StatusName,
     JournalEntryType EntryType,
-    decimal TotalAmount
+    decimal TotalDebits,
+    decimal TotalCredits,
+    string AccountingPeriodName
 );
 
 public record AccountingPeriodResponse(

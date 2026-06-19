@@ -27,7 +27,7 @@ public class CreateTransactionCommandHandlerTests
     private static TransactionResponse MakeResponse(Transaction t) => new(
         t.Id, t.Description, t.Amount.Amount, "BRL",
         t.Type.ToString(), t.Category.ToString(), t.Status.ToString(),
-        t.TransactionDate, t.EmployeeId, t.PayrollId, t.ReferenceNumber, DateTime.UtcNow);
+        t.TransactionDate, t.EmployeeId, t.PayrollId, t.BankAccountId, t.ReferenceNumber, DateTime.UtcNow);
 
     [Fact]
     public async Task Handle_ValidCommand_ShouldCreateTransactionAndReturnResponse()
@@ -91,7 +91,7 @@ public class ConfirmTransactionCommandHandlerTests
     private static TransactionResponse MakeResponse(Transaction t) => new(
         t.Id, t.Description, t.Amount.Amount, "BRL",
         t.Type.ToString(), t.Category.ToString(), t.Status.ToString(),
-        t.TransactionDate, t.EmployeeId, t.PayrollId, t.ReferenceNumber, DateTime.UtcNow);
+        t.TransactionDate, t.EmployeeId, t.PayrollId, t.BankAccountId, t.ReferenceNumber, DateTime.UtcNow);
 
     [Fact]
     public async Task Handle_PendingTransaction_ShouldConfirmAndReturnResponse()
@@ -149,7 +149,7 @@ public class CancelTransactionCommandHandlerTests
     private static TransactionResponse MakeResponse(Transaction t) => new(
         t.Id, t.Description, t.Amount.Amount, "BRL",
         t.Type.ToString(), t.Category.ToString(), t.Status.ToString(),
-        t.TransactionDate, t.EmployeeId, t.PayrollId, t.ReferenceNumber, DateTime.UtcNow);
+        t.TransactionDate, t.EmployeeId, t.PayrollId, t.BankAccountId, t.ReferenceNumber, DateTime.UtcNow);
 
     [Fact]
     public async Task Handle_PendingTransaction_ShouldCancelAndReturnResponse()

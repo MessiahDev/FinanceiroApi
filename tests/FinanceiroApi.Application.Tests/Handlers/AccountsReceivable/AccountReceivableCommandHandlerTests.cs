@@ -66,10 +66,11 @@ public class ReceivePaymentCommandHandlerTests
     private readonly IBankAccountRepository _bankRepo = Substitute.For<IBankAccountRepository>();
     private readonly IUnitOfWork _uow = Substitute.For<IUnitOfWork>();
     private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly ITransactionRepository _transactionRepo = Substitute.For<ITransactionRepository>();
     private readonly INotificationContext _notif = Substitute.For<INotificationContext>();
 
     private ReceivePaymentCommandHandler CreateHandler() =>
-        new(_arRepo, _bankRepo, _uow, _mapper, _notif);
+        new(_arRepo, _bankRepo, _transactionRepo, _uow, _mapper, _notif);
 
     [Fact]
     public async Task Handle_WithValidData_ShouldRegisterReceiptAndReturnResponse()
@@ -123,3 +124,6 @@ public class ReceivePaymentCommandHandlerTests
         _notif.Received(1).AddNotification("BankAccountId", Arg.Any<string>());
     }
 }
+
+
+

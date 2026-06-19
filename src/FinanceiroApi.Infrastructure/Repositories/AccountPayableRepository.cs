@@ -30,6 +30,12 @@ public class AccountPayableRepository : RepositoryBase<AccountPayable>, IAccount
             .Where(a => a.DueDate >= from && a.DueDate <= to)
             .ToListAsync(ct);
 
+    public async Task<IReadOnlyList<AccountPayable>> GetAllWithDetailsAsync(CancellationToken ct = default)
+    => await Context.AccountsPayable
+        .Include(a => a.Supplier)
+        .Include(a => a.CostCenter)
+        .ToListAsync(ct);
+
     public async Task<IReadOnlyList<AccountPayable>> GetOverdueAsync(CancellationToken ct = default)
     {
         var today = DateOnly.FromDateTime(DateTime.UtcNow);

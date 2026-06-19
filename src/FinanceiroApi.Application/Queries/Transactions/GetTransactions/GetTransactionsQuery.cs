@@ -9,6 +9,7 @@ namespace FinanceiroApi.Application.Queries.Transactions.GetTransactions;
 
 public record GetTransactionsQuery(
     Guid? EmployeeId,
+    Guid? BankAccountId,
     TransactionType? Type,
     TransactionStatus? Status,
     int PageNumber = 1,
@@ -31,6 +32,7 @@ public class GetTransactionsQueryHandler : IRequestHandler<GetTransactionsQuery,
     {
         var result = await _transactionRepository.GetPagedAsync(
             request.EmployeeId,
+            request.BankAccountId,
             request.Type,
             request.Status,
             request.PageNumber,

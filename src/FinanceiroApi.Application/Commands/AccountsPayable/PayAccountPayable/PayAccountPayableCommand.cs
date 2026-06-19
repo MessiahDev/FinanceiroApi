@@ -1,6 +1,8 @@
 using AutoMapper;
 using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.CrossCutting.Notifications;
+using FinanceiroApi.Domain.Entities;
+using FinanceiroApi.Domain.Enums;
 using FinanceiroApi.Domain.Interfaces;
 using FinanceiroApi.Domain.Interfaces.Repositories;
 using MediatR;
@@ -17,6 +19,7 @@ public class PayAccountPayableCommandHandler : IRequestHandler<PayAccountPayable
 {
     private readonly IAccountPayableRepository _accountPayableRepository;
     private readonly IBankAccountRepository _bankAccountRepository;
+    private readonly ITransactionRepository _transactionRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly INotificationContext _notifications;
@@ -24,12 +27,14 @@ public class PayAccountPayableCommandHandler : IRequestHandler<PayAccountPayable
     public PayAccountPayableCommandHandler(
         IAccountPayableRepository accountPayableRepository,
         IBankAccountRepository bankAccountRepository,
+        ITransactionRepository transactionRepository,
         IUnitOfWork unitOfWork,
         IMapper mapper,
         INotificationContext notifications)
     {
         _accountPayableRepository = accountPayableRepository;
         _bankAccountRepository = bankAccountRepository;
+        _transactionRepository = transactionRepository;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _notifications = notifications;
@@ -54,8 +59,18 @@ public class PayAccountPayableCommandHandler : IRequestHandler<PayAccountPayable
         payable.RegisterPayment(request.Amount, request.PaymentDate, request.BankAccountId);
         bankAccount.Debit(new FinanceiroApi.Domain.ValueObjects.Money(request.Amount), payable.Description);
 
+        var transaction = Transaction.Create(
+            request.Amount,
+            TransactionType.Debit,
+            TransactionCategory.Other,
+            $"Pagamento - {payable.Description}",
+            request.PaymentDate,
+            referenceNumber: payable.InvoiceNumber,
+            bankAccountId: request.BankAccountId);
+
         await _accountPayableRepository.UpdateAsync(payable, cancellationToken);
         await _bankAccountRepository.UpdateAsync(bankAccount, cancellationToken);
+        await _transactionRepository.AddAsync(transaction, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);
 
         return _mapper.Map<AccountPayableResponse>(payable);

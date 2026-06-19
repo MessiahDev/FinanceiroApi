@@ -6,11 +6,9 @@ using FinanceiroApi.Domain.Interfaces;
 using FinanceiroApi.Domain.Interfaces.Repositories;
 using FinanceiroApi.Domain.ValueObjects;
 using MediatR;
-
 namespace FinanceiroApi.Application.Commands.Payroll.PayPayroll;
 
 public record PayPayrollCommand(Guid PayrollId, Guid BankAccountId) : IRequest<bool>;
-
 public class PayPayrollCommandHandler : IRequestHandler<PayPayrollCommand, bool>
 {
     private readonly IPayrollRepository _payrollRepository;
@@ -18,7 +16,6 @@ public class PayPayrollCommandHandler : IRequestHandler<PayPayrollCommand, bool>
     private readonly ITransactionRepository _transactionRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly INotificationContext _notifications;
-
     public PayPayrollCommandHandler(
         IPayrollRepository payrollRepository,
         IBankAccountRepository bankAccountRepository,
@@ -32,7 +29,6 @@ public class PayPayrollCommandHandler : IRequestHandler<PayPayrollCommand, bool>
         _unitOfWork = unitOfWork;
         _notifications = notifications;
     }
-
     public async Task<bool> Handle(PayPayrollCommand request, CancellationToken cancellationToken)
     {
         var payroll = await _payrollRepository.GetByIdAsync(request.PayrollId, cancellationToken);
@@ -41,22 +37,18 @@ public class PayPayrollCommandHandler : IRequestHandler<PayPayrollCommand, bool>
             _notifications.AddNotification("PayrollId", "Folha de pagamento não encontrada.");
             return false;
         }
-
         if (payroll.Status != PayrollStatus.Approved)
         {
             _notifications.AddNotification("Status", "Esta folha precisa estar aprovada para ser paga.");
             return false;
         }
-
         var bankAccount = await _bankAccountRepository.GetByIdAsync(request.BankAccountId, cancellationToken);
         if (bankAccount is null)
         {
             _notifications.AddNotification("BankAccountId", "Conta bancária não encontrada.");
             return false;
         }
-
         bankAccount.Debit(new Money(payroll.TotalNet.Amount), $"Pagamento de folha {payroll.Period.Start:MM/yyyy}");
-
         var transaction = Transaction.Create(
             payroll.TotalNet.Amount,
             TransactionType.Debit,
@@ -64,21 +56,16 @@ public class PayPayrollCommandHandler : IRequestHandler<PayPayrollCommand, bool>
             $"Pagamento de folha de pagamento - {payroll.Period.Start:MM/yyyy}",
             DateOnly.FromDateTime(DateTime.UtcNow),
             employeeId: null,
-            payrollId: payroll.Id);
-
-        transaction.Confirm();
-
+            payrollId: payroll.Id,
+            bankAccountId: request.BankAccountId);
         payroll.MarkAsPaid();
-
         await _transactionRepository.AddAsync(transaction, cancellationToken);
         await _bankAccountRepository.UpdateAsync(bankAccount, cancellationToken);
         await _payrollRepository.UpdateAsync(payroll, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);
-
         return true;
     }
 }
-
 public class PayPayrollCommandValidator : AbstractValidator<PayPayrollCommand>
 {
     public PayPayrollCommandValidator()

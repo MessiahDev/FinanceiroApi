@@ -70,6 +70,7 @@ public class ApplicationMappingProfile : Profile
                 s.TransactionDate,
                 s.EmployeeId,
                 s.PayrollId,
+                s.BankAccountId,
                 s.ReferenceNumber,
                 s.CreatedAt
             ))
@@ -224,7 +225,10 @@ public class ApplicationMappingProfile : Profile
                 src.Status,
                 src.Status.ToString(),
                 src.EntryType,
-                src.TotalDebits()));
+                src.TotalDebits(),
+                src.TotalCredits(),
+                src.AccountingPeriod != null ? src.AccountingPeriod.Name : string.Empty
+            ));
 
         CreateMap<JournalEntry, JournalEntryResponse>()
             .ConstructUsing((src, ctx) => new JournalEntryResponse(
@@ -260,7 +264,8 @@ public class ApplicationMappingProfile : Profile
                 src.Status.ToString(),
                 src.JournalEntries.Count,
                 src.CreatedAt,
-                src.UpdatedAt));
+                src.UpdatedAt))
+            .ForAllMembers(o => o.Ignore());
 
         CreateMap<TaxPayment, TaxPaymentResponse>()
             .ConstructUsing(s => new TaxPaymentResponse(

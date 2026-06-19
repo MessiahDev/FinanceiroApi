@@ -55,6 +55,7 @@ public class TransactionsController : ControllerBase
     [ProducesResponseType(typeof(PagedResult<TransactionResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(
     [FromQuery] Guid? employeeId,
+    [FromQuery] Guid? bankAccountId,
     [FromQuery] TransactionStatus? status,
     [FromQuery] TransactionType? type,
     [FromQuery] int pageNumber = 1,
@@ -63,6 +64,7 @@ public class TransactionsController : ControllerBase
     {
         var query = new GetTransactionsQuery(
             employeeId,
+            bankAccountId,
             type,
             status,
             pageNumber,

@@ -4,6 +4,7 @@ using FinanceiroApi.Application.Commands.AccountsReceivable.ReceivePayment;
 using FinanceiroApi.Application.DTOs.Request;
 using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.Application.Queries.AccountsReceivable.GetOpenReceivables;
+using FinanceiroApi.Application.Queries.AccountsReceivable.GetAccountReceivableById;
 using FinanceiroApi.CrossCutting.Notifications;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -36,6 +37,15 @@ public class AccountsReceivableController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(AccountReceivableResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetById(Guid id, CancellationToken ct)
+    {
+        var result = await _mediator.Send(new GetAccountReceivableByIdQuery(id), ct);
+        return result is null ? NotFound() : Ok(result);
+    }
+
     [HttpPost]
     [ProducesResponseType(typeof(AccountReceivableResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -45,9 +55,7 @@ public class AccountsReceivableController : ControllerBase
             new CreateAccountReceivableCommand(
                 request.CustomerId, request.Description, request.TotalAmount,
                 request.DueDate, request.CostCenterId, request.InvoiceNumber, request.Notes), ct);
-
-
-        return Created(string.Empty, result);
+        return CreatedAtAction(nameof(GetById), new { id = result!.Id }, result);
     }
 
     [HttpPost("{id:guid}/receive")]
@@ -57,8 +65,6 @@ public class AccountsReceivableController : ControllerBase
     {
         var result = await _mediator.Send(
             new ReceivePaymentCommand(id, request.Amount, request.ReceiptDate, request.BankAccountId), ct);
-
-
         return result is null ? NotFound() : Ok(result);
     }
 
@@ -68,9 +74,6 @@ public class AccountsReceivableController : ControllerBase
     public async Task<IActionResult> Cancel(Guid id, [FromBody] CancelReasonRequest request, CancellationToken ct)
     {
         var result = await _mediator.Send(new CancelAccountReceivableCommand(id, request.Reason), ct);
-
-
         return result is null ? NotFound() : Ok(result);
     }
 }
-

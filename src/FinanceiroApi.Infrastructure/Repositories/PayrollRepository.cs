@@ -24,6 +24,7 @@ public sealed class PayrollRepository : RepositoryBase<Payroll>, IPayrollReposit
     public async Task<Payroll?> GetWithItemsAsync(Guid id, CancellationToken ct = default)
         => await DbSet.AsNoTracking()
             .Include(p => p.Items)
+                .ThenInclude(i => i.Employee)
             .FirstOrDefaultAsync(p => p.Id == id, ct);
 
     public async Task<Payroll?> GetByIdWithDetailsAsync(Guid id, CancellationToken ct = default)

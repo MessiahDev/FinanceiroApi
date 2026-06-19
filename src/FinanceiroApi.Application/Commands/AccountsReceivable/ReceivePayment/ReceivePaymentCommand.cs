@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using AutoMapper;
+using FinanceiroApi.Domain.Entities;
+using FinanceiroApi.Domain.Enums;
 using FinanceiroApi.Domain.Interfaces;
 using FinanceiroApi.Domain.Interfaces.Repositories;
 using FinanceiroApi.CrossCutting.Notifications;
@@ -17,6 +19,7 @@ public class ReceivePaymentCommandHandler : IRequestHandler<ReceivePaymentComman
 {
     private readonly IAccountReceivableRepository _accountReceivableRepository;
     private readonly IBankAccountRepository _bankAccountRepository;
+    private readonly ITransactionRepository _transactionRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly INotificationContext _notifications;
@@ -24,12 +27,14 @@ public class ReceivePaymentCommandHandler : IRequestHandler<ReceivePaymentComman
     public ReceivePaymentCommandHandler(
         IAccountReceivableRepository accountReceivableRepository,
         IBankAccountRepository bankAccountRepository,
+        ITransactionRepository transactionRepository,
         IUnitOfWork unitOfWork,
         IMapper mapper,
         INotificationContext notifications)
     {
         _accountReceivableRepository = accountReceivableRepository;
         _bankAccountRepository = bankAccountRepository;
+        _transactionRepository = transactionRepository;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _notifications = notifications;
@@ -54,8 +59,18 @@ public class ReceivePaymentCommandHandler : IRequestHandler<ReceivePaymentComman
         receivable.RegisterReceipt(request.Amount, request.ReceiptDate, request.BankAccountId);
         bankAccount.Credit(new FinanceiroApi.Domain.ValueObjects.Money(request.Amount), receivable.Description);
 
+        var transaction = Transaction.Create(
+            request.Amount,
+            TransactionType.Credit,
+            TransactionCategory.Other,
+            $"Recebimento - {receivable.Description}",
+            request.ReceiptDate,
+            referenceNumber: receivable.InvoiceNumber,
+            bankAccountId: request.BankAccountId);
+
         await _accountReceivableRepository.UpdateAsync(receivable, cancellationToken);
         await _bankAccountRepository.UpdateAsync(bankAccount, cancellationToken);
+        await _transactionRepository.AddAsync(transaction, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);
 
         return _mapper.Map<AccountReceivableResponse>(receivable);

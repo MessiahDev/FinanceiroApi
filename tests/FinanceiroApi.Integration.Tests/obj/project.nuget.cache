@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ZYjBbR3iPDw=",
+  "dgSpecHash": "0pzqYWg2X9A=",
   "success": true,
   "projectFilePath": "C:\\Users\\Alex\\Documents\\FinanceiroApi\\tests\\FinanceiroApi.Integration.Tests\\FinanceiroApi.Integration.Tests.csproj",
   "expectedPackageFiles": [
@@ -155,10 +155,7 @@
     "C:\\Users\\Alex\\.nuget\\packages\\xunit.core\\2.9.3\\xunit.core.2.9.3.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\xunit.extensibility.core\\2.9.3\\xunit.extensibility.core.2.9.3.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\xunit.extensibility.execution\\2.9.3\\xunit.extensibility.execution.2.9.3.nupkg.sha512",
-    "C:\\Users\\Alex\\.nuget\\packages\\xunit.runner.visualstudio\\3.1.5\\xunit.runner.visualstudio.3.1.5.nupkg.sha512",
-    "C:\\Users\\Alex\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.16\\microsoft.netcore.app.ref.9.0.16.nupkg.sha512",
-    "C:\\Users\\Alex\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.16\\microsoft.windowsdesktop.app.ref.9.0.16.nupkg.sha512",
-    "C:\\Users\\Alex\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.16\\microsoft.aspnetcore.app.ref.9.0.16.nupkg.sha512"
+    "C:\\Users\\Alex\\.nuget\\packages\\xunit.runner.visualstudio\\3.1.5\\xunit.runner.visualstudio.3.1.5.nupkg.sha512"
   ],
   "logs": []
 }
