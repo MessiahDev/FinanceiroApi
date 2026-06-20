@@ -47,16 +47,14 @@ public class GetFinancialSummaryQueryHandler : IRequestHandler<GetFinancialSumma
         var transactions = await _transactionRepository.GetByPeriodAsync(
             request.PeriodStart, request.PeriodEnd, cancellationToken);
 
-        var payrolls = await _payrollRepository.GetProcessedByPeriodAsync(
-            request.PeriodStart, request.PeriodEnd, cancellationToken);
-
         var employeeCount = await _employeeRepository.CountActiveAsync(cancellationToken);
 
-        var payables = await _payableRepository.GetByDueDateRangeAsync(
-            request.PeriodStart, request.PeriodEnd, cancellationToken);
+        var allPayables = await _payableRepository.GetAllWithDetailsAsync(cancellationToken);
+        var allReceivables = await _receivableRepository.GetOpenAsync(cancellationToken);
+        var allReceivablesReceived = await _receivableRepository.GetByStatusAsync(AccountReceivableStatus.Received, cancellationToken);
+        var allReceivablesPartial = await _receivableRepository.GetByStatusAsync(AccountReceivableStatus.PartiallyReceived, cancellationToken);
 
-        var receivables = await _receivableRepository.GetByDueDateRangeAsync(
-            request.PeriodStart, request.PeriodEnd, cancellationToken);
+        var allPayrolls = (await _payrollRepository.GetHistoryPagedAsync(1, int.MaxValue, cancellationToken)).Items;
 
         var taxPayments = await _taxPaymentRepository.GetByPaymentDateRangeAsync(
             request.PeriodStart, request.PeriodEnd, cancellationToken);
@@ -69,23 +67,36 @@ public class GetFinancialSummaryQueryHandler : IRequestHandler<GetFinancialSumma
             .Where(t => t.Type == TransactionType.Debit)
             .Sum(t => t.Amount.Amount);
 
-        var totalPayroll = payrolls.Sum(p => p.TotalNet.Amount);
+        var payrollsInPeriod = allPayrolls
+            .Where(p => p.Status == PayrollStatus.Paid
+                     && p.PaidAt.HasValue
+                     && DateOnly.FromDateTime(p.PaidAt.Value) >= request.PeriodStart
+                     && DateOnly.FromDateTime(p.PaidAt.Value) <= request.PeriodEnd)
+            .ToList();
 
-        var totalPaid = payables
-            .Where(p => p.Status == AccountPayableStatus.Paid || p.Status == AccountPayableStatus.PartiallyPaid)
+        var totalPayroll = payrollsInPeriod.Sum(p => p.TotalNet.Amount);
+
+        var totalPaid = allPayables
+            .Where(p => (p.Status == AccountPayableStatus.Paid || p.Status == AccountPayableStatus.PartiallyPaid)
+                     && p.PaymentDate.HasValue
+                     && p.PaymentDate.Value >= request.PeriodStart
+                     && p.PaymentDate.Value <= request.PeriodEnd)
             .Sum(p => p.PaidAmount.Amount);
 
-        var totalReceived = receivables
-            .Where(r => r.Status == AccountReceivableStatus.Received || r.Status == AccountReceivableStatus.PartiallyReceived)
+        var receivedAccounts = allReceivablesReceived.Concat(allReceivablesPartial);
+        var totalReceived = receivedAccounts
+            .Where(r => r.ReceiptDate.HasValue
+                     && r.ReceiptDate.Value >= request.PeriodStart
+                     && r.ReceiptDate.Value <= request.PeriodEnd)
             .Sum(r => r.ReceivedAmount.Amount);
 
         var totalTaxesPaid = taxPayments.Sum(t => t.TotalPaid.Amount);
 
-        var pendingPayables = payables
+        var pendingPayables = allPayables
             .Where(p => p.Status == AccountPayableStatus.Pending || p.Status == AccountPayableStatus.PartiallyPaid || p.Status == AccountPayableStatus.Overdue)
             .Sum(p => p.RemainingAmount.Amount);
 
-        var pendingReceivables = receivables
+        var pendingReceivables = allReceivables
             .Where(r => r.Status == AccountReceivableStatus.Pending || r.Status == AccountReceivableStatus.PartiallyReceived || r.Status == AccountReceivableStatus.Overdue)
             .Sum(r => r.RemainingAmount.Amount);
 
@@ -114,7 +125,7 @@ public class GetFinancialSummaryQueryHandler : IRequestHandler<GetFinancialSumma
             TotalCredits: totalCredits,
             TotalDebits: totalDebits,
             NetBalance: totalCredits - totalDebits,
-            PayrollsProcessed: payrolls.Count,
+            PayrollsProcessed: payrollsInPeriod.Count,
             TotalPayroll: totalPayroll,
             ActiveEmployees: employeeCount,
             TotalPaid: totalPaid,
