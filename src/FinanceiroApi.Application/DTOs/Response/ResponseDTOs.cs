@@ -541,3 +541,22 @@ public record BankReconciliationItemResponse(
     Guid? TransactionId,
     string Status,
     string? Notes);
+
+public record UserSummaryResponse(
+    Guid Id,
+    string Name,
+    string Email,
+    string Role,
+    bool IsActive,
+    DateTime CreatedAt);
+
+public record UserAuditLogResponse(
+    Guid Id,
+    Guid TargetUserId,
+    string TargetUserName,
+    Guid ChangedByUserId,
+    string ChangedByUserName,
+    string Action,
+    string? OldValue,
+    string? NewValue,
+    DateTime CreatedAt);

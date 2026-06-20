@@ -76,10 +76,10 @@ services:
         Username=${POSTGRES_USER:-financeiro};
         Password=${POSTGRES_PASSWORD:-financeiro123}
       ConnectionStrings__Redis: "redis:6379,password=${REDIS_PASSWORD:-redis123}"
-      Jwt__SecretKey: ${JWT_SECRET:-sua_chave_secreta_minimo_32_caracteres_aqui}
+      Jwt__SecretKey: ${JWT_SECRET:-dNy1Eo47Yj9PCrCSBcu80XGTR+h17A2E6iCLYIKVuX0=}
       Jwt__Issuer: ${JWT_ISSUER:-FinanceiroApi}
       Jwt__Audience: ${JWT_AUDIENCE:-FinanceiroApiClients}
-      Jwt__ExpiresInMinutes: ${JWT_EXPIRES:-60}
+      Jwt__ExpiresInMinutes: ${JWT_EXPIRES:-480}
       RabbitMQ__Host: rabbitmq
       RabbitMQ__Port: 5672
       RabbitMQ__Username: ${RABBITMQ_USER:-guest}

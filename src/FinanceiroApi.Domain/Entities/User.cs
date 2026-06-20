@@ -1,4 +1,5 @@
 using FinanceiroApi.Domain.Entities.Base;
+using FinanceiroApi.Domain.Events;
 using FinanceiroApi.Domain.Exceptions;
 using FinanceiroApi.Domain.Enums;
 namespace FinanceiroApi.Domain.Entities;
@@ -31,7 +32,27 @@ public class User : AggregateRoot
         Name = name.Trim();
         SetUpdatedAt();
     }
-    public void Deactivate() { IsActive = false; SetUpdatedAt(); }
-    public void Activate() { IsActive = true; SetUpdatedAt(); }
+    public void ChangeRole(UserRole newRole, Guid changedByUserId)
+    {
+        if (newRole == Role) return;
+        var oldRole = Role;
+        Role = newRole;
+        SetUpdatedAt();
+        AddDomainEvent(new UserRoleChangedEvent(Id, oldRole, newRole, changedByUserId));
+    }
+    public void Deactivate(Guid changedByUserId)
+    {
+        if (!IsActive) throw new DomainException("User is already inactive.");
+        IsActive = false;
+        SetUpdatedAt();
+        AddDomainEvent(new UserDeactivatedEvent(Id, changedByUserId));
+    }
+    public void Activate(Guid changedByUserId)
+    {
+        if (IsActive) throw new DomainException("User is already active.");
+        IsActive = true;
+        SetUpdatedAt();
+        AddDomainEvent(new UserActivatedEvent(Id, changedByUserId));
+    }
     public void UpdatePasswordHash(string hash) { PasswordHash = hash; SetUpdatedAt(); }
 }

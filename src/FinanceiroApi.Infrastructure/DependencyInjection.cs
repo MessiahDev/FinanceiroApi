@@ -75,6 +75,7 @@ public static class DependencyInjection
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserAuditLogRepository, UserAuditLogRepository>();
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IPayrollRepository, PayrollRepository>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();

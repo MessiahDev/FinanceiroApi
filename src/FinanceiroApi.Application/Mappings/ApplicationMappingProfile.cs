@@ -421,6 +421,20 @@ public class ApplicationMappingProfile : Profile
                 s.UpdatedAt,
                 ctx.Mapper.Map<IReadOnlyList<BankReconciliationItemResponse>>(s.Items)))
             .ForAllMembers(o => o.Ignore());
+
+        CreateMap<User, UserSummaryResponse>()
+            .ConstructUsing(s => new UserSummaryResponse(
+                s.Id, s.Name, s.Email, s.Role.ToString(), s.IsActive, s.CreatedAt))
+            .ForAllMembers(o => o.Ignore());
+
+        CreateMap<UserAuditLog, UserAuditLogResponse>()
+            .ConstructUsing(s => new UserAuditLogResponse(
+                s.Id, s.TargetUserId,
+                s.TargetUser != null ? s.TargetUser.Name : string.Empty,
+                s.ChangedByUserId,
+                s.ChangedByUser != null ? s.ChangedByUser.Name : string.Empty,
+                s.Action, s.OldValue, s.NewValue, s.CreatedAt))
+            .ForAllMembers(o => o.Ignore());
     }
 }
 

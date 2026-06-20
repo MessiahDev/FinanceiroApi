@@ -18,6 +18,7 @@ public sealed class AppDbContext : DbContext
     }
 
     public DbSet<User> Users => Set<User>();
+    public DbSet<UserAuditLog> UserAuditLogs => Set<UserAuditLog>();
     public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<Payroll> Payrolls => Set<Payroll>();
     public DbSet<Transaction> Transactions => Set<Transaction>();

@@ -82,7 +82,7 @@ public class LoginCommandHandlerTests
     public async Task Handle_InactiveUser_ShouldNotifyAndReturnNull()
     {
         var user = MakeActiveUser();
-        user.Deactivate();
+        user.Deactivate(Guid.NewGuid());
         _repo.GetByEmailAsync(user.Email, default).Returns(user);
 
         var result = await CreateHandler().Handle(new LoginCommand(user.Email, "senha123"), default);

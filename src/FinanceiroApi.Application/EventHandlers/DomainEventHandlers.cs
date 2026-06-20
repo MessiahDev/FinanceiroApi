@@ -472,6 +472,117 @@ public class PayrollProcessedDomainEventHandler : INotificationHandler<PayrollPr
                 _logger.LogError(ex, "Erro ao gerar lançamento contábil para pagamento de imposto {Id}", notification.TaxPaymentId);
             }
         }
+
+        public class UserRoleChangedDomainEventHandler : INotificationHandler<UserRoleChangedEvent>
+        {
+            private readonly IUserAuditLogRepository _auditLogRepository;
+            private readonly IUnitOfWork _unitOfWork;
+            private readonly ILogger<UserRoleChangedDomainEventHandler> _logger;
+
+            public UserRoleChangedDomainEventHandler(
+                IUserAuditLogRepository auditLogRepository,
+                IUnitOfWork unitOfWork,
+                ILogger<UserRoleChangedDomainEventHandler> logger)
+            {
+                _auditLogRepository = auditLogRepository;
+                _unitOfWork = unitOfWork;
+                _logger = logger;
+            }
+
+            public async Task Handle(UserRoleChangedEvent notification, CancellationToken cancellationToken)
+            {
+                try
+                {
+                    var log = UserAuditLog.Create(
+                        notification.UserId,
+                        notification.ChangedByUserId,
+                        "RoleChanged",
+                        notification.OldRole.ToString(),
+                        notification.NewRole.ToString());
+
+                    await _auditLogRepository.AddAsync(log, cancellationToken);
+                    await _unitOfWork.CommitAsync(cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Erro ao registrar log de auditoria para mudança de role do usuário {UserId}", notification.UserId);
+                }
+            }
+        }
+
+        public class UserActivatedDomainEventHandler : INotificationHandler<UserActivatedEvent>
+        {
+            private readonly IUserAuditLogRepository _auditLogRepository;
+            private readonly IUnitOfWork _unitOfWork;
+            private readonly ILogger<UserActivatedDomainEventHandler> _logger;
+
+            public UserActivatedDomainEventHandler(
+                IUserAuditLogRepository auditLogRepository,
+                IUnitOfWork unitOfWork,
+                ILogger<UserActivatedDomainEventHandler> logger)
+            {
+                _auditLogRepository = auditLogRepository;
+                _unitOfWork = unitOfWork;
+                _logger = logger;
+            }
+
+            public async Task Handle(UserActivatedEvent notification, CancellationToken cancellationToken)
+            {
+                try
+                {
+                    var log = UserAuditLog.Create(
+                        notification.UserId,
+                        notification.ChangedByUserId,
+                        "Activated",
+                        "Inactive",
+                        "Active");
+
+                    await _auditLogRepository.AddAsync(log, cancellationToken);
+                    await _unitOfWork.CommitAsync(cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Erro ao registrar log de auditoria para ativação do usuário {UserId}", notification.UserId);
+                }
+            }
+        }
+
+        public class UserDeactivatedDomainEventHandler : INotificationHandler<UserDeactivatedEvent>
+        {
+            private readonly IUserAuditLogRepository _auditLogRepository;
+            private readonly IUnitOfWork _unitOfWork;
+            private readonly ILogger<UserDeactivatedDomainEventHandler> _logger;
+
+            public UserDeactivatedDomainEventHandler(
+                IUserAuditLogRepository auditLogRepository,
+                IUnitOfWork unitOfWork,
+                ILogger<UserDeactivatedDomainEventHandler> logger)
+            {
+                _auditLogRepository = auditLogRepository;
+                _unitOfWork = unitOfWork;
+                _logger = logger;
+            }
+
+            public async Task Handle(UserDeactivatedEvent notification, CancellationToken cancellationToken)
+            {
+                try
+                {
+                    var log = UserAuditLog.Create(
+                        notification.UserId,
+                        notification.ChangedByUserId,
+                        "Deactivated",
+                        "Active",
+                        "Inactive");
+
+                    await _auditLogRepository.AddAsync(log, cancellationToken);
+                    await _unitOfWork.CommitAsync(cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Erro ao registrar log de auditoria para desativação do usuário {UserId}", notification.UserId);
+                }
+            }
+        }
     }
 }
 

@@ -156,3 +156,22 @@ public sealed class BudgetApprovedEvent(Guid budgetId, int year, Money totalPlan
     public Guid ApprovedBy { get; } = approvedBy;
 }
 
+public sealed class UserRoleChangedEvent(Guid userId, UserRole oldRole, UserRole newRole, Guid changedByUserId) : DomainEvent
+{
+    public Guid UserId { get; } = userId;
+    public UserRole OldRole { get; } = oldRole;
+    public UserRole NewRole { get; } = newRole;
+    public Guid ChangedByUserId { get; } = changedByUserId;
+}
+
+public sealed class UserActivatedEvent(Guid userId, Guid changedByUserId) : DomainEvent
+{
+    public Guid UserId { get; } = userId;
+    public Guid ChangedByUserId { get; } = changedByUserId;
+}
+
+public sealed class UserDeactivatedEvent(Guid userId, Guid changedByUserId) : DomainEvent
+{
+    public Guid UserId { get; } = userId;
+    public Guid ChangedByUserId { get; } = changedByUserId;
+}

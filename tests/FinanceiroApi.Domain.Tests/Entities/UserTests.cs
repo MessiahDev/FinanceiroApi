@@ -54,7 +54,7 @@ public class UserTests
     {
         var user = User.Create("Alex", "alex@b.com", "hash", UserRole.Manager);
 
-        user.Deactivate();
+        user.Deactivate(Guid.NewGuid());
 
         Assert.False(user.IsActive);
     }
@@ -63,9 +63,9 @@ public class UserTests
     public void Activate_ShouldSetIsActiveTrue()
     {
         var user = User.Create("Alex", "alex@b.com", "hash", UserRole.Manager);
-        user.Deactivate();
+        user.Deactivate(Guid.NewGuid());
 
-        user.Activate();
+        user.Activate(Guid.NewGuid());
 
         Assert.True(user.IsActive);
     }
