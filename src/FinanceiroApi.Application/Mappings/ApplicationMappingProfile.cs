@@ -390,6 +390,8 @@ public class ApplicationMappingProfile : Profile
                 s.BankAccount != null ? $"{s.BankAccount.BankName} - {s.BankAccount.AccountNumber}" : string.Empty,
                 s.PeriodStart,
                 s.PeriodEnd,
+                s.StatementOpeningBalance.Amount,
+                s.StatementClosingBalance.Amount,
                 s.Difference.Amount,
                 s.IsBalanced,
                 s.Status.ToString(),

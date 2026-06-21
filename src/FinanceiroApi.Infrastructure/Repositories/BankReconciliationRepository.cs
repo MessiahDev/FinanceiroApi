@@ -14,6 +14,7 @@ public class BankReconciliationRepository : RepositoryBase<BankReconciliation>, 
         => await Context.BankReconciliations
             .Include(r => r.BankAccount)
             .Include(r => r.BankStatement)
+            .Include(r => r.Items)
             .Where(r => r.BankAccountId == bankAccountId && !r.IsDeleted)
             .OrderByDescending(r => r.PeriodStart)
             .ToListAsync(ct);
@@ -22,6 +23,7 @@ public class BankReconciliationRepository : RepositoryBase<BankReconciliation>, 
         => await Context.BankReconciliations
             .Include(r => r.BankAccount)
             .Include(r => r.BankStatement)
+            .Include(r => r.Items)
             .Where(r => !r.IsDeleted)
             .OrderByDescending(r => r.PeriodStart)
             .ToListAsync(ct);
@@ -30,6 +32,7 @@ public class BankReconciliationRepository : RepositoryBase<BankReconciliation>, 
         => await Context.BankReconciliations
             .Include(r => r.BankAccount)
             .Include(r => r.BankStatement)
+            .Include(r => r.Items)
             .Where(r => r.Status == status && !r.IsDeleted)
             .OrderByDescending(r => r.PeriodStart)
             .ToListAsync(ct);

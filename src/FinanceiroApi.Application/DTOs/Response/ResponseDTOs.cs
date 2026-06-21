@@ -524,6 +524,8 @@ public record BankReconciliationSummaryResponse(
     string BankAccountName,
     DateOnly PeriodStart,
     DateOnly PeriodEnd,
+    decimal StatementOpeningBalance,
+    decimal StatementClosingBalance,
     decimal Difference,
     bool IsBalanced,
     string Status,
