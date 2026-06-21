@@ -10,6 +10,7 @@ using FinanceiroApi.Application.Queries.TaxEntries.GetTaxEntryById;
 using FinanceiroApi.Application.Queries.TaxPayments.GetTaxPaymentById;
 using FinanceiroApi.Application.Queries.TaxPayments.GetTaxPaymentsByEntry;
 using FinanceiroApi.CrossCutting.Notifications;
+using FinanceiroApi.CrossCutting.Pagination;
 using FinanceiroApi.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -35,18 +36,20 @@ public class TaxEntriesController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IReadOnlyList<TaxEntrySummaryResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedResult<TaxEntrySummaryResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(
-        [FromQuery] TaxType? taxType,
-        [FromQuery] TaxEntryStatus? status,
-        [FromQuery] int? competenceYear,
-        [FromQuery] int? competenceMonth,
-        [FromQuery] DateOnly? dueDateFrom,
-        [FromQuery] DateOnly? dueDateTo,
-        CancellationToken ct)
+    [FromQuery] TaxType? taxType,
+    [FromQuery] TaxEntryStatus? status,
+    [FromQuery] int? competenceYear,
+    [FromQuery] int? competenceMonth,
+    [FromQuery] DateOnly? dueDateFrom,
+    [FromQuery] DateOnly? dueDateTo,
+    [FromQuery] int pageNumber = 1,
+    [FromQuery] int pageSize = 20,
+    CancellationToken ct = default)
     {
         var result = await _mediator.Send(
-            new GetTaxEntriesQuery(taxType, status, competenceYear, competenceMonth, dueDateFrom, dueDateTo), ct);
+            new GetTaxEntriesQuery(taxType, status, competenceYear, competenceMonth, dueDateFrom, dueDateTo, pageNumber, pageSize), ct);
         return Ok(result);
     }
 

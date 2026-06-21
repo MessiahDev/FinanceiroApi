@@ -1,14 +1,16 @@
 using AutoMapper;
 using FinanceiroApi.Application.DTOs.Response;
+using FinanceiroApi.CrossCutting.Pagination;
 using FinanceiroApi.Domain.Enums;
 using FinanceiroApi.Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace FinanceiroApi.Application.Queries.Budgets.GetBudgets;
 
-public record GetBudgetsQuery(int? Year = null, BudgetStatus? Status = null) : IRequest<IReadOnlyList<BudgetSummaryResponse>>;
+public record GetBudgetsQuery(int? Year = null, BudgetStatus? Status = null, int PageNumber = 1, int PageSize = 20)
+    : IRequest<PagedResult<BudgetSummaryResponse>>;
 
-public class GetBudgetsQueryHandler : IRequestHandler<GetBudgetsQuery, IReadOnlyList<BudgetSummaryResponse>>
+public class GetBudgetsQueryHandler : IRequestHandler<GetBudgetsQuery, PagedResult<BudgetSummaryResponse>>
 {
     private readonly IBudgetRepository _budgetRepository;
     private readonly IMapper _mapper;
@@ -19,16 +21,17 @@ public class GetBudgetsQueryHandler : IRequestHandler<GetBudgetsQuery, IReadOnly
         _mapper = mapper;
     }
 
-    public async Task<IReadOnlyList<BudgetSummaryResponse>> Handle(
+    public async Task<PagedResult<BudgetSummaryResponse>> Handle(
         GetBudgetsQuery request,
         CancellationToken cancellationToken)
     {
-        var budgets = request.Year.HasValue
-            ? await _budgetRepository.GetByYearAsync(request.Year.Value, cancellationToken)
-            : request.Status.HasValue
-                ? await _budgetRepository.GetByStatusAsync(request.Status.Value, cancellationToken)
-                : await _budgetRepository.GetAllAsync(cancellationToken);
+        var result = await _budgetRepository.GetPagedAsync(
+            request.Year, request.Status, request.PageNumber, request.PageSize, cancellationToken);
 
-        return _mapper.Map<IReadOnlyList<BudgetSummaryResponse>>(budgets);
+        return new PagedResult<BudgetSummaryResponse>(
+            _mapper.Map<IReadOnlyList<BudgetSummaryResponse>>(result.Items),
+            result.TotalCount,
+            request.PageNumber,
+            request.PageSize);
     }
 }

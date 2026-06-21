@@ -1,3 +1,4 @@
+using FinanceiroApi.CrossCutting.Constants;
 using FinanceiroApi.CrossCutting.Notifications;
 using FinanceiroApi.Domain.Interfaces;
 using FinanceiroApi.Domain.Interfaces.Repositories;
@@ -29,6 +30,12 @@ public class DeactivateUserCommandHandler : IRequestHandler<DeactivateUserComman
         if (user is null)
         {
             _notifications.AddNotification("TargetUserId", "Usuário não encontrado.");
+            return false;
+        }
+
+        if (user.Email.Equals(DemoAccount.Email, StringComparison.OrdinalIgnoreCase))
+        {
+            _notifications.AddNotification("TargetUserId", "Esta é a conta demo do sistema e não pode ser desativada.");
             return false;
         }
 

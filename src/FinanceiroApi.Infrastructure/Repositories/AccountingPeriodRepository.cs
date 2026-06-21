@@ -39,4 +39,22 @@ public class AccountingPeriodRepository : RepositoryBase<AccountingPeriod>, IAcc
     public async Task<bool> ExistsByYearMonthAsync(int year, int month, Guid? excludeId = null, CancellationToken cancellationToken = default)
         => await DbSet
             .AnyAsync(p => p.Year == year && p.Month == month && (excludeId == null || p.Id != excludeId), cancellationToken);
+
+    public async Task<(IReadOnlyList<AccountingPeriod> Items, int TotalCount)> GetPagedAsync(
+        int? year, int pageNumber, int pageSize, CancellationToken ct = default)
+    {
+        var query = year.HasValue
+            ? DbSet.Where(p => p.Year == year.Value)
+            : DbSet.Where(p => p.Status == AccountingPeriodStatus.Open);
+
+        var totalCount = await query.CountAsync(ct);
+        var items = await query
+            .OrderByDescending(p => p.Year)
+            .ThenByDescending(p => p.Month)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
+
+        return (items, totalCount);
+    }
 }

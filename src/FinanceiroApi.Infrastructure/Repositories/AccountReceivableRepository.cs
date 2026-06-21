@@ -44,4 +44,31 @@ public class AccountReceivableRepository : RepositoryBase<AccountReceivable>, IA
             .Include(a => a.Customer)
             .Include(a => a.CostCenter)
             .FirstOrDefaultAsync(a => a.Id == id, ct);
+
+    public async Task<(IReadOnlyList<AccountReceivable> Items, int TotalCount)> GetPagedAsync(
+        Guid? customerId,
+        int pageNumber,
+        int pageSize,
+        CancellationToken ct = default)
+    {
+        var query = Context.AccountsReceivable
+            .Include(a => a.Customer)
+            .Include(a => a.CostCenter)
+            .AsQueryable();
+
+        query = customerId.HasValue
+            ? query.Where(a => a.CustomerId == customerId.Value)
+            : query.Where(a => a.Status == AccountReceivableStatus.Pending ||
+                                a.Status == AccountReceivableStatus.PartiallyReceived ||
+                                a.Status == AccountReceivableStatus.Overdue);
+
+        var totalCount = await query.CountAsync(ct);
+        var items = await query
+            .OrderByDescending(a => a.DueDate)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
+
+        return (items, totalCount);
+    }
 }

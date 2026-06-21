@@ -36,3 +36,8 @@ public static class AppMessages
     public const string Unauthorized = "Acesso não autorizado.";
     public const string InternalError = "Erro interno. Tente novamente mais tarde.";
 }
+
+public static class DemoAccount
+{
+    public const string Email = "admin@financeiro.com";
+}

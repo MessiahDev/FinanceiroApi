@@ -81,9 +81,7 @@ public class GetAllCostCentersQueryHandlerTests
 {
     private readonly ICostCenterRepository _repo = Substitute.For<ICostCenterRepository>();
     private readonly IMapper _mapper = Substitute.For<IMapper>();
-
     private GetAllCostCentersQueryHandler CreateHandler() => new(_repo, _mapper);
-
     [Fact]
     public async Task Handle_ShouldReturnAllActiveCostCenters()
     {
@@ -95,24 +93,18 @@ public class GetAllCostCentersQueryHandlerTests
             new(cc1.Id, "TI-001", "Tecnologia", null, null, null, 50000m, "BRL", "Active", null, null, DateTime.UtcNow, null),
             new(cc2.Id, "RH-001", "Recursos Humanos", null, null, null, 30000m, "BRL", "Active", null, null, DateTime.UtcNow, null),
         }.AsReadOnly();
-
-        _repo.GetActiveAsync(default).Returns(list);
+        _repo.GetActivePagedAsync(1, 20, default).Returns((list, 2));
         _mapper.Map<IReadOnlyList<CostCenterResponse>>(list).Returns(expected);
-
         var result = await CreateHandler().Handle(new GetAllCostCentersQuery(), default);
-
-        result.Should().HaveCount(2);
+        result.Items.Should().HaveCount(2);
     }
-
     [Fact]
     public async Task Handle_WhenEmpty_ShouldReturnEmptyList()
     {
-        _repo.GetActiveAsync(default).Returns(new List<CostCenter>().AsReadOnly());
+        _repo.GetActivePagedAsync(1, 20, default).Returns((new List<CostCenter>().AsReadOnly(), 0));
         _mapper.Map<IReadOnlyList<CostCenterResponse>>(Arg.Any<object>())
                .Returns(new List<CostCenterResponse>().AsReadOnly());
-
         var result = await CreateHandler().Handle(new GetAllCostCentersQuery(), default);
-
-        result.Should().BeEmpty();
+        result.Items.Should().BeEmpty();
     }
 }

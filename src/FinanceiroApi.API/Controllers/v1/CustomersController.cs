@@ -7,6 +7,7 @@ using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.Application.Queries.Customers.GetAllCustomers;
 using FinanceiroApi.Application.Queries.Customers.GetCustomerById;
 using FinanceiroApi.CrossCutting.Notifications;
+using FinanceiroApi.CrossCutting.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,10 +32,10 @@ public class CustomersController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IReadOnlyList<CustomerSummaryResponse>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAll(CancellationToken ct)
+    [ProducesResponseType(typeof(PagedResult<CustomerSummaryResponse>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20, CancellationToken ct = default)
     {
-        var result = await _mediator.Send(new GetAllCustomersQuery(), ct);
+        var result = await _mediator.Send(new GetAllCustomersQuery(pageNumber, pageSize), ct);
         return Ok(result);
     }
 

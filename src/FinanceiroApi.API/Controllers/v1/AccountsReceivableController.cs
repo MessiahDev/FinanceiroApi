@@ -3,9 +3,10 @@ using FinanceiroApi.Application.Commands.AccountsReceivable.CreateAccountReceiva
 using FinanceiroApi.Application.Commands.AccountsReceivable.ReceivePayment;
 using FinanceiroApi.Application.DTOs.Request;
 using FinanceiroApi.Application.DTOs.Response;
-using FinanceiroApi.Application.Queries.AccountsReceivable.GetOpenReceivables;
+using FinanceiroApi.Application.Queries.AccountsReceivable.GetAccountsReceivable;
 using FinanceiroApi.Application.Queries.AccountsReceivable.GetAccountReceivableById;
 using FinanceiroApi.CrossCutting.Notifications;
+using FinanceiroApi.CrossCutting.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,10 +31,14 @@ public class AccountsReceivableController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IReadOnlyList<AccountReceivableResponse>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAll([FromQuery] Guid? customerId, CancellationToken ct)
+    [ProducesResponseType(typeof(PagedResult<AccountReceivableResponse>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll(
+        [FromQuery] Guid? customerId,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 20,
+        CancellationToken ct = default)
     {
-        var result = await _mediator.Send(new GetOpenReceivablesQuery(customerId), ct);
+        var result = await _mediator.Send(new GetAccountsReceivableQuery(customerId, pageNumber, pageSize), ct);
         return Ok(result);
     }
 

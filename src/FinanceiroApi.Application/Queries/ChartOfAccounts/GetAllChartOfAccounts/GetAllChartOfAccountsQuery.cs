@@ -2,7 +2,6 @@ using MediatR;
 using AutoMapper;
 using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.Domain.Enums;
-using FinanceiroApi.Domain.Exceptions;
 using FinanceiroApi.Domain.Interfaces.Repositories;
 using FinanceiroApi.CrossCutting.Pagination;
 
@@ -11,11 +10,13 @@ namespace FinanceiroApi.Application.Queries.ChartOfAccounts.GetAllChartOfAccount
 public record GetAllChartOfAccountsQuery(
     bool? IsActive = null,
     AccountType? AccountType = null,
-    bool OnlyRoots = false
-) : IRequest<IEnumerable<ChartOfAccountSummaryResponse>>;
+    bool OnlyRoots = false,
+    int PageNumber = 1,
+    int PageSize = 20
+) : IRequest<PagedResult<ChartOfAccountSummaryResponse>>;
 
 public class GetAllChartOfAccountsQueryHandler
-    : IRequestHandler<GetAllChartOfAccountsQuery, IEnumerable<ChartOfAccountSummaryResponse>>
+    : IRequestHandler<GetAllChartOfAccountsQuery, PagedResult<ChartOfAccountSummaryResponse>>
 {
     private readonly IChartOfAccountRepository _repository;
     private readonly IMapper _mapper;
@@ -26,18 +27,17 @@ public class GetAllChartOfAccountsQueryHandler
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<ChartOfAccountSummaryResponse>> Handle(
+    public async Task<PagedResult<ChartOfAccountSummaryResponse>> Handle(
         GetAllChartOfAccountsQuery request, CancellationToken cancellationToken)
     {
-        var accounts = request.OnlyRoots
-            ? await _repository.GetRootAccountsAsync(cancellationToken)
-            : request.AccountType.HasValue
-                ? await _repository.GetByTypeAsync(request.AccountType.Value, cancellationToken)
-                : await _repository.GetActiveAccountsAsync(cancellationToken);
+        var result = await _repository.GetPagedAsync(
+            request.IsActive, request.AccountType, request.OnlyRoots,
+            request.PageNumber, request.PageSize, cancellationToken);
 
-        if (request.IsActive.HasValue)
-            accounts = accounts.Where(a => a.IsActive == request.IsActive.Value);
-
-        return _mapper.Map<IEnumerable<ChartOfAccountSummaryResponse>>(accounts);
+        return new PagedResult<ChartOfAccountSummaryResponse>(
+            _mapper.Map<IReadOnlyList<ChartOfAccountSummaryResponse>>(result.Items),
+            result.TotalCount,
+            request.PageNumber,
+            request.PageSize);
     }
 }

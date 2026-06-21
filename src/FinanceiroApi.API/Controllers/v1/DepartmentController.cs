@@ -6,6 +6,7 @@ using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.Application.Queries.Departments.GetAllDepartments;
 using FinanceiroApi.Application.Queries.Departments.GetDepartmentById;
 using FinanceiroApi.CrossCutting.Notifications;
+using FinanceiroApi.CrossCutting.Pagination;
 using Microsoft.AspNetCore.RateLimiting;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -30,10 +31,10 @@ public class DepartmentsController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IReadOnlyList<DepartmentResponse>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAll(CancellationToken ct)
+    [ProducesResponseType(typeof(PagedResult<DepartmentResponse>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20, CancellationToken ct = default)
     {
-        var result = await _mediator.Send(new GetAllDepartmentsQuery(), ct);
+        var result = await _mediator.Send(new GetAllDepartmentsQuery(pageNumber, pageSize), ct);
         return Ok(result);
     }
 

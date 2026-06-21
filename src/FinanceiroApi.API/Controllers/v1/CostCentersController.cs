@@ -4,6 +4,7 @@ using FinanceiroApi.Application.DTOs.Request;
 using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.Application.Queries.CostCenters.GetAllCostCenters;
 using FinanceiroApi.CrossCutting.Notifications;
+using FinanceiroApi.CrossCutting.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,10 +29,13 @@ public class CostCentersController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IReadOnlyList<CostCenterResponse>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAll(CancellationToken ct)
+    [ProducesResponseType(typeof(PagedResult<CostCenterResponse>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll(
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 20,
+        CancellationToken ct = default)
     {
-        var result = await _mediator.Send(new GetAllCostCentersQuery(), ct);
+        var result = await _mediator.Send(new GetAllCostCentersQuery(pageNumber, pageSize), ct);
         return Ok(result);
     }
 

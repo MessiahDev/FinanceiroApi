@@ -26,4 +26,24 @@ public class BudgetRepository : RepositoryBase<Budget>, IBudgetRepository
             .Include(b => b.Items)
             .ThenInclude(i => i.CostCenter)
             .FirstOrDefaultAsync(b => b.Id == id, ct);
+
+    public async Task<(IReadOnlyList<Budget> Items, int TotalCount)> GetPagedAsync(
+        int? year, BudgetStatus? status, int pageNumber, int pageSize, CancellationToken ct = default)
+    {
+        var query = Context.Budgets.AsQueryable();
+
+        if (year.HasValue)
+            query = query.Where(b => b.Year == year.Value);
+        else if (status.HasValue)
+            query = query.Where(b => b.Status == status.Value);
+
+        var totalCount = await query.CountAsync(ct);
+        var items = await query
+            .OrderByDescending(b => b.Year)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
+
+        return (items, totalCount);
+    }
 }

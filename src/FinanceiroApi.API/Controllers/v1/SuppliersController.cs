@@ -7,6 +7,7 @@ using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.Application.Queries.Suppliers.GetAllSuppliers;
 using FinanceiroApi.Application.Queries.Suppliers.GetSupplierById;
 using FinanceiroApi.CrossCutting.Notifications;
+using FinanceiroApi.CrossCutting.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,10 +32,10 @@ public class SuppliersController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IReadOnlyList<SupplierSummaryResponse>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAll(CancellationToken ct)
+    [ProducesResponseType(typeof(PagedResult<SupplierSummaryResponse>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20, CancellationToken ct = default)
     {
-        var result = await _mediator.Send(new GetAllSuppliersQuery(), ct);
+        var result = await _mediator.Send(new GetAllSuppliersQuery(pageNumber, pageSize), ct);
         return Ok(result);
     }
 

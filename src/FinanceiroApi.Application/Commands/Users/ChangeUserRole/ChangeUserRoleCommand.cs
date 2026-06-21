@@ -1,3 +1,4 @@
+using FinanceiroApi.CrossCutting.Constants;
 using FinanceiroApi.CrossCutting.Notifications;
 using FinanceiroApi.Domain.Enums;
 using FinanceiroApi.Domain.Interfaces;
@@ -30,6 +31,12 @@ public class ChangeUserRoleCommandHandler : IRequestHandler<ChangeUserRoleComman
         if (user is null)
         {
             _notifications.AddNotification("TargetUserId", "Usuário não encontrado.");
+            return false;
+        }
+
+        if (user.Email.Equals(DemoAccount.Email, StringComparison.OrdinalIgnoreCase))
+        {
+            _notifications.AddNotification("TargetUserId", "Esta é a conta demo do sistema e seu nível de acesso não pode ser alterado.");
             return false;
         }
 

@@ -1,3 +1,4 @@
+using FinanceiroApi.CrossCutting.Constants;
 using FinanceiroApi.CrossCutting.Notifications;
 using FinanceiroApi.Domain.Interfaces;
 using FinanceiroApi.Domain.Interfaces.Repositories;
@@ -29,6 +30,12 @@ public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordComman
         if (user is null)
         {
             _notifications.AddNotification("UserId", "Usuário não encontrado.");
+            return false;
+        }
+
+        if (user.Email.Equals(DemoAccount.Email, StringComparison.OrdinalIgnoreCase))
+        {
+            _notifications.AddNotification("UserId", "Esta é a conta demo do sistema e sua senha não pode ser alterada.");
             return false;
         }
 

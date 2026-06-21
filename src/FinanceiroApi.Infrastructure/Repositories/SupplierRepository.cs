@@ -31,4 +31,19 @@ public class SupplierRepository : RepositoryBase<Supplier>, ISupplierRepository
         => await Context.Suppliers
             .Where(s => s.Status == status)
             .ToListAsync(ct);
+
+    public async Task<(IReadOnlyList<Supplier> Items, int TotalCount)> GetActivePagedAsync(
+        int pageNumber, int pageSize, CancellationToken ct = default)
+    {
+        var query = Context.Suppliers.Where(s => s.Status == SupplierStatus.Active);
+
+        var totalCount = await query.CountAsync(ct);
+        var items = await query
+            .OrderBy(s => s.Name)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
+
+        return (items, totalCount);
+    }
 }

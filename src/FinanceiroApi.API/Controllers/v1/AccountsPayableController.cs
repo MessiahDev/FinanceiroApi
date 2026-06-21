@@ -6,6 +6,7 @@ using FinanceiroApi.Application.DTOs.Response;
 using FinanceiroApi.Application.Queries.AccountsPayable.GetAccountPayableById;
 using FinanceiroApi.Application.Queries.AccountsPayable.GetAccountsPayable;
 using FinanceiroApi.CrossCutting.Notifications;
+using FinanceiroApi.CrossCutting.Pagination;
 using FinanceiroApi.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -31,13 +32,15 @@ public class AccountsPayableController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IReadOnlyList<AccountPayableResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedResult<AccountPayableResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(
-        [FromQuery] AccountPayableStatus? status,
-        [FromQuery] Guid? supplierId,
-        CancellationToken ct)
+    [FromQuery] AccountPayableStatus? status,
+    [FromQuery] Guid? supplierId,
+    [FromQuery] int pageNumber = 1,
+    [FromQuery] int pageSize = 20,
+    CancellationToken ct = default)
     {
-        var result = await _mediator.Send(new GetAccountsPayableQuery(status, supplierId), ct);
+        var result = await _mediator.Send(new GetAccountsPayableQuery(status, supplierId, pageNumber, pageSize), ct);
         return Ok(result);
     }
 

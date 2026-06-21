@@ -31,4 +31,19 @@ public class CustomerRepository : RepositoryBase<Customer>, ICustomerRepository
         => await Context.Customers
             .Where(c => c.Status == status)
             .ToListAsync(ct);
+
+    public async Task<(IReadOnlyList<Customer> Items, int TotalCount)> GetActivePagedAsync(
+        int pageNumber, int pageSize, CancellationToken ct = default)
+    {
+        var query = Context.Customers.Where(c => c.Status == CustomerStatus.Active);
+
+        var totalCount = await query.CountAsync(ct);
+        var items = await query
+            .OrderBy(c => c.Name)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
+
+        return (items, totalCount);
+    }
 }

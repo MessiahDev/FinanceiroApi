@@ -56,4 +56,32 @@ public class TaxEntryRepository : RepositoryBase<TaxEntry>, ITaxEntryRepository
             .Include(e => e.Payments)
                 .ThenInclude(p => p.BankAccount)
             .FirstOrDefaultAsync(e => e.Id == id, ct);
+
+    public async Task<(IReadOnlyList<TaxEntry> Items, int TotalCount)> GetPagedAsync(
+        TaxType? taxType, TaxEntryStatus? status, int? competenceYear, int? competenceMonth,
+        DateOnly? dueDateFrom, DateOnly? dueDateTo, int pageNumber, int pageSize, CancellationToken ct = default)
+    {
+        var query = Context.TaxEntries
+            .Include(e => e.CostCenter)
+            .Where(e => !e.IsDeleted)
+            .AsQueryable();
+
+        if (taxType.HasValue)
+            query = query.Where(e => e.TaxType == taxType.Value);
+        else if (status.HasValue)
+            query = query.Where(e => e.Status == status.Value);
+        else if (competenceYear.HasValue && competenceMonth.HasValue)
+            query = query.Where(e => e.Competence.Year == competenceYear.Value && e.Competence.Month == competenceMonth.Value);
+        else if (dueDateFrom.HasValue && dueDateTo.HasValue)
+            query = query.Where(e => e.DueDate >= dueDateFrom.Value && e.DueDate <= dueDateTo.Value);
+
+        var totalCount = await query.CountAsync(ct);
+        var items = await query
+            .OrderByDescending(e => e.DueDate)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
+
+        return (items, totalCount);
+    }
 }

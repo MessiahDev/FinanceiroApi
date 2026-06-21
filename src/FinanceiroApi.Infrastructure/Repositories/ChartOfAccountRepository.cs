@@ -50,4 +50,29 @@ public class ChartOfAccountRepository : RepositoryBase<ChartOfAccount>, IChartOf
     public async Task<bool> ExistsCodeAsync(string code, Guid? excludeId = null, CancellationToken cancellationToken = default)
         => await DbSet
             .AnyAsync(a => a.Code == code && (excludeId == null || a.Id != excludeId), cancellationToken);
+
+    public async Task<(IReadOnlyList<ChartOfAccount> Items, int TotalCount)> GetPagedAsync(
+        bool? isActive, AccountType? accountType, bool onlyRoots, int pageNumber, int pageSize, CancellationToken ct = default)
+    {
+        var query = DbSet.AsQueryable();
+
+        if (onlyRoots)
+            query = query.Include(a => a.ChildAccounts).Where(a => a.ParentAccountId == null);
+        else if (accountType.HasValue)
+            query = query.Where(a => a.AccountType == accountType.Value && a.IsActive);
+        else
+            query = query.Where(a => a.IsActive);
+
+        if (isActive.HasValue)
+            query = query.Where(a => a.IsActive == isActive.Value);
+
+        var totalCount = await query.CountAsync(ct);
+        var items = await query
+            .OrderBy(a => a.Code)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
+
+        return (items, totalCount);
+    }
 }

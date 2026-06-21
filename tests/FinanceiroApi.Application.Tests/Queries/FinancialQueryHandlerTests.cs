@@ -4,7 +4,7 @@ using FinanceiroApi.Application.Queries.AccountingPeriods.GetAccountingPeriodByI
 using FinanceiroApi.Application.Queries.AccountingPeriods.GetAllAccountingPeriods;
 using FinanceiroApi.Application.Queries.AccountsPayable.GetAccountPayableById;
 using FinanceiroApi.Application.Queries.AccountsPayable.GetAccountsPayable;
-using FinanceiroApi.Application.Queries.AccountsReceivable.GetOpenReceivables;
+using FinanceiroApi.Application.Queries.AccountsReceivable.GetAccountsReceivable;
 using FinanceiroApi.Application.Queries.BankAccounts.GetAllBankAccounts;
 using FinanceiroApi.Domain.Entities;
 using FinanceiroApi.Domain.Enums;
@@ -136,31 +136,29 @@ public class GetAccountsPayableQueryHandlerTests
     }
 }
 
-public class GetOpenReceivablesQueryHandlerTests
+public class GetAccountsReceivableQueryHandlerTests
 {
     private readonly IAccountReceivableRepository _repo = Substitute.For<IAccountReceivableRepository>();
     private readonly IMapper _mapper = Substitute.For<IMapper>();
-    private GetOpenReceivablesQueryHandler CreateHandler() => new(_repo, _mapper);
-
+    private GetAccountsReceivableQueryHandler CreateHandler() => new(_repo, _mapper);
     [Fact]
-    public async Task Handle_WithNoFilter_ShouldReturnAllOpenReceivables()
+    public async Task Handle_WithNoFilter_ShouldReturnPagedOpenReceivables()
     {
-        _repo.GetOpenAsync(default).Returns(new List<AccountReceivable>().AsReadOnly());
+        _repo.GetPagedAsync(null, 1, 20, default).Returns((new List<AccountReceivable>().AsReadOnly(), 0));
         _mapper.Map<IReadOnlyList<AccountReceivableResponse>>(Arg.Any<object>()).Returns(new List<AccountReceivableResponse>().AsReadOnly());
-        var result = await CreateHandler().Handle(new GetOpenReceivablesQuery(), default);
+        var result = await CreateHandler().Handle(new GetAccountsReceivableQuery(), default);
         result.Should().NotBeNull();
-        await _repo.Received(1).GetOpenAsync(default);
+        await _repo.Received(1).GetPagedAsync(null, 1, 20, default);
     }
-
     [Fact]
-    public async Task Handle_WithCustomerFilter_ShouldReturnReceivablesByCustomer()
+    public async Task Handle_WithCustomerFilter_ShouldReturnPagedReceivablesByCustomer()
     {
         var customerId = Guid.NewGuid();
-        _repo.GetByCustomerAsync(customerId, default).Returns(new List<AccountReceivable>().AsReadOnly());
+        _repo.GetPagedAsync(customerId, 1, 20, default).Returns((new List<AccountReceivable>().AsReadOnly(), 0));
         _mapper.Map<IReadOnlyList<AccountReceivableResponse>>(Arg.Any<object>()).Returns(new List<AccountReceivableResponse>().AsReadOnly());
-        var result = await CreateHandler().Handle(new GetOpenReceivablesQuery(customerId), default);
+        var result = await CreateHandler().Handle(new GetAccountsReceivableQuery(customerId), default);
         result.Should().NotBeNull();
-        await _repo.Received(1).GetByCustomerAsync(customerId, default);
+        await _repo.Received(1).GetPagedAsync(customerId, 1, 20, default);
     }
 }
 

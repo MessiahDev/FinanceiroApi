@@ -22,13 +22,15 @@ public class ChartOfAccountsController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(
-        [FromQuery] bool? isActive = null,
-        [FromQuery] AccountType? accountType = null,
-        [FromQuery] bool onlyRoots = false,
-        CancellationToken cancellationToken = default)
+    [FromQuery] bool? isActive = null,
+    [FromQuery] AccountType? accountType = null,
+    [FromQuery] bool onlyRoots = false,
+    [FromQuery] int pageNumber = 1,
+    [FromQuery] int pageSize = 20,
+    CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(
-            new GetAllChartOfAccountsQuery(isActive, accountType, onlyRoots), cancellationToken);
+            new GetAllChartOfAccountsQuery(isActive, accountType, onlyRoots, pageNumber, pageSize), cancellationToken);
         return Ok(result);
     }
 

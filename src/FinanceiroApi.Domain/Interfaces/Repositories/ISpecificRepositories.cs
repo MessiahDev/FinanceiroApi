@@ -55,6 +55,7 @@ public interface IDepartmentRepository : IRepositoryBase<Department>
 {
     Task<bool> ExistsByNameAsync(string name, CancellationToken ct = default);
     Task<IReadOnlyList<Department>> GetActiveAsync(CancellationToken ct = default);
+    Task<(IReadOnlyList<Department> Items, int TotalCount)> GetActivePagedAsync(int pageNumber, int pageSize, CancellationToken ct = default);
 }
 
 public interface ICustomerRepository : IRepositoryBase<Customer>
@@ -63,6 +64,7 @@ public interface ICustomerRepository : IRepositoryBase<Customer>
     Task<Customer?> GetByTaxIdAsync(string taxId, CancellationToken ct = default);
     Task<IReadOnlyList<Customer>> GetActiveAsync(CancellationToken ct = default);
     Task<IReadOnlyList<Customer>> GetByStatusAsync(CustomerStatus status, CancellationToken ct = default);
+    Task<(IReadOnlyList<Customer> Items, int TotalCount)> GetActivePagedAsync(int pageNumber, int pageSize, CancellationToken ct = default);
 }
 
 public interface ISupplierRepository : IRepositoryBase<Supplier>
@@ -71,6 +73,7 @@ public interface ISupplierRepository : IRepositoryBase<Supplier>
     Task<Supplier?> GetByTaxIdAsync(string taxId, CancellationToken ct = default);
     Task<IReadOnlyList<Supplier>> GetActiveAsync(CancellationToken ct = default);
     Task<IReadOnlyList<Supplier>> GetByStatusAsync(SupplierStatus status, CancellationToken ct = default);
+    Task<(IReadOnlyList<Supplier> Items, int TotalCount)> GetActivePagedAsync(int pageNumber, int pageSize, CancellationToken ct = default);
 }
 
 public interface IAccountPayableRepository : IRepositoryBase<AccountPayable>
@@ -81,6 +84,8 @@ public interface IAccountPayableRepository : IRepositoryBase<AccountPayable>
     Task<IReadOnlyList<AccountPayable>> GetAllWithDetailsAsync(CancellationToken ct = default);
     Task<IReadOnlyList<AccountPayable>> GetOverdueAsync(CancellationToken ct = default);
     Task<AccountPayable?> GetWithDetailsAsync(Guid id, CancellationToken ct = default);
+    Task<(IReadOnlyList<AccountPayable> Items, int TotalCount)> GetPagedAsync(
+        AccountPayableStatus? status, Guid? supplierId, int pageNumber, int pageSize, CancellationToken ct = default);
 }
 
 public interface IAccountReceivableRepository : IRepositoryBase<AccountReceivable>
@@ -90,6 +95,8 @@ public interface IAccountReceivableRepository : IRepositoryBase<AccountReceivabl
     Task<IReadOnlyList<AccountReceivable>> GetByDueDateRangeAsync(DateOnly from, DateOnly to, CancellationToken ct = default);
     Task<IReadOnlyList<AccountReceivable>> GetOpenAsync(CancellationToken ct = default);
     Task<AccountReceivable?> GetWithDetailsAsync(Guid id, CancellationToken ct = default);
+    Task<(IReadOnlyList<AccountReceivable> Items, int TotalCount)> GetPagedAsync(
+        Guid? customerId, int pageNumber, int pageSize, CancellationToken ct = default);
 }
 
 public interface IBankAccountRepository : IRepositoryBase<BankAccount>
@@ -105,6 +112,7 @@ public interface ICostCenterRepository : IRepositoryBase<CostCenter>
     Task<IReadOnlyList<CostCenter>> GetActiveAsync(CancellationToken ct = default);
     Task<IReadOnlyList<CostCenter>> GetRootsAsync(CancellationToken ct = default);
     Task<CostCenter?> GetWithChildrenAsync(Guid id, CancellationToken ct = default);
+    Task<(IReadOnlyList<CostCenter> Items, int TotalCount)> GetActivePagedAsync(int pageNumber, int pageSize, CancellationToken ct = default);
 }
 
 public interface IBudgetRepository : IRepositoryBase<Budget>
@@ -112,6 +120,7 @@ public interface IBudgetRepository : IRepositoryBase<Budget>
     Task<IReadOnlyList<Budget>> GetByYearAsync(int year, CancellationToken ct = default);
     Task<IReadOnlyList<Budget>> GetByStatusAsync(BudgetStatus status, CancellationToken ct = default);
     Task<Budget?> GetWithItemsAsync(Guid id, CancellationToken ct = default, bool tracking = true);
+    Task<(IReadOnlyList<Budget> Items, int TotalCount)> GetPagedAsync(int? year, BudgetStatus? status, int pageNumber, int pageSize, CancellationToken ct = default);
 }
 
 public interface IChartOfAccountRepository : IRepositoryBase<ChartOfAccount>
@@ -123,6 +132,7 @@ public interface IChartOfAccountRepository : IRepositoryBase<ChartOfAccount>
     Task<IEnumerable<ChartOfAccount>> GetActiveAccountsAsync(CancellationToken cancellationToken = default);
     Task<IEnumerable<ChartOfAccount>> GetAccountsAcceptingEntriesAsync(CancellationToken cancellationToken = default);
     Task<bool> ExistsCodeAsync(string code, Guid? excludeId = null, CancellationToken cancellationToken = default);
+    Task<(IReadOnlyList<ChartOfAccount> Items, int TotalCount)> GetPagedAsync(bool? isActive, AccountType? accountType, bool onlyRoots, int pageNumber, int pageSize, CancellationToken ct = default);
 }
 
 public interface IJournalEntryRepository : IRepositoryBase<JournalEntry>
@@ -143,6 +153,7 @@ public interface IAccountingPeriodRepository : IRepositoryBase<AccountingPeriod>
     Task<IEnumerable<AccountingPeriod>> GetByYearAsync(int year, CancellationToken cancellationToken = default);
     Task<IEnumerable<AccountingPeriod>> GetOpenPeriodsAsync(CancellationToken cancellationToken = default);
     Task<bool> ExistsByYearMonthAsync(int year, int month, Guid? excludeId = null, CancellationToken cancellationToken = default);
+    Task<(IReadOnlyList<AccountingPeriod> Items, int TotalCount)> GetPagedAsync(int? year, int pageNumber, int pageSize, CancellationToken ct = default);
 }
 
 public interface ITaxEntryRepository : IRepositoryBase<TaxEntry>
@@ -153,6 +164,9 @@ public interface ITaxEntryRepository : IRepositoryBase<TaxEntry>
     Task<IReadOnlyList<TaxEntry>> GetByDueDateRangeAsync(DateOnly from, DateOnly to, CancellationToken ct = default);
     Task<IReadOnlyList<TaxEntry>> GetOverdueAsync(CancellationToken ct = default);
     Task<TaxEntry?> GetWithPaymentsAsync(Guid id, CancellationToken ct = default);
+    Task<(IReadOnlyList<TaxEntry> Items, int TotalCount)> GetPagedAsync(
+        TaxType? taxType, TaxEntryStatus? status, int? competenceYear, int? competenceMonth,
+        DateOnly? dueDateFrom, DateOnly? dueDateTo, int pageNumber, int pageSize, CancellationToken ct = default);
 }
 
 public interface ITaxPaymentRepository : IRepositoryBase<TaxPayment>

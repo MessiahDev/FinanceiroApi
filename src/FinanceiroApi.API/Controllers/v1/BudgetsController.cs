@@ -7,6 +7,7 @@ using FinanceiroApi.Application.Queries.Budgets.GetBudgetById;
 using FinanceiroApi.Application.Queries.Budgets.GetBudgets;
 using FinanceiroApi.Application.Queries.Budgets.GetBudgetVsActual;
 using FinanceiroApi.CrossCutting.Notifications;
+using FinanceiroApi.CrossCutting.Pagination;
 using FinanceiroApi.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -32,13 +33,15 @@ public class BudgetsController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IReadOnlyList<BudgetSummaryResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedResult<BudgetSummaryResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(
-        [FromQuery] int? year,
-        [FromQuery] BudgetStatus? status,
-        CancellationToken ct)
+    [FromQuery] int? year,
+    [FromQuery] BudgetStatus? status,
+    [FromQuery] int pageNumber = 1,
+    [FromQuery] int pageSize = 20,
+    CancellationToken ct = default)
     {
-        var result = await _mediator.Send(new GetBudgetsQuery(year, status), ct);
+        var result = await _mediator.Send(new GetBudgetsQuery(year, status, pageNumber, pageSize), ct);
         return Ok(result);
     }
 

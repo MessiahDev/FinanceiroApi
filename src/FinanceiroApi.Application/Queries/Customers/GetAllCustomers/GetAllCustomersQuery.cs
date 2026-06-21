@@ -1,13 +1,14 @@
 using AutoMapper;
 using FinanceiroApi.Application.DTOs.Response;
+using FinanceiroApi.CrossCutting.Pagination;
 using FinanceiroApi.Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace FinanceiroApi.Application.Queries.Customers.GetAllCustomers;
 
-public record GetAllCustomersQuery() : IRequest<IReadOnlyList<CustomerSummaryResponse>>;
+public record GetAllCustomersQuery(int PageNumber = 1, int PageSize = 20) : IRequest<PagedResult<CustomerSummaryResponse>>;
 
-public class GetAllCustomersQueryHandler : IRequestHandler<GetAllCustomersQuery, IReadOnlyList<CustomerSummaryResponse>>
+public class GetAllCustomersQueryHandler : IRequestHandler<GetAllCustomersQuery, PagedResult<CustomerSummaryResponse>>
 {
     private readonly ICustomerRepository _customerRepository;
     private readonly IMapper _mapper;
@@ -18,11 +19,16 @@ public class GetAllCustomersQueryHandler : IRequestHandler<GetAllCustomersQuery,
         _mapper = mapper;
     }
 
-    public async Task<IReadOnlyList<CustomerSummaryResponse>> Handle(
+    public async Task<PagedResult<CustomerSummaryResponse>> Handle(
         GetAllCustomersQuery request,
         CancellationToken cancellationToken)
     {
-        var customers = await _customerRepository.GetActiveAsync(cancellationToken);
-        return _mapper.Map<IReadOnlyList<CustomerSummaryResponse>>(customers);
+        var result = await _customerRepository.GetActivePagedAsync(request.PageNumber, request.PageSize, cancellationToken);
+
+        return new PagedResult<CustomerSummaryResponse>(
+            _mapper.Map<IReadOnlyList<CustomerSummaryResponse>>(result.Items),
+            result.TotalCount,
+            request.PageNumber,
+            request.PageSize);
     }
 }

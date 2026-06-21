@@ -22,10 +22,12 @@ public class AccountingPeriodsController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(
-        [FromQuery] int? year = null,
-        CancellationToken cancellationToken = default)
+    [FromQuery] int? year = null,
+    [FromQuery] int pageNumber = 1,
+    [FromQuery] int pageSize = 20,
+    CancellationToken cancellationToken = default)
     {
-        var result = await _mediator.Send(new GetAllAccountingPeriodsQuery(year), cancellationToken);
+        var result = await _mediator.Send(new GetAllAccountingPeriodsQuery(year, pageNumber, pageSize), cancellationToken);
         return Ok(result);
     }
 

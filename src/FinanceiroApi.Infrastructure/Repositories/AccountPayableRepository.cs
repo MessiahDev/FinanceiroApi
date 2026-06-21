@@ -52,4 +52,32 @@ public class AccountPayableRepository : RepositoryBase<AccountPayable>, IAccount
             .Include(a => a.Supplier)
             .Include(a => a.CostCenter)
             .FirstOrDefaultAsync(a => a.Id == id, ct);
+
+    public async Task<(IReadOnlyList<AccountPayable> Items, int TotalCount)> GetPagedAsync(
+        AccountPayableStatus? status,
+        Guid? supplierId,
+        int pageNumber,
+        int pageSize,
+        CancellationToken ct = default)
+    {
+        var query = Context.AccountsPayable
+            .Include(a => a.Supplier)
+            .Include(a => a.CostCenter)
+            .AsQueryable();
+
+        if (status.HasValue)
+            query = query.Where(a => a.Status == status.Value);
+
+        if (supplierId.HasValue)
+            query = query.Where(a => a.SupplierId == supplierId.Value);
+
+        var totalCount = await query.CountAsync(ct);
+        var items = await query
+            .OrderByDescending(a => a.DueDate)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
+
+        return (items, totalCount);
+    }
 }

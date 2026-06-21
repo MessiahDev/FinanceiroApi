@@ -1,17 +1,16 @@
 using MediatR;
 using AutoMapper;
 using FinanceiroApi.Application.DTOs.Response;
-using FinanceiroApi.Domain.Enums;
-using FinanceiroApi.Domain.Exceptions;
 using FinanceiroApi.Domain.Interfaces.Repositories;
 using FinanceiroApi.CrossCutting.Pagination;
 
 namespace FinanceiroApi.Application.Queries.AccountingPeriods.GetAllAccountingPeriods;
 
-public record GetAllAccountingPeriodsQuery(int? Year = null) : IRequest<IEnumerable<AccountingPeriodResponse>>;
+public record GetAllAccountingPeriodsQuery(int? Year = null, int PageNumber = 1, int PageSize = 20)
+    : IRequest<PagedResult<AccountingPeriodResponse>>;
 
 public class GetAllAccountingPeriodsQueryHandler
-    : IRequestHandler<GetAllAccountingPeriodsQuery, IEnumerable<AccountingPeriodResponse>>
+    : IRequestHandler<GetAllAccountingPeriodsQuery, PagedResult<AccountingPeriodResponse>>
 {
     private readonly IAccountingPeriodRepository _repository;
     private readonly IMapper _mapper;
@@ -22,13 +21,15 @@ public class GetAllAccountingPeriodsQueryHandler
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<AccountingPeriodResponse>> Handle(
+    public async Task<PagedResult<AccountingPeriodResponse>> Handle(
         GetAllAccountingPeriodsQuery request, CancellationToken cancellationToken)
     {
-        var periods = request.Year.HasValue
-            ? await _repository.GetByYearAsync(request.Year.Value, cancellationToken)
-            : await _repository.GetOpenPeriodsAsync(cancellationToken);
+        var result = await _repository.GetPagedAsync(request.Year, request.PageNumber, request.PageSize, cancellationToken);
 
-        return _mapper.Map<IEnumerable<AccountingPeriodResponse>>(periods);
+        return new PagedResult<AccountingPeriodResponse>(
+            _mapper.Map<IReadOnlyList<AccountingPeriodResponse>>(result.Items),
+            result.TotalCount,
+            request.PageNumber,
+            request.PageSize);
     }
 }

@@ -34,4 +34,22 @@ public class CostCenterRepository : RepositoryBase<CostCenter>, ICostCenterRepos
             .Include(c => c.Children)
             .Include(c => c.Manager)
             .FirstOrDefaultAsync(c => c.Id == id, ct);
+
+    public async Task<(IReadOnlyList<CostCenter> Items, int TotalCount)> GetActivePagedAsync(
+        int pageNumber, int pageSize, CancellationToken ct = default)
+    {
+        var query = Context.CostCenters
+            .Include(c => c.Manager)
+            .Include(c => c.Parent)
+            .Where(c => c.Status == CostCenterStatus.Active);
+
+        var totalCount = await query.CountAsync(ct);
+        var items = await query
+            .OrderBy(c => c.Code)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
+
+        return (items, totalCount);
+    }
 }
