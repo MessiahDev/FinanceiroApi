@@ -155,21 +155,21 @@ public class GetBudgetsQueryHandlerTests
     [Fact]
     public async Task Handle_WithNoFilter_ShouldReturnAllBudgets()
     {
-        _repo.GetAllAsync(default).Returns(new List<Budget>().AsReadOnly());
+        _repo.GetPagedAsync(null, null, 1, 20, default).Returns((new List<Budget>().AsReadOnly(), 0));
         _mapper.Map<IReadOnlyList<BudgetSummaryResponse>>(Arg.Any<object>()).Returns(new List<BudgetSummaryResponse>().AsReadOnly());
         var result = await CreateHandler().Handle(new GetBudgetsQuery(), default);
         result.Should().NotBeNull();
-        await _repo.Received(1).GetAllAsync(default);
+        await _repo.Received(1).GetPagedAsync(null, null, 1, 20, default);
     }
 
     [Fact]
     public async Task Handle_WithYearFilter_ShouldReturnBudgetsByYear()
     {
-        _repo.GetByYearAsync(2025, default).Returns(new List<Budget>());
+        _repo.GetPagedAsync(2025, null, 1, 20, default).Returns((new List<Budget>().AsReadOnly(), 0));
         _mapper.Map<IReadOnlyList<BudgetSummaryResponse>>(Arg.Any<object>()).Returns(new List<BudgetSummaryResponse>().AsReadOnly());
         var result = await CreateHandler().Handle(new GetBudgetsQuery(2025), default);
         result.Should().NotBeNull();
-        await _repo.Received(1).GetByYearAsync(2025, default);
+        await _repo.Received(1).GetPagedAsync(2025, null, 1, 20, default);
     }
 }
 
@@ -209,21 +209,21 @@ public class GetAllChartOfAccountsQueryHandlerTests
     [Fact]
     public async Task Handle_WithNoFilter_ShouldReturnActiveAccounts()
     {
-        _repo.GetActiveAccountsAsync(default).Returns(new List<ChartOfAccount>());
-        _mapper.Map<IEnumerable<ChartOfAccountSummaryResponse>>(Arg.Any<object>()).Returns(new List<ChartOfAccountSummaryResponse>());
+        _repo.GetPagedAsync(null, null, false, 1, 20, default).Returns((new List<ChartOfAccount>().AsReadOnly(), 0));
+        _mapper.Map<IReadOnlyList<ChartOfAccountSummaryResponse>>(Arg.Any<object>()).Returns(new List<ChartOfAccountSummaryResponse>().AsReadOnly());
         var result = await CreateHandler().Handle(new GetAllChartOfAccountsQuery(), default);
         result.Should().NotBeNull();
-        await _repo.Received(1).GetActiveAccountsAsync(default);
+        await _repo.Received(1).GetPagedAsync(null, null, false, 1, 20, default);
     }
 
     [Fact]
     public async Task Handle_WithOnlyRootsFlag_ShouldReturnRootAccounts()
     {
-        _repo.GetRootAccountsAsync(default).Returns(new List<ChartOfAccount>());
-        _mapper.Map<IEnumerable<ChartOfAccountSummaryResponse>>(Arg.Any<object>()).Returns(new List<ChartOfAccountSummaryResponse>());
+        _repo.GetPagedAsync(null, null, true, 1, 20, default).Returns((new List<ChartOfAccount>().AsReadOnly(), 0));
+        _mapper.Map<IReadOnlyList<ChartOfAccountSummaryResponse>>(Arg.Any<object>()).Returns(new List<ChartOfAccountSummaryResponse>().AsReadOnly());
         var result = await CreateHandler().Handle(new GetAllChartOfAccountsQuery(OnlyRoots: true), default);
         result.Should().NotBeNull();
-        await _repo.Received(1).GetRootAccountsAsync(default);
+        await _repo.Received(1).GetPagedAsync(null, null, true, 1, 20, default);
     }
 }
 
@@ -236,11 +236,11 @@ public class GetAllCustomersQueryHandlerTests
     [Fact]
     public async Task Handle_ShouldReturnAllCustomers()
     {
-        _repo.GetActiveAsync(default).Returns(new List<Customer>().AsReadOnly());
+        _repo.GetActivePagedAsync(1, 20, default).Returns((new List<Customer>().AsReadOnly(), 0));
         _mapper.Map<IReadOnlyList<CustomerSummaryResponse>>(Arg.Any<object>()).Returns(new List<CustomerSummaryResponse>().AsReadOnly());
         var result = await CreateHandler().Handle(new GetAllCustomersQuery(), default);
         result.Should().NotBeNull();
-        await _repo.Received(1).GetActiveAsync(default);
+        await _repo.Received(1).GetActivePagedAsync(1, 20, default);
     }
 }
 
@@ -281,11 +281,11 @@ public class GetAllDepartmentsQueryHandlerTests
     [Fact]
     public async Task Handle_ShouldReturnAllDepartments()
     {
-        _repo.GetActiveAsync(default).Returns(new List<Department>().AsReadOnly());
+        _repo.GetActivePagedAsync(1, 20, default).Returns((new List<Department>().AsReadOnly(), 0));
         _mapper.Map<IReadOnlyList<DepartmentResponse>>(Arg.Any<object>()).Returns(new List<DepartmentResponse>().AsReadOnly());
         var result = await CreateHandler().Handle(new GetAllDepartmentsQuery(), default);
         result.Should().NotBeNull();
-        await _repo.Received(1).GetActiveAsync(default);
+        await _repo.Received(1).GetActivePagedAsync(1, 20, default);
     }
 }
 

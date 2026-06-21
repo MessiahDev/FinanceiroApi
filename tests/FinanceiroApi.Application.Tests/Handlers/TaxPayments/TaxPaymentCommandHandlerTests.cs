@@ -46,8 +46,10 @@ public class CreateTaxPaymentCommandHandlerTests
             entry.Id, bankId, 500m, DateOnly.FromDateTime(DateTime.UtcNow),
             0m, 0m, null, null, null);
 
+        var bankAccount = BankAccount.Create("Bradesco", "237", "1234", "56789-0", BankAccountType.Checking, 10000m);
+
         _taxEntryRepo.GetByIdAsync(entry.Id, default).Returns(entry);
-        _bankRepo.ExistsAsync(bankId, default).Returns(true);
+        _bankRepo.GetByIdAsync(bankId, default).Returns(bankAccount);
         _taxPaymentRepo.GetWithDetailsAsync(Arg.Any<Guid>(), default).Returns(payment);
         _mapper.Map<TaxPaymentResponse>(Arg.Any<TaxPayment>())
                .Returns(c => MakeResponse(c.Arg<TaxPayment>()));

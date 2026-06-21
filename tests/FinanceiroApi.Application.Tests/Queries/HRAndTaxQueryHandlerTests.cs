@@ -38,7 +38,7 @@ public class GetAllEmployeesQueryHandlerTests
     public async Task Handle_ShouldReturnPagedEmployees()
     {
         var pagedResult = new PagedResult<Employee>(new List<Employee>().AsReadOnly(), 0, 1, 20);
-        _repo.GetPagedAsync(1, 20, null, null, null, default).Returns(pagedResult);
+        _repo.GetPagedAsync(1, 20, null, null, true, default).Returns(pagedResult);
         _mapper.Map<List<EmployeeSummaryResponse>>(Arg.Any<object>()).Returns(new List<EmployeeSummaryResponse>());
         var result = await CreateHandler().Handle(new GetAllEmployeesQuery(), default);
         result.Should().NotBeNull();
@@ -214,11 +214,11 @@ public class GetAllSuppliersQueryHandlerTests
     [Fact]
     public async Task Handle_ShouldReturnAllSuppliers()
     {
-        _repo.GetActiveAsync(default).Returns(new List<Supplier>().AsReadOnly());
+        _repo.GetActivePagedAsync(1, 20, default).Returns((new List<Supplier>().AsReadOnly(), 0));
         _mapper.Map<IReadOnlyList<SupplierSummaryResponse>>(Arg.Any<object>()).Returns(new List<SupplierSummaryResponse>().AsReadOnly());
         var result = await CreateHandler().Handle(new GetAllSuppliersQuery(), default);
         result.Should().NotBeNull();
-        await _repo.Received(1).GetActiveAsync(default);
+        await _repo.Received(1).GetActivePagedAsync(1, 20, default);
     }
 }
 
@@ -259,20 +259,21 @@ public class GetTaxEntriesQueryHandlerTests
     [Fact]
     public async Task Handle_WithNoFilter_ShouldReturnAllTaxEntries()
     {
-        _repo.GetAllAsync(default).Returns(new List<TaxEntry>().AsReadOnly());
+        _repo.GetPagedAsync(null, null, null, null, null, null, 1, 20, default).Returns((new List<TaxEntry>().AsReadOnly(), 0));
         _mapper.Map<IReadOnlyList<TaxEntrySummaryResponse>>(Arg.Any<object>()).Returns(new List<TaxEntrySummaryResponse>().AsReadOnly());
         var result = await CreateHandler().Handle(new GetTaxEntriesQuery(null, null, null, null, null, null), default);
         result.Should().NotBeNull();
+        await _repo.Received(1).GetPagedAsync(null, null, null, null, null, null, 1, 20, default);
     }
 
     [Fact]
     public async Task Handle_WithTaxTypeFilter_ShouldReturnByTaxType()
     {
-        _repo.GetByTaxTypeAsync(TaxType.INSS, default).Returns(new List<TaxEntry>().AsReadOnly());
+        _repo.GetPagedAsync(TaxType.INSS, null, null, null, null, null, 1, 20, default).Returns((new List<TaxEntry>().AsReadOnly(), 0));
         _mapper.Map<IReadOnlyList<TaxEntrySummaryResponse>>(Arg.Any<object>()).Returns(new List<TaxEntrySummaryResponse>().AsReadOnly());
         var result = await CreateHandler().Handle(new GetTaxEntriesQuery(TaxType.INSS, null, null, null, null, null), default);
         result.Should().NotBeNull();
-        await _repo.Received(1).GetByTaxTypeAsync(TaxType.INSS, default);
+        await _repo.Received(1).GetPagedAsync(TaxType.INSS, null, null, null, null, null, 1, 20, default);
     }
 }
 

@@ -53,21 +53,21 @@ public class GetAllAccountingPeriodsQueryHandlerTests
     [Fact]
     public async Task Handle_WithoutYear_ShouldReturnOpenPeriods()
     {
-        _repo.GetOpenPeriodsAsync(default).Returns(new List<AccountingPeriod>());
-        _mapper.Map<IEnumerable<AccountingPeriodResponse>>(Arg.Any<object>()).Returns(new List<AccountingPeriodResponse>());
+        _repo.GetPagedAsync(null, 1, 20, default).Returns((new List<AccountingPeriod>().AsReadOnly(), 0));
+        _mapper.Map<IReadOnlyList<AccountingPeriodResponse>>(Arg.Any<object>()).Returns(new List<AccountingPeriodResponse>().AsReadOnly());
         var result = await CreateHandler().Handle(new GetAllAccountingPeriodsQuery(), default);
         result.Should().NotBeNull();
-        await _repo.Received(1).GetOpenPeriodsAsync(default);
+        await _repo.Received(1).GetPagedAsync(null, 1, 20, default);
     }
 
     [Fact]
     public async Task Handle_WithYear_ShouldReturnPeriodsByYear()
     {
-        _repo.GetByYearAsync(2025, default).Returns(new List<AccountingPeriod>());
-        _mapper.Map<IEnumerable<AccountingPeriodResponse>>(Arg.Any<object>()).Returns(new List<AccountingPeriodResponse>());
+        _repo.GetPagedAsync(2025, 1, 20, default).Returns((new List<AccountingPeriod>().AsReadOnly(), 0));
+        _mapper.Map<IReadOnlyList<AccountingPeriodResponse>>(Arg.Any<object>()).Returns(new List<AccountingPeriodResponse>().AsReadOnly());
         var result = await CreateHandler().Handle(new GetAllAccountingPeriodsQuery(2025), default);
         result.Should().NotBeNull();
-        await _repo.Received(1).GetByYearAsync(2025, default);
+        await _repo.Received(1).GetPagedAsync(2025, 1, 20, default);
     }
 }
 
@@ -107,32 +107,32 @@ public class GetAccountsPayableQueryHandlerTests
     [Fact]
     public async Task Handle_WithNoFilter_ShouldReturnAllPayables()
     {
-        _repo.GetAllAsync(default).Returns(new List<AccountPayable>().AsReadOnly());
+        _repo.GetPagedAsync(null, null, 1, 20, default).Returns((new List<AccountPayable>().AsReadOnly(), 0));
         _mapper.Map<IReadOnlyList<AccountPayableResponse>>(Arg.Any<object>()).Returns(new List<AccountPayableResponse>().AsReadOnly());
         var result = await CreateHandler().Handle(new GetAccountsPayableQuery(), default);
         result.Should().NotBeNull();
-        await _repo.Received(1).GetAllAsync(default);
+        await _repo.Received(1).GetPagedAsync(null, null, 1, 20, default);
     }
 
     [Fact]
     public async Task Handle_WithStatusFilter_ShouldReturnPayablesByStatus()
     {
-        _repo.GetByStatusAsync(AccountPayableStatus.Pending, default).Returns(new List<AccountPayable>().AsReadOnly());
+        _repo.GetPagedAsync(AccountPayableStatus.Pending, null, 1, 20, default).Returns((new List<AccountPayable>().AsReadOnly(), 0));
         _mapper.Map<IReadOnlyList<AccountPayableResponse>>(Arg.Any<object>()).Returns(new List<AccountPayableResponse>().AsReadOnly());
         var result = await CreateHandler().Handle(new GetAccountsPayableQuery(AccountPayableStatus.Pending), default);
         result.Should().NotBeNull();
-        await _repo.Received(1).GetByStatusAsync(AccountPayableStatus.Pending, default);
+        await _repo.Received(1).GetPagedAsync(AccountPayableStatus.Pending, null, 1, 20, default);
     }
 
     [Fact]
     public async Task Handle_WithSupplierFilter_ShouldReturnPayablesBySupplier()
     {
         var supplierId = Guid.NewGuid();
-        _repo.GetBySupplierAsync(supplierId, default).Returns(new List<AccountPayable>().AsReadOnly());
+        _repo.GetPagedAsync(null, supplierId, 1, 20, default).Returns((new List<AccountPayable>().AsReadOnly(), 0));
         _mapper.Map<IReadOnlyList<AccountPayableResponse>>(Arg.Any<object>()).Returns(new List<AccountPayableResponse>().AsReadOnly());
         var result = await CreateHandler().Handle(new GetAccountsPayableQuery(SupplierId: supplierId), default);
         result.Should().NotBeNull();
-        await _repo.Received(1).GetBySupplierAsync(supplierId, default);
+        await _repo.Received(1).GetPagedAsync(null, supplierId, 1, 20, default);
     }
 }
 

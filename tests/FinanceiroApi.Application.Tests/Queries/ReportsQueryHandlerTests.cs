@@ -62,10 +62,12 @@ public class GetFinancialSummaryQueryHandlerTests
 
         _cache.GetAsync<FinancialSummaryResponse>(Arg.Any<string>(), default).ReturnsNull();
         _transactionRepo.GetByPeriodAsync(from, to, default).Returns(new List<Transaction>().AsReadOnly());
-        _payrollRepo.GetProcessedByPeriodAsync(from, to, default).Returns(new List<Payroll>().AsReadOnly());
         _employeeRepo.CountActiveAsync(default).Returns(10);
-        _payableRepo.GetByDueDateRangeAsync(from, to, default).Returns(new List<AccountPayable>().AsReadOnly());
-        _receivableRepo.GetByDueDateRangeAsync(from, to, default).Returns(new List<AccountReceivable>().AsReadOnly());
+        _payableRepo.GetAllWithDetailsAsync(default).Returns(new List<AccountPayable>().AsReadOnly());
+        _receivableRepo.GetOpenAsync(default).Returns(new List<AccountReceivable>().AsReadOnly());
+        _receivableRepo.GetByStatusAsync(AccountReceivableStatus.Received, default).Returns(new List<AccountReceivable>().AsReadOnly());
+        _receivableRepo.GetByStatusAsync(AccountReceivableStatus.PartiallyReceived, default).Returns(new List<AccountReceivable>().AsReadOnly());
+        _payrollRepo.GetHistoryPagedAsync(1, int.MaxValue, default).Returns((new List<Payroll>().AsReadOnly(), 0));
         _taxPaymentRepo.GetByPaymentDateRangeAsync(from, to, default).Returns(new List<TaxPayment>().AsReadOnly());
 
         var result = await CreateHandler().Handle(new GetFinancialSummaryQuery(from, to), default);
