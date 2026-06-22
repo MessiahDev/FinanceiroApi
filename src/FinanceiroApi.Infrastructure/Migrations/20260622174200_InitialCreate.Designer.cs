@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinanceiroApi.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260606014626_AdvancedEntities")]
-    partial class AdvancedEntities
+    [Migration("20260622174200_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1120,6 +1120,9 @@ namespace FinanceiroApi.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("BankAccountId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1164,6 +1167,8 @@ namespace FinanceiroApi.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BankAccountId");
 
                     b.HasIndex("EmployeeId");
 
@@ -1213,6 +1218,49 @@ namespace FinanceiroApi.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.UserAuditLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<Guid>("ChangedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NewValue")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("OldValue")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<Guid>("TargetUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChangedByUserId");
+
+                    b.HasIndex("TargetUserId");
+
+                    b.ToTable("UserAuditLogs", (string)null);
                 });
 
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.AccountPayable", b =>
@@ -2333,6 +2381,11 @@ namespace FinanceiroApi.Infrastructure.Migrations
 
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.Transaction", b =>
                 {
+                    b.HasOne("FinanceiroApi.Domain.Entities.BankAccount", "BankAccount")
+                        .WithMany()
+                        .HasForeignKey("BankAccountId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("FinanceiroApi.Domain.Entities.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
@@ -2364,7 +2417,28 @@ namespace FinanceiroApi.Infrastructure.Migrations
                     b.Navigation("Amount")
                         .IsRequired();
 
+                    b.Navigation("BankAccount");
+
                     b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("FinanceiroApi.Domain.Entities.UserAuditLog", b =>
+                {
+                    b.HasOne("FinanceiroApi.Domain.Entities.User", "ChangedByUser")
+                        .WithMany()
+                        .HasForeignKey("ChangedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FinanceiroApi.Domain.Entities.User", "TargetUser")
+                        .WithMany()
+                        .HasForeignKey("TargetUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ChangedByUser");
+
+                    b.Navigation("TargetUser");
                 });
 
             modelBuilder.Entity("FinanceiroApi.Domain.Entities.AccountingPeriod", b =>
