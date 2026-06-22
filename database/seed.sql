@@ -1,5 +1,5 @@
 BEGIN;
-SET session_replication_role = 'replica';
+
 
 -- AccountingPeriods
 INSERT INTO public."AccountingPeriods" ("Id", "Name", "Year", "Month", "PeriodStart", "PeriodEnd", "Status", "CreatedAt", "UpdatedAt", "IsDeleted") VALUES ('25e8cdce-8f09-43d3-b144-bdba10477d05', '2026-06', 2026, 6, '2026-06-01', '2026-06-30', 1, '2026-06-19 02:41:17.982514+00', NULL, false);
@@ -185,5 +185,5 @@ INSERT INTO public."Users" ("Id", "Name", "Email", "PasswordHash", "Role", "IsAc
 INSERT INTO public."UserAuditLogs" ("Id", "TargetUserId", "ChangedByUserId", "Action", "OldValue", "NewValue", "CreatedAt", "UpdatedAt", "IsDeleted") VALUES ('814a26b5-02f8-4f51-b4cf-93c3dd4aac80', 'c3bcdba1-c705-42fc-815f-9064dd513464', '5a383b1a-c9c0-41dd-8d52-3ca7042799be', 'RoleChanged', 'Admin', 'Employee', '2026-06-20 17:43:28.893776+00', '2026-06-20 17:43:28.893776+00', false);
 INSERT INTO public."UserAuditLogs" ("Id", "TargetUserId", "ChangedByUserId", "Action", "OldValue", "NewValue", "CreatedAt", "UpdatedAt", "IsDeleted") VALUES ('6bafd76a-8dd2-4b29-9594-a7f0e80ea164', '7ce3fce5-bc42-465a-a380-37b249e42be0', '5a383b1a-c9c0-41dd-8d52-3ca7042799be', 'RoleChanged', 'Admin', 'Manager', '2026-06-20 17:55:27.525886+00', '2026-06-20 17:55:27.525886+00', false);
 
-SET session_replication_role = 'origin';
+
 COMMIT;
