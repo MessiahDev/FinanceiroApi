@@ -25,57 +25,76 @@ public abstract class RabbitMqConsumerBase : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var factory = new ConnectionFactory
-        {
-            HostName = _cfg.Host,
-            Port = _cfg.Port,
-            VirtualHost = _cfg.VirtualHost,
-            UserName = _cfg.Username,
-            Password = _cfg.Password,
-        };
-
-        _connection = await factory.CreateConnectionAsync(stoppingToken);
-        _channel = await _connection.CreateChannelAsync(cancellationToken: stoppingToken);
-
-        await _channel.ExchangeDeclareAsync(
-            ExchangeName, ExchangeType.Fanout, durable: true,
-            cancellationToken: stoppingToken);
-
-        await _channel.QueueDeclareAsync(
-            QueueName, durable: true, exclusive: false, autoDelete: false,
-            cancellationToken: stoppingToken);
-
-        await _channel.QueueBindAsync(
-            QueueName, ExchangeName, routingKey: string.Empty,
-            cancellationToken: stoppingToken);
-
-        await _channel.BasicQosAsync(
-            prefetchSize: 0, prefetchCount: 1, global: false,
-            cancellationToken: stoppingToken);
-
-        var consumer = new AsyncEventingBasicConsumer(_channel);
-
-        consumer.ReceivedAsync += async (_, ea) =>
+        while (!stoppingToken.IsCancellationRequested)
         {
             try
             {
-                var json = Encoding.UTF8.GetString(ea.Body.ToArray());
-                await HandleAsync(json, stoppingToken);
-                await _channel.BasicAckAsync(ea.DeliveryTag, multiple: false, stoppingToken);
+                var factory = new ConnectionFactory
+                {
+                    HostName = _cfg.Host,
+                    Port = _cfg.Port,
+                    VirtualHost = _cfg.VirtualHost,
+                    UserName = _cfg.Username,
+                    Password = _cfg.Password,
+                    Ssl = new SslOption
+                    {
+                        Enabled = _cfg.Port == 5671,
+                        ServerName = _cfg.Host,
+                    },
+                };
+
+                _connection = await factory.CreateConnectionAsync(stoppingToken);
+                _channel = await _connection.CreateChannelAsync(cancellationToken: stoppingToken);
+
+                await _channel.ExchangeDeclareAsync(
+                    ExchangeName, ExchangeType.Fanout, durable: true,
+                    cancellationToken: stoppingToken);
+                await _channel.QueueDeclareAsync(
+                    QueueName, durable: true, exclusive: false, autoDelete: false,
+                    cancellationToken: stoppingToken);
+                await _channel.QueueBindAsync(
+                    QueueName, ExchangeName, routingKey: string.Empty,
+                    cancellationToken: stoppingToken);
+                await _channel.BasicQosAsync(
+                    prefetchSize: 0, prefetchCount: 1, global: false,
+                    cancellationToken: stoppingToken);
+
+                var consumer = new AsyncEventingBasicConsumer(_channel);
+                consumer.ReceivedAsync += async (_, ea) =>
+                {
+                    try
+                    {
+                        await HandleMessageAsync(ea.Body.ToArray(), stoppingToken);
+                        await _channel.BasicAckAsync(ea.DeliveryTag, false, stoppingToken);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex, "Erro ao processar mensagem na fila {Queue}", QueueName);
+                        await _channel.BasicNackAsync(ea.DeliveryTag, false, requeue: true, stoppingToken);
+                    }
+                };
+
+                await _channel.BasicConsumeAsync(QueueName, autoAck: false, consumer: consumer, cancellationToken: stoppingToken);
+
+                Logger.LogInformation("RabbitMQ consumer {Queue} conectado com sucesso.", QueueName);
+
+                await Task.Delay(Timeout.Infinite, stoppingToken);
+            }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+            {
+                break;
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error processing message on queue '{Queue}'", QueueName);
-                await _channel.BasicNackAsync(
-                    ea.DeliveryTag, multiple: false, requeue: false, stoppingToken);
+                Logger.LogWarning(ex, "RabbitMQ consumer {Queue} falhou. Tentando novamente em 15s...", QueueName);
+                await Task.Delay(TimeSpan.FromSeconds(15), stoppingToken);
             }
-        };
-
-        await _channel.BasicConsumeAsync(
-            QueueName, autoAck: false, consumer: consumer,
-            cancellationToken: stoppingToken);
-
-        await Task.Delay(Timeout.Infinite, stoppingToken).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+            finally
+            {
+                if (_channel is not null) { await _channel.CloseAsync(); _channel = null; }
+                if (_connection is not null) { await _connection.CloseAsync(); _connection = null; }
+            }
+        }
     }
 
     protected abstract Task HandleAsync(string json, CancellationToken cancellationToken);
