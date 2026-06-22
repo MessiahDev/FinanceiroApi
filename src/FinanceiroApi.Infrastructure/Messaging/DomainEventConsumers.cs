@@ -64,7 +64,7 @@ public abstract class RabbitMqConsumerBase : BackgroundService
                 {
                     try
                     {
-                        await HandleMessageAsync(ea.Body.ToArray(), stoppingToken);
+                        await HandleAsync(Encoding.UTF8.GetString(ea.Body.ToArray()), stoppingToken);
                         await _channel.BasicAckAsync(ea.DeliveryTag, false, stoppingToken);
                     }
                     catch (Exception ex)
