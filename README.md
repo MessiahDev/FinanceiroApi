@@ -113,7 +113,7 @@ Controle aplicado tanto via `[Authorize(Policy = "RequireManager"/"RequireAdmin"
 ## 🧪 Testes
 
 <p align="center">
-  <img src="docs/test.png" alt="Testes" width="900">
+  <img src="docs/pics/test.png" alt="Testes" width="900">
 </p>
 
 ```bash
