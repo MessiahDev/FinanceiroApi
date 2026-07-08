@@ -75,8 +75,6 @@ async Task SeedDatabase(AppDbContext db)
 {
     try
     {
-        var notificationContext = scope.ServiceProvider.GetRequiredService<INotificationContext>();
-
         string passwordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123");
 
         var adminUser = User.Create(
@@ -86,12 +84,6 @@ async Task SeedDatabase(AppDbContext db)
             role: UserRole.Admin
         );
 
-        if (adminUser == null)
-        {
-            notificationContext.AddError("Seed", "Erro ao criar usuário admin");
-            return;
-        }
-
         db.Users.Add(adminUser);
         await db.SaveChangesAsync();
 
@@ -100,7 +92,6 @@ async Task SeedDatabase(AppDbContext db)
     catch (Exception ex)
     {
         Console.WriteLine($"Erro ao fazer seed: {ex.Message}");
-        Console.WriteLine($"Stack: {ex.StackTrace}");
     }
 }
 
