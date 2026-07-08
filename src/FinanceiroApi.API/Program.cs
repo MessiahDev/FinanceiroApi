@@ -5,6 +5,8 @@ using FinanceiroApi.CrossCutting.IoC;
 using FinanceiroApi.CrossCutting.Logging;
 using FinanceiroApi.Infrastructure;
 using FinanceiroApi.Infrastructure.Data;
+using FinanceiroApi.Domain.Entities;
+using FinanceiroApi.Domain.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +43,11 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
+
+    if (!db.Users.Any())
+    {
+        await SeedDatabase(db);
+    }
 }
 
 app.UseGlobalExceptionHandler();
@@ -63,6 +70,39 @@ app.MapHealthChecks("/health");
 app.MapGet("/", () => Results.Redirect("/scalar/v1"));
 
 app.Run();
+
+async Task SeedDatabase(AppDbContext db)
+{
+    try
+    {
+        var notificationContext = scope.ServiceProvider.GetRequiredService<INotificationContext>();
+
+        string passwordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123");
+
+        var adminUser = User.Create(
+            name: "Admin",
+            email: "admin@financeiro.com",
+            passwordHash: passwordHash,
+            role: UserRole.Admin
+        );
+
+        if (adminUser == null)
+        {
+            notificationContext.AddError("Seed", "Erro ao criar usuário admin");
+            return;
+        }
+
+        db.Users.Add(adminUser);
+        await db.SaveChangesAsync();
+
+        Console.WriteLine("Seed executado com sucesso! Usuário admin criado.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Erro ao fazer seed: {ex.Message}");
+        Console.WriteLine($"Stack: {ex.StackTrace}");
+    }
+}
 
 internal sealed class JwtSecuritySchemeTransformer : IOpenApiDocumentTransformer
 {
